@@ -108,7 +108,7 @@
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        /* 新增解析标题样式 */
+        /* 解析标题样式 */
         .parse-title {
             font-size: 18px;
             color: #b30000;
@@ -190,7 +190,7 @@
                 <div style="font-weight:bold;margin-bottom:8px;">三才配置：<span id="showSanCai"></span></div>
                 <div id="showSanCaiDesc"></div>
             </div>
-            <!-- 解析区域（原十格列表，标题改为解析） -->
+            <!-- 解析区域 -->
             <div class="parse-title">解析</div>
             <div class="grid">
                 <div class="grid-item">
@@ -228,12 +228,12 @@
     </div>
 
 <script>
-// ====================== 1. 康熙笔画库（完整保留） ======================
+// 1. 康熙笔画库（完整保留原数据）
 const kangxiMap = {
     "一":1,"乙":1,"二":2,"十":2,"丁":2,"七":2,"乃":2,"人":2,"入":2,"八":2,"几":2,"力":2,"又":2,"三":3,"干":3,"工":3,"土":3,"士":3,"夕":3,"大":3,"女":3,"子":3,"寸":3,"小":3,"口":3,"山":3,"巾":3,"川":3,"彳":3,"丸":3,"也":3,"弋":3,"卩":3,"弓":3,"才":3,"四":5,"不":4,"中":4,"丹":4,"予":4,"云":4,"五":5,"仁":4,"什":4,"今":4,"介":4,"分":4,"公":4,"六":4,"兮":4,"内":4,"午":4,"升":4,"天":4,"太":4,"夫":4,"夭":4,"孔":4,"少":4,"尤":4,"尹":4,"尺":4,"引":4,"心":4,"戈":4,"手":4,"支":4,"文":4,"斗":4,"斤":4,"方":4,"日":4,"月":4,"木":4,"水":4,"火":4,"牙":4,"牛":4,"犬":4,"王":5,"巴":4,"化":4,"比":4,"毛":4,"氏":4,"气":4,"片":4,"爪":4,"父":4,"爻":4,"玄":5,"玉":5,"瓜":5,"瓦":5,"甘":5,"生":5,"用":5,"田":5,"由":5,"甲":5,"申":5,"白":5,"皮":5,"目":5,"矛":5,"矢":5,"石":5,"示":5,"禾":5,"穴":5,"立":5,"竹":6,"米":6,"糸":6,"缶":6,"网":6,"羊":6,"羽":6,"老":6,"耳":6,"肉":6,"臣":6,"自":6,"至":6,"舌":6,"舟":6,"艮":6,"色":6,"艸":6,"虫":6,"行":6,"衣":6,"西":6,"见":7,"角":7,"言":7,"谷":7,"豆":7,"豕":7,"贝":7,"赤":7,"足":7,"身":7,"车":7,"辛":7,"辰":7,"辵":7,"邑":7,"酉":7,"釆":7,"里":7,"金":8,"长":8,"门":8,"阜":8,"隶":8,"隹":8,"雨":8,"青":8,"非":8,"齿":9,"革":9,"骨":9,"面":9,"香":9,"首":9,"飞":9,"食":9,"音":9,"风":9,"马":10,"高":10,"黄":12,"黑":12,"龙":16,"龟":16,"吴":7,"李":7,"王":4,"张":11,"刘":15,"陈":16,"杨":13,"黄":12,"赵":14,"周":8,"徐":10,"孙":10,"朱":6,"胡":11,"林":8,"郭":15,"何":7,"高":10,"罗":20,"郑":19,"梁":11,"谢":17,"宋":7,"唐":10,"韩":17,"许":11,"邓":19,"冯":12,"彭":12,"曾":12,"萧":19,"曹":11,"董":15,"潘":16,"袁":10,"于":3,"杜":7,"戴":18,"崔":11,"任":6,"陆":16,"廖":14,"姚":9,"方":4,"金":8,"邱":12,"夏":10,"谭":19,"邹":12,"石":5,"熊":14,"秦":10,"江":7,"阎":16,"薛":19,"尹":4,"段":9,"黎":15,"易":8,"常":11,"武":8,"乔":12,"贺":12,"赖":16,"龚":22,"文":4,"庞":13,"樊":15,"兰":20,"殷":10,"施":9,"陶":16,"洪":10,"翟":14,"安":6,"颜":18,"倪":10,"严":20,"牛":4,"温":13,"季":8,"俞":9,"鲁":15,"葛":15,"范":11,"廉":13,"祁":8,"韦":9,"戚":11,"喻":12,"褚":15,"关":19,"苗":11,"费":12,"纪":9,"盛":12,"霍":17,"云":4,"舒":12,"蒲":16,"耿":10,"满":14,"翁":10,"寇":11,"焦":12,"管":14,"麦":11,"仇":4,"甘":5,"厉":15,"郁":13,"符":11,"鲍":16,"莫":13,"孔":4,"汤":13,"项":12,"尤":4,"毕":11,"丛":18,"虞":13,"单":8,"欧阳":15,"司马":14,"诸葛":22,"上官":11,"慕容":16,"皇甫":15,"尉迟":19,"闻人":14,"夏侯":14,"东方":8,"西门":12
 };
 
-// ====================== 2. 五行阴阳规则（完整保留） ======================
+// 2. 五行阴阳规则
 const wuxingMap = {
     1: { wuxing: "木", yinYang: "阳木" },
     2: { wuxing: "木", yinYang: "阴木" },
@@ -247,14 +247,14 @@ const wuxingMap = {
     0: { wuxing: "水", yinYang: "阴水" }
 };
 
-// ====================== 3. 完整版帝王数（完整保留） ======================
+// 3. 帝王数集合
 const diwangSet = new Set([
     3,7,13,15,16,17,18,21,23,24,25,29,
     31,32,35,37,39,41,45,47,48,52,57,61,
     63,65,67,68,81
 ]);
 
-// ====================== 4. 81数理吉凶库（完整保留） ======================
+// 4. 81数理吉凶库
 const luckMap = {
     1: { level: "吉", desc: "大展鸿图，信用得固，名利双收，可获成功" },
     2: { level: "凶", desc: "根基不固，摇摇欲坠，一盛一衰，劳心费神" },
@@ -339,7 +339,7 @@ const luckMap = {
     81: { level: "吉", desc: "最极之数，还本归元，繁荣得泽，福寿绵长" }
 };
 
-// ====================== 5. 三才配置吉凶库（完整保留） ======================
+// 5. 三才配置吉凶库
 const sanCaiLuckMap = {
     "木木木": { level: "大吉", desc: "性情温厚平静，人缘佳，事业顺利，身心安康，一生平稳有福。" },
     "木木火": { level: "吉", desc: "顺风顺水，得长辈提携，积极进取，事业可得成就。" },
@@ -408,7 +408,7 @@ const sanCaiLuckMap = {
     "土金木": { level: "凶", desc: "压力缠身，是非较多，运势不佳。" },
     "土金火": { level: "半吉", desc: "付出多回报少，平平淡淡。" },
     "土金土": { level: "吉", desc: "稳重可靠，守成有余，安稳一生。" },
-    "土金金": { level: "吉", desc: "意志坚定，靠实干立足，运势平稳。" },
+    "土金金": { level: "吉", desc: "意志坚强，靠实干立足，运势平稳。" },
     "土金水": { level: "半吉", desc: "思维尚可，运势一般，知足常乐。" },
     "土水木": { level: "半吉", desc: "运势平平，努力可维持现状。" },
     "土水火": { level: "凶", desc: "诸事多阻，难得顺心。" },
@@ -461,30 +461,24 @@ const sanCaiLuckMap = {
     "水水水": { level: "半吉", desc: "思维活跃，心性散漫，运势起伏不定。" }
 };
 
-// ====================== 工具函数（完整保留） ======================
-// 单字笔画
+// 工具函数
 function getStroke(char) {
     return kangxiMap[char] || 10;
 }
-// 字符串转笔画数组
 function getStrokeArr(str) {
     return str.split('').map(c => getStroke(c));
 }
-// 获取五行
 function getWuxing(num) {
     let last = num % 10;
     return wuxingMap[last] || { wuxing: "未知", yinYang: "未知" };
 }
-// 获取数理吉凶
 function getLuck(num) {
     let n = num > 81 ? num % 81 || 81 : num;
     return luckMap[n] || { level: "未知", desc: "暂无解析" };
 }
-// 是否帝王数
 function isDiwang(num) {
     return diwangSet.has(num);
 }
-// 获取三才组合 + 吉凶
 function getSanCai(tian, ren, di) {
     let tWx = getWuxing(tian).wuxing;
     let rWx = getWuxing(ren).wuxing;
@@ -496,7 +490,6 @@ function getSanCai(tian, ren, di) {
         info: sanCaiLuckMap[key] || { level: "未知", desc: "暂无解析" }
     };
 }
-// 综合评分
 function calcScore(tian, ren, di, zhong, wai, zong) {
     let score = 60;
     let list = [
@@ -521,11 +514,11 @@ function calcScore(tian, ren, di, zhong, wai, zong) {
     return score;
 }
 
-// ====================== 主计算函数【已修复计算公式】 ======================
+// ========== 主计算函数（完全对标目标网站公式） ==========
 function calcName() {
     let surname = document.getElementById('surname').value.trim();
     let name = document.getElementById('name').value.trim();
-    // 校验
+
     if (!surname || !name) {
         alert("请输入完整姓名！");
         return;
@@ -535,28 +528,27 @@ function calcName() {
         return;
     }
 
-    // 计算各部分康熙笔画
+    // 拆分笔画
     let sArr = getStrokeArr(surname);
-    let sTotal = sArr.reduce((a,b)=>a+b, 0);
+    let X = sArr.reduce((a, b) => a + b, 0);
     let nArr = getStrokeArr(name);
-    let n1 = nArr[0];
-    let n2 = nArr.length >= 2 ? nArr[1] : 0;
-    let isTwoName = (n2 > 0); // 判断是否为双字名
+    let M1 = nArr[0];
+    let M2 = nArr.length >= 2 ? nArr[1] : 0;
+    let isTwoName = M2 > 0;
 
-    // ========== 【修复后 正统标准计算公式】 ==========
-    let tianGe = sTotal + 1;                     // 天格：姓氏笔画 + 1
-    let renGe = sTotal + n1;                     // 人格：姓 + 名第一个字
-    let diGe  = isTwoName ? (n1 + n2) : (n1 + 1);// 地格：双名=两名字相加，单名=名+1
-    let zongGe = sTotal + n1 + n2;               // 总格：姓+全部名字总和
-    let waiGe  = isTwoName ? (n2 + 1) : 2;       // 外格：双名=末字+1，单名固定=2
-    let zhongGe = diGe;                          // 中格沿用原逻辑 = 地格
+    // 目标网站原版公式
+    let tianGe = X + 1;
+    let renGe = X + M1;
+    let diGe = isTwoName ? (M1 + M2) : (M1 + 1);
+    let zongGe = X + M1 + M2;
+    let waiGe = zongGe - renGe;
+    let zhongGe = diGe - (X % 10);
 
-    // 三才
+    // 三才、评分
     let sanCai = getSanCai(tianGe, renGe, diGe);
-    // 综合评分
     let totalScore = calcScore(tianGe, renGe, diGe, zhongGe, waiGe, zongGe);
 
-    // 逐个获取五行、吉凶、帝王数
+    // 格式化显示文本
     function formatVal(num) {
         let wx = getWuxing(num);
         let luck = getLuck(num);
@@ -565,7 +557,7 @@ function calcName() {
         return `${num}（${wx.wuxing}·${luck.level}）${diwangHtml}`;
     }
 
-    // 渲染页面
+    // 页面赋值渲染
     document.getElementById('showName').innerText = `姓名：${surname}${name}`;
     document.getElementById('showScore').innerText = totalScore;
     document.getElementById('showSanCai').innerText = `${sanCai.wxText} 【${sanCai.info.level}】`;
@@ -589,7 +581,6 @@ function calcName() {
     document.getElementById('zongVal').innerHTML = formatVal(zongGe);
     document.getElementById('zongDesc').innerText = getLuck(zongGe).desc;
 
-    // 显示结果区域
     document.getElementById('resultBox').style.display = "block";
 }
 </script>

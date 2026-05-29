@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法权老师姓名评测</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .notice-box {
+            background: #fff3f3;
+            border: 1px solid #f8baba;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #b30000;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .contact-box {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+        h1 {
+            text-align: center;
+            color: #b30000;
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+        .form-item {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            height: 44px;
+            padding: 0 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .btn {
+            width: 100%;
+            height: 46px;
+            background-color: #b30000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .result-box {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            display: none;
+        }
+        .name-title {
+            text-align: center;
+            font-size: 22px;
+            color: #b30000;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .score-line {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        .score {
+            font-size: 24px;
+            color: #b30000;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .san-cai {
+            background: #f9f2f2;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        /* 新增解析标题样式 */
+        .parse-title {
+            font-size: 18px;
+            color: #b30000;
+            font-weight: bold;
+            margin: 10px 0 15px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .grid-item {
+            background: #f8f8f8;
+            padding: 18px;
+            border-radius: 8px;
+        }
+        .key {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+        .val {
+            font-size: 18px;
+            color: #b30000;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .desc {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.6;
+        }
+        .diwang-tag {
+            display: inline-block;
+            background-color: #b30000;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部标题 -->
+        <h1>法权老师姓名评测</h1>
+        <!-- 联系方式区域 -->
+        <div class="contact-box">
+            联系方式：微信 w121068488
+        </div>
+        <!-- 内部使用声明 -->
+        <div class="notice-box">
+            备注：茅山乾坤门显法堂内部弟子使用，请勿外传，违者必究
+        </div>
+        <!-- 输入区域 -->
+        <div class="form-item">
+            <label>姓氏（支持单姓/复姓）</label>
+            <input type="text" id="surname" placeholder="例如：王、欧阳、司马">
+        </div>
+        <div class="form-item">
+            <label>名字（1-2字）</label>
+            <input type="text" id="name" placeholder="例如：伟、嘉杰" maxlength="2">
+        </div>
+        <div class="form-item">
+            <label>性别</label>
+            <select id="gender">
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+        </div>
+        <button class="btn" onclick="calcName()">开始测算</button>
+        <!-- 结果展示区域 -->
+        <div class="result-box" id="resultBox">
+            <div class="name-title" id="showName"></div>
+            <div class="score-line">综合评分：<span class="score" id="showScore">0</span> 分</div>
+            <!-- 三才配置 -->
+            <div class="san-cai">
+                <div style="font-weight:bold;margin-bottom:8px;">三才配置：<span id="showSanCai"></span></div>
+                <div id="showSanCaiDesc"></div>
+            </div>
+            <!-- 解析区域（原十格列表，标题改为解析） -->
+            <div class="parse-title">解析</div>
+            <div class="grid">
+                <div class="grid-item">
+                    <div class="key">天格</div>
+                    <div class="val" id="tianVal"></div>
+                    <div class="desc" id="tianDesc"></div>
+                </div>
+                <div class="grid-item">
+                    <div class="key">人格</div>
+                    <div class="val" id="renVal"></div>
+                    <div class="desc" id="renDesc"></div>
+                </div>
+                <div class="grid-item">
+                    <div class="key">地格</div>
+                    <div class="val" id="diVal"></div>
+                    <div class="desc" id="diDesc"></div>
+                </div>
+                <div class="grid-item">
+                    <div class="key">中格</div>
+                    <div class="val" id="zhongVal"></div>
+                    <div class="desc" id="zhongDesc"></div>
+                </div>
+                <div class="grid-item">
+                    <div class="key">外格</div>
+                    <div class="val" id="waiVal"></div>
+                    <div class="desc" id="waiDesc"></div>
+                </div>
+                <div class="grid-item">
+                    <div class="key">总格</div>
+                    <div class="val" id="zongVal"></div>
+                    <div class="desc" id="zongDesc"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+// ====================== 1. 康熙笔画库 ======================
+const kangxiMap = {
+    "一":1,"乙":1,"二":2,"十":2,"丁":2,"七":2,"乃":2,"人":2,"入":2,"八":2,"几":2,"力":2,"又":2,"三":3,"干":3,"工":3,"土":3,"士":3,"夕":3,"大":3,"女":3,"子":3,"寸":3,"小":3,"口":3,"山":3,"巾":3,"川":3,"彳":3,"丸":3,"也":3,"弋":3,"卩":3,"弓":3,"才":3,"四":5,"不":4,"中":4,"丹":4,"予":4,"云":4,"五":5,"仁":4,"什":4,"今":4,"介":4,"分":4,"公":4,"六":4,"兮":4,"内":4,"午":4,"升":4,"天":4,"太":4,"夫":4,"夭":4,"孔":4,"少":4,"尤":4,"尹":4,"尺":4,"引":4,"心":4,"戈":4,"手":4,"支":4,"文":4,"斗":4,"斤":4,"方":4,"日":4,"月":4,"木":4,"水":4,"火":4,"牙":4,"牛":4,"犬":4,"王":5,"巴":4,"化":4,"比":4,"毛":4,"氏":4,"气":4,"片":4,"爪":4,"父":4,"爻":4,"玄":5,"玉":5,"瓜":5,"瓦":5,"甘":5,"生":5,"用":5,"田":5,"由":5,"甲":5,"申":5,"白":5,"皮":5,"目":5,"矛":5,"矢":5,"石":5,"示":5,"禾":5,"穴":5,"立":5,"竹":6,"米":6,"糸":6,"缶":6,"网":6,"羊":6,"羽":6,"老":6,"耳":6,"肉":6,"臣":6,"自":6,"至":6,"舌":6,"舟":6,"艮":6,"色":6,"艸":6,"虫":6,"行":6,"衣":6,"西":6,"见":7,"角":7,"言":7,"谷":7,"豆":7,"豕":7,"贝":7,"赤":7,"足":7,"身":7,"车":7,"辛":7,"辰":7,"辵":7,"邑":7,"酉":7,"釆":7,"里":7,"金":8,"长":8,"门":8,"阜":8,"隶":8,"隹":8,"雨":8,"青":8,"非":8,"齿":9,"革":9,"骨":9,"面":9,"香":9,"首":9,"飞":9,"食":9,"音":9,"风":9,"马":10,"高":10,"黄":12,"黑":12,"龙":16,"龟":16,"吴":7,"李":7,"王":4,"张":11,"刘":15,"陈":16,"杨":13,"黄":12,"赵":14,"周":8,"徐":10,"孙":10,"朱":6,"胡":11,"林":8,"郭":15,"何":7,"高":10,"罗":20,"郑":19,"梁":11,"谢":17,"宋":7,"唐":10,"韩":17,"许":11,"邓":19,"冯":12,"彭":12,"曾":12,"萧":19,"曹":11,"董":15,"潘":16,"袁":10,"于":3,"杜":7,"戴":18,"崔":11,"任":6,"陆":16,"廖":14,"姚":9,"方":4,"金":8,"邱":12,"夏":10,"谭":19,"邹":12,"石":5,"熊":14,"秦":10,"江":7,"阎":16,"薛":19,"尹":4,"段":9,"黎":15,"易":8,"常":11,"武":8,"乔":12,"贺":12,"赖":16,"龚":22,"文":4,"庞":13,"樊":15,"兰":20,"殷":10,"施":9,"陶":16,"洪":10,"翟":14,"安":6,"颜":18,"倪":10,"严":20,"牛":4,"温":13,"季":8,"俞":9,"鲁":15,"葛":15,"范":11,"廉":13,"祁":8,"韦":9,"戚":11,"喻":12,"褚":15,"关":19,"苗":11,"费":12,"纪":9,"盛":12,"霍":17,"云":4,"舒":12,"蒲":16,"耿":10,"满":14,"翁":10,"寇":11,"焦":12,"管":14,"麦":11,"仇":4,"甘":5,"厉":15,"郁":13,"符":11,"鲍":16,"莫":13,"孔":4,"汤":13,"项":12,"尤":4,"毕":11,"丛":18,"虞":13,"单":8,"欧阳":15,"司马":14,"诸葛":22,"上官":11,"慕容":16,"皇甫":15,"尉迟":19,"闻人":14,"夏侯":14,"东方":8,"西门":12
+};
+
+// ====================== 2. 五行阴阳规则 ======================
+const wuxingMap = {
+    1: { wuxing: "木", yinYang: "阳木" },
+    2: { wuxing: "木", yinYang: "阴木" },
+    3: { wuxing: "火", yinYang: "阳火" },
+    4: { wuxing: "火", yinYang: "阴火" },
+    5: { wuxing: "土", yinYang: "阳土" },
+    6: { wuxing: "土", yinYang: "阴土" },
+    7: { wuxing: "金", yinYang: "阳金" },
+    8: { wuxing: "金", yinYang: "阴金" },
+    9: { wuxing: "水", yinYang: "阳水" },
+    0: { wuxing: "水", yinYang: "阴水" }
+};
+
+// ====================== 3. 完整版帝王数（首领数+权威吉数） ======================
+const diwangSet = new Set([
+    3,7,13,15,16,17,18,21,23,24,25,29,
+    31,32,35,37,39,41,45,47,48,52,57,61,
+    63,65,67,68,81
+]);
+
+// ====================== 4. 81数理吉凶库（全量补齐） ======================
+const luckMap = {
+    1: { level: "吉", desc: "大展鸿图，信用得固，名利双收，可获成功" },
+    2: { level: "凶", desc: "根基不固，摇摇欲坠，一盛一衰，劳心费神" },
+    3: { level: "吉", desc: "根深蒂固，蒸蒸日上，如意吉祥，百事顺遂" },
+    4: { level: "凶", desc: "坎坷前途，苦难折磨，非有毅力，难望成功" },
+    5: { level: "吉", desc: "阴阳和合，生意兴隆，名利双收，后福重重" },
+    6: { level: "吉", desc: "万宝集门，天降幸运，立志奋发，得成大功" },
+    7: { level: "吉", desc: "独营生意，和气吉祥，排除万难，必获成功" },
+    8: { level: "吉", desc: "努力发达，贯彻志望，不忘进退，可望顺利" },
+    9: { level: "凶", desc: "虽抱奇才，有才无命，独营无力，财力难望" },
+    10: { level: "凶", desc: "乌云遮月，暗淡无光，空费心力，徒劳无功" },
+    11: { level: "吉", desc: "草木逢春，枝叶沾露，稳健着实，必得人望" },
+    12: { level: "凶", desc: "薄弱乏力，百事不如意，平生多波折" },
+    13: { level: "吉", desc: "才艺多能，智谋奇略，忍柔当事，鸣奏大功" },
+    14: { level: "凶", desc: "浮沉破败，多破兆，家属缘薄，谋事难成" },
+    15: { level: "吉", desc: "福寿圆满，温良贤达，涵养雅量，必获昌盛" },
+    16: { level: "吉", desc: "厚重载德，安富尊荣，财官双美，功成名就" },
+    17: { level: "半吉", desc: "刚毅果断，勇往直前，宜进取，慎刚硬" },
+    18: { level: "吉", desc: "有志竟成，内外有运，智谋周密，财利可得" },
+    19: { level: "凶", desc: "风云蔽日，辛苦重来，虽有智谋，万事挫折" },
+    20: { level: "凶", desc: "非业破运，破灭之象，进退两难，凡事难成" },
+    21: { level: "吉", desc: "光风霁月，万物确立，官运亨通，大搏名利" },
+    22: { level: "凶", desc: "秋草逢霜，薄弱乏力，不如意事，数多波折" },
+    23: { level: "吉", desc: "旭日东升，壮丽壮观，权威旺盛，功名荣达" },
+    24: { level: "吉", desc: "家门余庆，金钱丰盈，白手成家，财源广进" },
+    25: { level: "半吉", desc: "资性英敏，才能奇特，克服傲慢，尚可成功" },
+    26: { level: "凶", desc: "变怪之谜，英雄豪杰，波澜重叠，而奏大功" },
+    27: { level: "凶", desc: "虽有进取心，易生是非，宜守不宜进" },
+    28: { level: "凶", desc: "遭难失意，沉浮不定，逆境困苦，难得安稳" },
+    29: { level: "半吉", desc: "智谋兼备，欲望无止境，多受波折" },
+    30: { level: "凶", desc: "浮沉不定，凶吉难分，进退维谷，难得安稳" },
+    31: { level: "吉", desc: "智勇得志，博得名利，统领众人，繁荣富贵" },
+    32: { level: "吉", desc: "侥幸多望，贵人得助，财帛如裕，繁荣至上" },
+    33: { level: "吉", desc: "家门隆昌，权威旺盛，富甲天下，名利双收" },
+    34: { level: "凶", desc: "破家亡身，见识浅短，内外不和，多遭困苦" },
+    35: { level: "吉", desc: "温和平静，智达通畅，文昌技艺，奏功洋洋" },
+    36: { level: "凶", desc: "波澜重叠，沉浮万状，侠肝义胆，舍己成仁" },
+    37: { level: "吉", desc: "权威显达，热诚忠信，宜着雅量，终身荣富" },
+    38: { level: "半吉", desc: "意志薄弱，难酬志向，多才技艺，略有小成" },
+    39: { level: "半吉", desc: "富贵荣华，财源广进，但易生波澜" },
+    40: { level: "凶", desc: "谨慎保安，浮沉不定，退守平安，进取多灾" },
+    41: { level: "吉", desc: "德高望重，事事如意，财源广进，前程似锦" },
+    42: { level: "凶", desc: "寒蝉在柳，博识多能，十艺不成，穷困多艰" },
+    43: { level: "凶", desc: "散财破产，诸事不遂，虽有智谋，财来财去" },
+    44: { level: "凶", desc: "多难兴邦，烦闷不绝，辛苦劳碌，灾祸频临" },
+    45: { level: "吉", desc: "顺风扬帆，智谋经纬，富贵繁荣，一路顺遂" },
+    46: { level: "凶", desc: "载宝沉舟，浪里淘金，大难尝尽，大功有成" },
+    47: { level: "吉", desc: "花开之象，万事如意，祯祥吉庆，天赋幸福" },
+    48: { level: "吉", desc: "德智兼备，鹤立鸡群，名利兼得，富贵双全" },
+    49: { level: "半吉", desc: "吉凶难分，浮沉不定，先难后易" },
+    50: { level: "凶", desc: "吉凶参半，成败相伴，守成安稳，进取多险" },
+    51: { level: "半吉", desc: "盛衰交加，波澜重叠，如能慎始，必获成功" },
+    52: { level: "吉", desc: "卓识远见，善于求索，名利双收，大展宏图" },
+    53: { level: "凶", desc: "外祥内苦，口舌是非，劳心劳力，难得安宁" },
+    54: { level: "凶", desc: "多难多灾，挫折不断，家运凋零，诸事不顺" },
+    55: { level: "半吉", desc: "外观隆昌，内隐祸患，先吉后凶" },
+    56: { level: "凶", desc: "风浪叠起，浮沉难定，谋事多阻" },
+    57: { level: "吉", desc: "寒雪青松，夜莺吟春，刚毅坚贞，百事顺遂" },
+    58: { level: "半吉", desc: "先苦后甜，外生波澜，内多平安" },
+    59: { level: "凶", desc: "寒蝉悲风，意志衰退，缺乏忍耐，诸事不顺" },
+    60: { level: "凶", desc: "黑暗无光，进退两难，劳心劳力，难得顺遂" },
+    61: { level: "半吉", desc: "名利双收，繁荣昌盛，但易生是非" },
+    62: { level: "凶", desc: "基础虚弱，艰难困苦，内外不和，诸事难成" },
+    63: { level: "吉", desc: "富贵荣华，身心安泰，雨露惠泽，万事兴隆" },
+    64: { level: "凶", desc: "骨肉分离，孤独悲愁，难得心安，做事不顺" },
+    65: { level: "吉", desc: "天长地久，家运隆昌，福寿绵长，事事成就" },
+    66: { level: "凶", desc: "多欲失智，内外不和，进退失据" },
+    67: { level: "吉", desc: "利路亨通，百事如意，财源广进，福禄双全" },
+    68: { level: "吉", desc: "智能兼备，温和贤达，谋事顺遂，贵人相助" },
+    69: { level: "凶", desc: "坐立难安，进退失据，内外不和，多遭困苦" },
+    70: { level: "凶", desc: "破灭之象，家运衰退，孤独困苦" },
+    71: { level: "半吉", desc: "吉凶参半，先难后易，守成为佳" },
+    72: { level: "凶", desc: "劳心劳力，困苦不绝，谋事难成" },
+    73: { level: "吉", desc: "安乐自来，自然吉祥，力行不懈，必能发达" },
+    74: { level: "凶", desc: "沉沦逆境，烦闷愁苦，诸事多阻" },
+    75: { level: "半吉", desc: "进退两难，保守安稳，进取多灾" },
+    76: { level: "凶", desc: "倾覆离散，骨肉分离，内外不和" },
+    77: { level: "半吉", desc: "先吉后凶，浮沉不定，宜守不宜攻" },
+    78: { level: "半吉", desc: "先苦后甜，晚年安稳，早年多辛劳" },
+    79: { level: "凶", desc: "劳心费神，挫折不断，难得顺遂" },
+    80: { level: "凶", desc: "万事终局，回顾茫然，劳心劳力，徒劳无功" },
+    81: { level: "吉", desc: "最极之数，还本归元，繁荣得泽，福寿绵长" }
+};
+
+// ====================== 5. 三才配置吉凶库 ======================
+const sanCaiLuckMap = {
+    "木木木": { level: "大吉", desc: "性情温厚平静，人缘佳，事业顺利，身心安康，一生平稳有福。" },
+    "木木火": { level: "吉", desc: "顺风顺水，得长辈提携，积极进取，事业可得成就。" },
+    "木木土": { level: "吉", desc: "踏实稳重，基础稳固，稳中求进，财运家庭皆安稳。" },
+    "木木金": { level: "半吉", desc: "外顺内阻，易有口舌是非，宜守不宜冒进。" },
+    "木木水": { level: "吉", desc: "智慧过人，思维灵活，贵人相助，发展空间广阔。" },
+    "木火木": { level: "吉", desc: "活力充沛，热情开朗，事业有冲劲，易得名望。" },
+    "木火火": { level: "半吉", desc: "性情急躁，运势起伏大，注意修身养性，防冲动败运。" },
+    "木火土": { level: "大吉", desc: "名利双收，基础坚实，人缘财运俱佳，富贵安康。" },
+    "木火金": { level: "凶", desc: "内外不和，压力重重，易遭挫折，身心劳累。" },
+    "木火水": { level: "凶", desc: "运势沉浮不定，理想难达，多劳少得。" },
+    "木土木": { level: "半吉", desc: "表面安稳，暗藏阻碍，早年辛劳，中年后渐佳。" },
+    "木土火": { level: "吉", desc: "踏实肯干，循序渐进，晚年运势昌盛。" },
+    "木土土": { level: "吉", desc: "忠厚守信，根基牢固，家庭和睦，一生安稳。" },
+    "木土金": { level: "凶", desc: "劳心劳力，事多阻碍，财运难聚，身心疲惫。" },
+    "木土水": { level: "凶", desc: "运势低迷，诸事不顺，易有意外损耗。" },
+    "木金木": { level: "凶", desc: "争斗较多，人际不和，事业波折不断。" },
+    "木金火": { level: "凶", desc: "矛盾重重，压力极大，谋事多败。" },
+    "木金土": { level: "半吉", desc: "先难后易，历经磨砺后方能有成。" },
+    "木金金": { level: "凶", desc: "性格刚强易招祸，运势坎坷，难得顺遂。" },
+    "木金水": { level: "半吉", desc: "才智尚可，但运势起伏，需谨慎行事。" },
+    "木水木": { level: "大吉", desc: "智德兼备，人缘极佳，一生多贵人，福禄绵长。" },
+    "木水火": { level: "凶", desc: "思绪杂乱，运势反复，做事难有恒心。" },
+    "木水土": { level: "半吉", desc: "早年奔波，中年逐步安定，守成可得安稳。" },
+    "木水金": { level: "吉", desc: "聪慧机敏，善于谋划，事业稳步上升。" },
+    "木水水": { level: "吉", desc: "思维活跃，机遇较多，财运尚可，注意防散漫。" },
+    "火木木": { level: "大吉", desc: "贵人运旺，积极向上，事业大展宏图。" },
+    "火火火": { level: "半吉", desc: "热情旺盛，行事激进，防急躁惹祸。" },
+    "火木土": { level: "吉", desc: "前程似锦，基础稳固，名利兼得。" },
+    "火木金": { level: "凶", desc: "理想与现实相悖，阻碍颇多，压力较大。" },
+    "火木水": { level: "吉", desc: "才华外露，机遇不断，发展前景良好。" },
+    "火火木": { level: "吉", desc: "朝气蓬勃，受人赏识，事业进展顺利。" },
+    "火火土": { level: "大吉", desc: "运势旺盛，财禄丰厚，家庭圆满。" },
+    "火火金": { level: "凶", desc: "争斗是非多，运势动荡，易有灾祸。" },
+    "火火水": { level: "凶", desc: "大起大落，吉凶难料，风险极高。" },
+    "火土木": { level: "半吉", desc: "稳中带波，努力可有小成，不可贪多。" },
+    "火土火": { level: "大吉", desc: "德望兼备，一生荣华，平安顺遂。" },
+    "火土土": { level: "大吉", desc: "忠厚有福，家运兴隆，晚景安康。" },
+    "火土金": { level: "吉", desc: "踏实进取，晚年运势更佳。" },
+    "火土水": { level: "半吉", desc: "先苦后甜，历经磨练终有收获。" },
+    "火金木": { level: "凶", desc: "诸事不顺，人际紧张，挫折连连。" },
+    "火金火": { level: "凶", desc: "冲突不断，运势衰败，多灾多难。" },
+    "火金土": { level: "半吉", desc: "劳碌奔波，靠自身努力可得温饱。" },
+    "火金金": { level: "凶", desc: "性情刚硬，易招灾惹祸，一生坎坷。" },
+    "火金水": { level: "凶", desc: "运势低迷，劳而无功。" },
+    "火水木": { level: "吉", desc: "头脑灵活，有机遇，顺势而为可成事。" },
+    "火水火": { level: "凶", desc: "情绪不稳，运势反复，难成大事。" },
+    "火水土": { level: "半吉", desc: "起伏不定，保守度日方保平安。" },
+    "火水金": { level: "凶", desc: "内外交困，谋事难成。" },
+    "火水水": { level: "半吉", desc: "机遇不少，但定力不足，成果有限。" },
+    "土木木": { level: "吉", desc: "根基深厚，得人扶助，稳步发展。" },
+    "土木火": { level: "大吉", desc: "运势亨通，财官两旺，一生富贵。" },
+    "土木土": { level: "吉", desc: "忠厚老实，安稳度日，家庭和睦。" },
+    "土木金": { level: "半吉", desc: "小有波折，坚守本心可保平安。" },
+    "土木水": { level: "半吉", desc: "早年劳碌，中年转顺。" },
+    "土火木": { level: "大吉", desc: "向上发展，名望财运皆有，福气深厚。" },
+    "土火火": { level: "吉", desc: "运势兴旺，积极进取可得成就。" },
+    "土火土": { level: "大吉", desc: "圆满吉祥，万事顺遂，福寿双全。" },
+    "土火金": { level: "半吉", desc: "运势有起伏，谨慎行事无大碍。" },
+    "土火水": { level: "凶", desc: "运势下滑，阻碍较多。" },
+    "土土木": { level: "吉", desc: "性情敦厚，基础稳固，一生平安。" },
+    "土土火": { level: "大吉", desc: "家运昌隆，财源稳定，晚年幸福。" },
+    "土土土": { level: "大吉", desc: "极为安稳，福禄厚重，一生无大灾。" },
+    "土土金": { level: "吉", desc: "踏实守业，财运平稳，衣食无忧。" },
+    "土土水": { level: "半吉", desc: "平淡度日，无大富大贵，但平安无忧。" },
+    "土金木": { level: "凶", desc: "压力缠身，是非较多，运势不佳。" },
+    "土金火": { level: "半吉", desc: "付出多回报少，平平淡淡。" },
+    "土金土": { level: "吉", desc: "稳重可靠，守成有余，安稳一生。" },
+    "土金金": { level: "吉", desc: "意志坚定，靠实干立足，运势平稳。" },
+    "土金水": { level: "半吉", desc: "思维尚可，运势一般，知足常乐。" },
+    "土水木": { level: "半吉", desc: "运势平平，努力可维持现状。" },
+    "土水火": { level: "凶", desc: "诸事多阻，难得顺心。" },
+    "土水土": { level: "半吉", desc: "一生平淡，无大波折。" },
+    "土水金": { level: "半吉", desc: "奔波劳碌，小有收获。" },
+    "土水水": { level: "凶", desc: "运势偏弱，财来财去难积聚。" },
+    "金木木": { level: "半吉", desc: "才华出众，但人际易有摩擦。" },
+    "金木火": { level: "凶", desc: "矛盾冲突多，运势坎坷。" },
+    "金木土": { level: "半吉", desc: "先劳后逸，中年之后渐安稳。" },
+    "金木金": { level: "凶", desc: "性格强硬，易招小人，波折不断。" },
+    "金木水": { level: "吉", desc: "才智过人，懂得变通，可得发展。" },
+    "金火木": { level: "凶", desc: "内外不和，压力巨大，多挫折。" },
+    "金火火": { level: "凶", desc: "运势衰败，是非灾祸频现。" },
+    "金火土": { level: "半吉", desc: "历经辛苦，晚年略有安稳。" },
+    "金火金": { level: "凶", desc: "争斗不休，一生劳碌多难。" },
+    "金火水": { level: "凶", desc: "运势低迷，诸事难顺。" },
+    "金土木": { level: "半吉", desc: "踏实劳作，仅得温饱，难有大发展。" },
+    "金土火": { level: "半吉", desc: "稳步慢行，小有收获。" },
+    "金土土": { level: "吉", desc: "守成安稳，家庭和睦，平安度日。" },
+    "金土金": { level: "吉", desc: "意志坚强，靠实干立足，运势平稳。" },
+    "金土水": { level: "半吉", desc: "奔波较多，财运一般。" },
+    "金金木": { level: "凶", desc: "同类相斥，人际不和，事业受阻。" },
+    "金金火": { level: "凶", desc: "性情刚烈，易惹祸端，运势坎坷。" },
+    "金金土": { level: "吉", desc: "根基稳固，能力出众，一生安稳。" },
+    "金金金": { level: "半吉", desc: "个性固执，行事保守，一生平淡。" },
+    "金金水": { level: "半吉", desc: "头脑灵活，但定力不足，成就有限。" },
+    "金水木": { level: "吉", desc: "智慧超群，贵人相助，前程光明。" },
+    "金水火": { level: "凶", desc: "思绪纷乱，运势起伏，难成大事。" },
+    "金水土": { level: "半吉", desc: "劳碌奔波，守成尚可，进取艰难。" },
+    "金水金": { level: "半吉", desc: "思维敏捷，运势平平，知足常乐。" },
+    "金水水": { level: "半吉", desc: "机遇较多，心性不定，财来财去。" },
+    "水木木": { level: "大吉", desc: "聪慧有德，贵人云集，一生福禄双全。" },
+    "水木火": { level: "吉", desc: "才华尽显，机遇不断，事业步步高升。" },
+    "水木土": { level: "吉", desc: "聪慧稳重，根基扎实，一生安稳有福。" },
+    "水木金": { level: "半吉", desc: "聪明能干，易遭小人，需谨慎处事。" },
+    "水木水": { level: "大吉", desc: "智慧过人，思维灵动，一生顺风顺水。" },
+    "水火木": { level: "吉", desc: "热情聪慧，得人赏识，发展顺利。" },
+    "水火火": { level: "半吉", desc: "情绪波动大，运势时好时坏，修身养性为佳。" },
+    "水火土": { level: "半吉", desc: "先难后易，中年转运，晚年安稳。" },
+    "水火金": { level: "凶", desc: "内外矛盾多，压力巨大，诸事不顺。" },
+    "水火水": { level: "凶", desc: "运势反复无常，起伏较大。" },
+    "水土木": { level: "半吉", desc: "踏实努力，早年辛苦，中年后逐步好转。" },
+    "水土火": { level: "半吉", desc: "稳中求进，小有成就，一生平淡安康。" },
+    "水土土": { level: "吉", desc: "忠厚踏实，家庭和睦，平安一生。" },
+    "水土金": { level: "半吉", desc: "劳碌奔波，收获一般，安稳度日即可。" },
+    "水土水": { level: "半吉", desc: "运势平平，无大灾大难，平淡是福。" },
+    "水水木": { level: "大吉", desc: "智略过人，人缘极佳，一生多机遇与贵人。" },
+    "水水火": { level: "半吉", desc: "想法繁多，定力不足，运势起伏。" },
+    "水水金": { level: "半吉", desc: "聪慧机敏，运势一般，切忌贪多。" },
+    "水水水": { level: "半吉", desc: "思维活跃，心性散漫，运势起伏不定。" }
+};
+
+// ====================== 工具函数 ======================
+// 单字笔画
+function getStroke(char) {
+    return kangxiMap[char] || 10;
+}
+
+// 字符串转笔画数组
+function getStrokeArr(str) {
+    return str.split('').map(c => getStroke(c));
+}
+
+// 获取五行
+function getWuxing(num) {
+    let last = num % 10;
+    return wuxingMap[last] || { wuxing: "未知", yinYang: "未知" };
+}
+
+// 获取数理吉凶
+function getLuck(num) {
+    let n = num > 81 ? num % 81 || 81 : num;
+    return luckMap[n] || { level: "未知", desc: "暂无解析" };
+}
+
+// 是否帝王数
+function isDiwang(num) {
+    return diwangSet.has(num);
+}
+
+// 获取三才组合 + 吉凶
+function getSanCai(tian, ren, di) {
+    let tWx = getWuxing(tian).wuxing;
+    let rWx = getWuxing(ren).wuxing;
+    let dWx = getWuxing(di).wuxing;
+    let key = tWx + rWx + dWx;
+    return {
+        combo: key,
+        wxText: `${tWx}（天）-${rWx}（人）-${dWx}（地）`,
+        info: sanCaiLuckMap[key] || { level: "未知", desc: "暂无解析" }
+    };
+}
+
+// 综合评分
+function calcScore(tian, ren, di, zhong, wai, zong) {
+    let score = 60;
+    let list = [
+        { val: tian, weight: 0.1 },
+        { val: ren, weight: 0.3 },
+        { val: di, weight: 0.15 },
+        { val: zhong, weight: 0.1 },
+        { val: wai, weight: 0.15 },
+        { val: zong, weight: 0.2 }
+    ];
+    list.forEach(item => {
+        let lk = getLuck(item.val);
+        if (lk.level === "吉") {
+            score += 20 * item.weight;
+        } else if (lk.level === "半吉") {
+            score += 8 * item.weight;
+        } else {
+            score -= 15 * item.weight;
+        }
+    });
+    score = Math.max(0, Math.min(100, Math.round(score)));
+    return score;
+}
+
+// ====================== 主计算函数 ======================
+function calcName() {
+    let surname = document.getElementById('surname').value.trim();
+    let name = document.getElementById('name').value.trim();
+    // 校验
+    if (!surname || !name) {
+        alert("请输入完整姓名！");
+        return;
+    }
+    if (name.length < 1 || name.length > 2) {
+        alert("名字请输入1-2个字！");
+        return;
+    }
+    // 计算笔画
+    let sArr = getStrokeArr(surname);
+    let sTotal = sArr.reduce((a,b)=>a+b, 0);
+    let nArr = getStrokeArr(name);
+    let n1 = nArr[0];
+    let n2 = nArr[1] || 0;
+    // 十格计算
+    let tianGe = sTotal + 1;
+    let renGe = sTotal + n1;
+    let diGe = n1 + n2;
+    let zhongGe = diGe - sTotal;
+    let waiGe = tianGe + diGe - renGe;
+    let zongGe = sTotal + n1 + n2;
+    // 三才
+    let sanCai = getSanCai(tianGe, renGe, diGe);
+    // 评分
+    let totalScore = calcScore(tianGe, renGe, diGe, zhongGe, waiGe, zongGe);
+    // 逐个获取五行、吉凶、帝王数
+    function formatVal(num) {
+        let wx = getWuxing(num);
+        let luck = getLuck(num);
+        let diwang = isDiwang(num);
+        let diwangHtml = diwang ? `<span class="diwang-tag">帝王数</span>` : "";
+        return `${num}（${wx.wuxing}·${luck.level}）${diwangHtml}`;
+    }
+    // 渲染页面
+    document.getElementById('showName').innerText = `姓名：${surname}${name}`;
+    document.getElementById('showScore').innerText = totalScore;
+    document.getElementById('showSanCai').innerText = `${sanCai.wxText} 【${sanCai.info.level}】`;
+    document.getElementById('showSanCaiDesc').innerText = sanCai.info.desc;
+
+    document.getElementById('tianVal').innerHTML = formatVal(tianGe);
+    document.getElementById('tianDesc').innerText = getLuck(tianGe).desc;
+
+    document.getElementById('renVal').innerHTML = formatVal(renGe);
+    document.getElementById('renDesc').innerText = getLuck(renGe).desc;
+
+    document.getElementById('diVal').innerHTML = formatVal(diGe);
+    document.getElementById('diDesc').innerText = getLuck(diGe).desc;
+
+    document.getElementById('zhongVal').innerHTML = formatVal(zhongGe);
+    document.getElementById('zhongDesc').innerText = getLuck(zhongGe).desc;
+
+    document.getElementById('waiVal').innerHTML = formatVal(waiGe);
+    document.getElementById('waiDesc').innerText = getLuck(waiGe).desc;
+
+    document.getElementById('zongVal').innerHTML = formatVal(zongGe);
+    document.getElementById('zongDesc').innerText = getLuck(zongGe).desc;
+
+    // 显示结果区域
+    document.getElementById('resultBox').style.display = "block";
+}
+</script>
+</body>
+</html>

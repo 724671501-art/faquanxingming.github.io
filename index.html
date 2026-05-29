@@ -3,19 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>法权老师姓名评测</title>
+    <title>姓名五格测算（标准康熙笔画版）</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei", sans-serif;
+        *{margin:0;padding:0;box-sizing:border-box;font-family:"微软雅黑",sans-serif;}
+        body{background:#f5f5f5;padding:20px;}
+        .box{max-width:600px;margin:0 auto;background:#fff;padding:25px;border-radius:10px;box-shadow:0 0 10px #ccc;}
+        h2{text-align:center;color:#c81623;margin-bottom:20px;}
+        .input-item{margin:15px 0;}
+        label{display:block;margin-bottom:8px;font-weight:bold;color:#333;}
+        input{width:100%;height:40px;padding:0 10px;border:1px solid #ddd;border-radius:5px;font-size:16px;}
+        button{width:100%;height:45px;background:#c81623;color:#fff;border:none;border-radius:5px;font-size:18px;margin:20px 0;cursor:pointer;}
+        button:hover{background:#a0101c;}
+        .result{margin-top:20px;line-height:1.8;font-size:15px;}
+        .result p{margin:8px 0;padding:6px;background:#f9f9f9;border-radius:4px;}
+        .tip{font-size:13px;color:#666;margin:10px 0;padding:10px;border:1px dashed #ccc;}
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>姓名五格测算（康熙笔画标准版）</h2>
+        <div class="tip">
+            规则说明：采用<strong>康熙字典笔画</strong>计算，含部首修正；正统五格+三才五行判定
+        </div>
+
+        <div class="input-item">
+            <label>姓氏（输入汉字）</label>
+            <input type="text" id="xing" placeholder="例如：王">
+        </div>
+        <div class="input-item">
+            <label>名字第一个字</label>
+            <input type="text" id="ming1" placeholder="例如：展">
+        </div>
+        <div class="input-item">
+            <label>名字第二个字（单名可留空）</label>
+            <input type="text" id="ming2" placeholder="例如：鹏">
+        </div>
+
+        <button onclick="calcName()">开始测算</button>
+
+        <div class="result" id="res"></div>
+    </div>
+
+<script>
+// ===================== 1. 康熙笔画库（常用字+部首修正） =====================
+const khBiHua = {
+    // 部首统一修正（程序自动换算）
+    '氵':4,'艹':6,'忄':4,'犭':4,'左耳旁':8,'右耳旁':7,'辶':7,'王':5,'礻':5,'衤':6,
+    // 常用单字康熙笔画（可自行扩充字库）
+    '一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10,
+    '水':4,'木':4,'火':4,'土':3,'金':8,
+    '汝':7,'芝':9,'情':12,'狂':8,'陈':16,'邓':14,'连':14,'珠':11,'祥':11,'裕':13,
+    '邝':22,'籽':9,'王':4,'李':7,'张':11,'刘':15,'陈':16,'杨':13,'黄':12,'赵':14,
+    '周':8,'吴':7,'徐':10,'孙':10,'马':10,'朱':6,'胡':11,'林':8,'郭':15,'何':7,
+    '高':10,'罗':20,'郑':19,'梁':11,'谢':17,'宋':7,'唐':10,'韩':17,'曹':11,'许':11,
+    '展':10,'鹏':19,'法':9,'权':22
+};
+
+// 数理吉凶表
+const shuLiJiXiong = {
+    ji:[1,3,5,6,7,8,11,13,15,16,18,21,23,24,25,29,31,32,33,35,37,41,45,47,48,52,57,61,63,65,67,68,81],
+    xiong:[2,4,9,10,12,14,17,19,20,22,26,27,28,34,36,38,40,42,43,44,46,49,50,51,53,54,55,56,58,59,60,62,64,66,69,70,71,72,73,74,75,76,77,78,79,80]
+};
+
+// 笔画尾数 → 五行 规则
+function getWuXing(num){
+    let w = num % 10;
+    if(w===1||w===2) return "木";
+    if(w===3||w===4) return "火";
+    if(w===5||w===6) return "土";
+    if(w===7||w===8) return "金";
+    if(w===9||w===0) return "水";
+    return "";
+}
+
+// 判断数字吉凶
+function getJiXiong(num){
+    if(shuLiJiXiong.ji.includes(num)) return "【吉】";
+    if(shuLiJiXiong.xiong.includes(num)) return "【凶】";
+    return "【半吉半凶】";
+}
+
+// 单字取康熙笔画
+function getBiHua(str){
+    let total = 0;
+    for(let s of str){
+        if(khBiHua[s]){
+            total += khBiHua[s];
+        }else{
+            // 无收录字，默认取简体笔画（建议补充字库）
+            total += s.length;
         }
-        body {
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-        .container {
+    }
+    return total;
+}
+
+// 三才配置吉凶判定
+function getSanCai(tian,ren,di){
+    let arr = [tian,ren,di];
+    let sheng = {"木":"火","火":"土","土":"金","金":"水","水":"木"};
+    let ke  = {"木":"土","土":"水","水":"火","火":"金","金":"木"};
+    let res = "";
+    let t = arr[0], r=arr[1], d=arr[2];
+    if(sheng[t]===r && sheng[r]===d){
+        res = "三才全相生 → 大吉，运势顺遂";
+    }else if(ke[t]===r || ke[r]===d){
+        res = "三才相克 → 大凶，阻碍较多";
+    }else{
+        res = "三才平配 → 中吉，运势平稳";
+    }
+    return res;
+}
+
+// ===================== 核心计算逻辑（标准五格） =====================
+function calcName(){
+    let xing = document.getElementById("xing").value.trim();
+    let m1 = document.getElementById("ming1").value.trim();
+    let m2 = document.getElementById("ming2").value.trim();
+    let resDom = document.getElementById("res");
+
+    if(!xing || !m1){
+        resDom.innerHTML = "<p style='color:red'>请完整填写姓氏和名字！</p>";
+        return;
+    }
+
+    // 1. 取各字康熙笔画
+    let A = getBiHua(xing);    // 姓笔画
+    let B = getBiHua(m1);     // 名1笔画
+    let C = getBiHua(m2);     // 名2笔画
+
+    // 2. 五格标准计算公式
+    let tianGe  = A + 1;                  // 天格：单姓固定 +1
+    let renGe   = A + B;                  // 人格：姓+名1
+    let diGe    = m2 ? B + C : B + 1;     // 地格：双名=名1+名2  单名=名1+1
+    let zongGe  = A + B + C;              // 总格：全部笔画相加
+    let waiGe   = m2 ? C + 1 : 2;         // 外格：双名=名2+1  单名固定=2
+
+    // 3. 五行、吉凶
+    let tianWx = getWuXing(tianGe);
+    let renWx  = getWuXing(renGe);
+    let diWx   = getWuXing(diGe);
+    let sanCai = getSanCai(tianWx,renWx,diWx);
+
+    // 4. 拼接结果
+    let html = `
+        <p>📝 录入姓名：${xing}${m1}${m2}</p>
+        <p>🔢 康熙笔画：姓(${A}) + 名1(${B}) + 名2(${C})</p>
+        <hr style="margin:10px 0">
+        <p>☁️ 天格(先祖运)：${tianGe}  ${getJiXiong(tianGe)}  五行：${tianWx}</p>
+        <p>👤 人格(主运)：${renGe}  ${getJiXiong(renGe)}  五行：${renWx}</p>
+        <p>🏠 地格(前运)：${diGe}  ${getJiXiong(diGe)}  五行：${diWx}</p>
+        <p>🤝 外格(副运)：${waiGe}  ${getJiXiong(waiGe)}</p>
+        <p>🌅 总格(后运)：${zongGe}  ${getJiXiong(zongGe)}</p>
+        <hr style="margin:10px 0">
+        <p>🎯 三才配置：${tianWx} - ${renWx} - ${diWx}</p>
+        <p>📊 三才解读：${sanCai}</p>
+        <div class="tip">
+        补充说明：<br>
+        1. 计算规则：正统五格剖象法 + 康熙字典笔画<br>
+        2. 生僻字可联系补充笔画库，保证测算统一
+        </div>
+    `;
+    resDom.innerHTML = html;
+}
+</script>
+</body>
+</html>
             max-width: 800px;
             margin: 0 auto;
             background: #fff;

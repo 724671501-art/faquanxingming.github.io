@@ -3,403 +3,836 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>法权老师姓名评测【十格完整版】</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei", sans-serif;
+    <title>法权姓名测算 - 茅山乾坤门显法堂</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5A2B',
+                        secondary: '#D4AF37',
+                        dark: '#2C1810',
+                        light: '#F5F0E6',
+                    },
+                    fontFamily: {
+                        serif: ['SimSun', 'serif'],
+                    },
+                }
+            }
         }
-        body {
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .notice-box {
-            background: #fff3f3;
-            border: 1px solid #f8baba;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            color: #b30000;
-            line-height: 1.6;
-            text-align: center;
-        }
-        .contact-box {
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 6px;
-            margin: 10px 0 20px;
-            text-align: center;
-            font-size: 15px;
-        }
-        h1 {
-            text-align: center;
-            color: #b30000;
-            margin-bottom: 10px;
-            font-size: 26px;
-        }
-        .form-item {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        input, select {
-            width: 100%;
-            height: 44px;
-            padding: 0 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-        .btn {
-            width: 100%;
-            height: 46px;
-            background-color: #b30000;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            cursor: pointer;
-            margin: 20px 0;
-        }
-        .btn:hover {
-            opacity: 0.9;
-        }
-        .result-box {
-            margin-top: 30px;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-            display: none;
-        }
-        .name-title {
-            text-align: center;
-            font-size: 22px;
-            color: #b30000;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .score-line {
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 25px;
-        }
-        .score {
-            font-size: 24px;
-            color: #b30000;
-            font-weight: bold;
-            margin-left: 8px;
-        }
-        .san-cai {
-            background: #f9f2f2;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .parse-title {
-            font-size: 18px;
-            color: #b30000;
-            font-weight: bold;
-            margin: 10px 0 15px;
-        }
-        /* 十格网格布局 5列2行 */
-        .grid-ten {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .grid-item {
-            background: #f8f8f8;
-            padding: 18px;
-            border-radius: 8px;
-        }
-        .key {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 6px;
-        }
-        .val {
-            font-size: 18px;
-            color: #b30000;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .desc {
-            font-size: 14px;
-            color: #888;
-            line-height: 1.6;
-        }
-        .diwang-tag {
-            display: inline-block;
-            background-color: #b30000;
-            color: #fff;
-            font-size: 12px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 8px;
-        }
-        /* 适配手机端 */
-        @media (max-width: 768px) {
-            .grid-ten {
-                grid-template-columns: repeat(2, 1fr);
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .bg-pattern {
+                background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(139, 90, 43, 0.2);
             }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>法权老师姓名评测【十格完整版】</h1>
-        <div class="contact-box">
-            联系方式：微信 w121068488
-        </div>
-        <div class="notice-box">
-            备注：茅山乾坤门显法堂内部弟子使用，请勿外传，违者必究
-        </div>
-        <div class="form-item">
-            <label>姓氏（支持单姓/复姓）</label>
-            <input type="text" id="surname" placeholder="例如：王、欧阳、司马">
-        </div>
-        <div class="form-item">
-            <label>名字（1-2字）</label>
-            <input type="text" id="name" placeholder="例如：伟、嘉杰" maxlength="2">
-        </div>
-        <div class="form-item">
-            <label>性别</label>
-            <select id="gender">
-                <option value="男">男</option>
-                <option value="女">女</option>
-            </select>
-        </div>
-        <button class="btn" onclick="calcName()">开始测算</button>
-        <div class="result-box" id="resultBox">
-            <div class="name-title" id="showName"></div>
-            <div class="score-line">综合评分：<span class="score" id="showScore">0</span> 分</div>
-            <div class="san-cai">
-                <div style="font-weight:bold;margin-bottom:8px;">三才配置：<span id="showSanCai"></span></div>
-                <div id="showSanCaiDesc"></div>
+<body class="bg-light bg-pattern min-h-screen font-serif">
+    <!-- 顶部导航 -->
+    <nav class="bg-dark text-white py-4 shadow-lg">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-secondary">
+                <i class="fa fa-book mr-2"></i>法权姓名测算
+            </h1>
+            <div class="flex space-x-4">
+                <button id="historyBtn" class="hover:text-secondary transition-colors">
+                    <i class="fa fa-history mr-1"></i>历史记录
+                </button>
+                <button id="loginBtn" class="hover:text-secondary transition-colors">
+                    <i class="fa fa-user mr-1"></i>登录
+                </button>
             </div>
-            <div class="parse-title">十格完整解析</div>
-            <!-- 第一行 五格 -->
-            <div class="grid-ten">
-                <div class="grid-item">
-                    <div class="key">天格</div>
-                    <div class="val" id="tianVal"></div>
-                    <div class="desc" id="tianDesc"></div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- 测算标签页 -->
+        <div class="flex mb-6 border-b-2 border-primary/20">
+            <button id="singleTab" class="px-6 py-3 text-lg font-semibold text-primary border-b-2 border-primary">
+                非合夫
+            </button>
+            <button id="coupleTab" class="px-6 py-3 text-lg font-semibold text-gray-600 hover:text-primary transition-colors">
+                合夫
+            </button>
+        </div>
+
+        <!-- 单人测算表单 -->
+        <div id="singleForm" class="bg-white rounded-lg shadow-xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-dark mb-6 text-center">个人姓名测算</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-dark font-semibold mb-2">姓氏</label>
+                    <input type="text" id="surname" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请填写你的姓氏">
                 </div>
-                <div class="grid-item">
-                    <div class="key">人格</div>
-                    <div class="val" id="renVal"></div>
-                    <div class="desc" id="renDesc"></div>
+                <div>
+                    <label class="block text-dark font-semibold mb-2">名字</label>
+                    <input type="text" id="givenName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请填写您的名字">
                 </div>
-                <div class="grid-item">
-                    <div class="key">地格</div>
-                    <div class="val" id="diVal"></div>
-                    <div class="desc" id="diDesc"></div>
-                </div>
-                <div class="grid-item">
-                    <div class="key">中格</div>
-                    <div class="val" id="zhongVal"></div>
-                    <div class="desc" id="zhongDesc"></div>
-                </div>
-                <div class="grid-item">
-                    <div class="key">外格</div>
-                    <div class="val" id="waiVal"></div>
-                    <div class="desc" id="waiDesc"></div>
+                <div class="md:col-span-2">
+                    <label class="block text-dark font-semibold mb-2">性别</label>
+                    <div class="flex space-x-8">
+                        <label class="flex items-center">
+                            <input type="radio" name="gender" value="male" checked class="mr-2 text-primary focus:ring-primary">
+                            <span>男</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="gender" value="female" class="mr-2 text-primary focus:ring-primary">
+                            <span>女</span>
+                        </label>
+                    </div>
                 </div>
             </div>
-            <!-- 第二行 新增五格（凑十格） -->
-            <div class="grid-ten">
-                <div class="grid-item">
-                    <div class="key">副天格</div>
-                    <div class="val" id="fuTianVal"></div>
-                    <div class="desc" id="fuTianDesc"></div>
+            <button id="calculateSingleBtn" class="w-full mt-6 bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-lg transition-colors text-lg shadow-lg">
+                立即测算
+            </button>
+        </div>
+
+        <!-- 合夫测算表单 -->
+        <div id="coupleForm" class="bg-white rounded-lg shadow-xl p-8 mb-8 hidden">
+            <h2 class="text-2xl font-bold text-dark mb-6 text-center">夫妻姓名合婚测算</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-light/50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-primary mb-4 text-center">男方信息</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-dark font-semibold mb-2">姓氏</label>
+                            <input type="text" id="maleSurname" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请填写男方姓氏">
+                        </div>
+                        <div>
+                            <label class="block text-dark font-semibold mb-2">名字</label>
+                            <input type="text" id="maleGivenName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请填写男方名字">
+                        </div>
+                    </div>
                 </div>
-                <div class="grid-item">
-                    <div class="key">副人格</div>
-                    <div class="val" id="fuRenVal"></div>
-                    <div class="desc" id="fuRenDesc"></div>
-                </div>
-                <div class="grid-item">
-                    <div class="key">副地格</div>
-                    <div class="val" id="fuDiVal"></div>
-                    <div class="desc" id="fuDiDesc"></div>
-                </div>
-                <div class="grid-item">
-                    <div class="key">副外格</div>
-                    <div class="val" id="fuWaiVal"></div>
-                    <div class="desc" id="fuWaiDesc"></div>
-                </div>
-                <div class="grid-item">
-                    <div class="key">总格</div>
-                    <div class="val" id="zongVal"></div>
-                    <div class="desc" id="zongDesc"></div>
+                <div class="bg-light/50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-primary mb-4 text-center">女方信息</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-dark font-semibold mb-2">姓氏</label>
+                            <input type="text" id="femaleSurname" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请填写女方姓氏">
+                        </div>
+                        <div>
+                            <label class="block text-dark font-semibold mb-2">名字</label>
+                            <input type="text" id="femaleGivenName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请填写女方名字">
+                        </div>
+                    </div>
                 </div>
             </div>
+            <button id="calculateCoupleBtn" class="w-full mt-6 bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-lg transition-colors text-lg shadow-lg">
+                立即测算
+            </button>
+        </div>
+
+        <!-- 测算结果区 -->
+        <div id="resultArea" class="bg-white rounded-lg shadow-xl p-8 mb-8 hidden">
+            <h2 class="text-2xl font-bold text-dark mb-6 text-center">测算结果</h2>
+            <div id="resultContent"></div>
+            <button id="resetBtn" class="w-full mt-6 bg-gray-200 hover:bg-gray-300 text-dark font-bold py-3 px-6 rounded-lg transition-colors">
+                重新测算
+            </button>
+        </div>
+    </main>
+
+    <!-- 分享弹窗 -->
+    <div id="shareModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold text-dark mb-6 text-center">分享测算结果</h3>
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <button class="flex flex-col items-center p-4 bg-light rounded-lg hover:bg-light/80 transition-colors">
+                    <i class="fa fa-link text-2xl text-primary mb-2"></i>
+                    <span>复制链接</span>
+                </button>
+                <button class="flex flex-col items-center p-4 bg-light rounded-lg hover:bg-light/80 transition-colors">
+                    <i class="fa fa-qrcode text-2xl text-primary mb-2"></i>
+                    <span>生成二维码</span>
+                </button>
+                <button class="flex flex-col items-center p-4 bg-light rounded-lg hover:bg-light/80 transition-colors">
+                    <i class="fa fa-picture-o text-2xl text-primary mb-2"></i>
+                    <span>生成海报</span>
+                </button>
+            </div>
+            <button id="closeShareModal" class="w-full bg-gray-200 hover:bg-gray-300 text-dark font-bold py-3 px-6 rounded-lg transition-colors">
+                取消
+            </button>
         </div>
     </div>
 
-<script>
-// 康熙笔画库（完整版）
-const kangxiMap = {
-    "一":1,"乙":1,
-    "二":2,"十":2,"丁":2,"七":2,"乃":2,"人":2,"入":2,"八":2,"几":2,"力":2,"又":2,
-    "三":3,"干":3,"工":3,"土":3,"士":3,"夕":3,"大":3,"女":3,"子":3,"寸":3,"小":3,"口":3,"山":3,"巾":3,"川":3,"彳":3,"丸":3,"也":3,"弋":3,"卩":3,"弓":3,"才":3,"于":3,
-    "不":4,"中":4,"丹":4,"予":4,"云":4,"仁":4,"什":4,"今":4,"介":4,"分":4,"公":4,"六":4,"兮":4,"内":4,"午":4,"升":4,"天":4,"太":4,"夫":4,"夭":4,"孔":4,"少":4,"尤":4,"尹":4,"尺":4,"引":4,"心":4,"戈":4,"手":4,"支":4,"文":4,"斗":4,"斤":4,"方":4,"日":4,"月":4,"木":4,"水":4,"火":4,"牙":4,"牛":4,"犬":4,"王":4,"巴":4,"化":4,"比":4,"毛":4,"氏":4,"气":4,"片":4,"爪":4,"父":4,"仇":4,
-    "四":5,"五":5,"玄":5,"玉":5,"瓜":5,"瓦":5,"甘":5,"生":5,"用":5,"田":5,"由":5,"甲":5,"申":5,"白":5,"皮":5,"目":5,"矛":5,"矢":5,"石":5,"示":5,"禾":5,"穴":5,"立":5,
-    "竹":6,"米":6,"糸":6,"缶":6,"网":6,"羊":6,"羽":6,"老":6,"耳":6,"肉":6,"臣":6,"自":6,"至":6,"舌":6,"舟":6,"艮":6,"色":6,"艸":6,"虫":6,"行":6,"衣":6,"西":6,"任":6,"朱":6,"安":6,
-    "见":7,"角":7,"言":7,"谷":7,"豆":7,"豕":7,"贝":7,"赤":7,"足":7,"身":7,"车":7,"辛":7,"辰":7,"辵":7,"邑":7,"酉":7,"釆":7,"里":7,"吴":7,"李":7,"江":7,"何":7,"杜":7,"宋":7,"良":7,"汝":7,
-    "周":8,"金":8,"长":8,"门":8,"阜":8,"隶":8,"隹":8,"雨":8,"青":8,"非":8,"林":8,"易":8,"武":8,"季":8,"和":8,"念":8,"尚":8,"奇":8,"佳":8,
-    "齿":9,"革":9,"骨":9,"面":9,"香":9,"首":9,"飞":9,"食":9,"音":9,"风":9,"姚":9,"段":9,"俞":9,"施":9,"虹":9,"籽":9,"思":9,"星":9,"亭":9,
-    "王":4,"法":9,"权":22,"展":10,"鹏":19,"欧阳":15,"司马":10
-};
+    <!-- 登录提示弹窗 -->
+    <div id="loginModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold text-dark mb-4 text-center">提示</h3>
+            <p class="text-center mb-6">未登录，请先授权登录!</p>
+            <button id="closeLoginModal" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                OK
+            </button>
+        </div>
+    </div>
 
-// 通用数理解析库
-const numDesc = {
-    1:"大吉，万物起始，天赋出众，运势亨通",
-    2:"凶，进退两难，运势起伏，多有波折",
-    3:"吉，进取如意，才智兼备，人缘佳",
-    4:"凶，坎坷多劳，诸事不顺，易遇阻碍",
-    5:"大吉，福寿圆满，根基稳固，一生平顺",
-    6:"吉，安稳守成，贵人相助，家庭和睦",
-    7:"吉，刚健果断，独立自强，事业有成",
-    8:"吉，勤恳务实，循序渐进，财运稳健",
-    9:"凶，浮沉不定，起落较大，需谨慎行事",
-    10:"大凶，终局晦暗，运势低迷，多劳少得",
-    11:"大吉，旱苗逢雨，贵人扶持，否极泰来",
-    12:"凶，薄弱挫折，有志难伸，身心劳累",
-    13:"大吉，智略超群，多才多艺，名利双收",
-    14:"凶，浮沉破败，家缘淡薄，诸事不顺",
-    15:"大吉，福寿双全，温和贤淑，富贵吉祥",
-    16:"大吉，厚重载德，官运财运皆旺，大器晚成",
-    17:"吉，刚健不屈，有领导力，魄力十足",
-    18:"吉，有志竟成，内外有运，稳步发展",
-    19:"凶，风云变幻，成败难料，破财居多",
-    20:"大凶，非业破运，灾祸重重，运势低迷",
-    21:"大吉，光风霁月，权威旺盛，成就大业",
-    22:"凶，秋草逢霜，薄弱乏力，志向难达",
-    23:"大吉，旭日东升，声势浩大，富贵荣华",
-    24:"大吉，家门余庆，金钱丰盈，白手起家",
-    25:"吉，资性英敏，刚毅果断，中晚年顺遂",
-    26:"凶，变怪奇异，波澜重叠，一生多变动",
-    27:"凶，欲望无止，多受毁谤，易生纠纷",
-    28:"大凶，遭难失意，沉浮不定，孤苦无助",
-    29:"吉，智谋兼备，财力丰富，进退自如",
-    30:"凶，浮沉不定，吉凶难分，得失无常"
-};
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-6 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="font-bold text-lg mb-2">茅山乾坤门显法堂</p>
+            <p class="text-sm text-yellow-400">内部弟子使用，请勿外传，违者必究</p>
+        </div>
+    </footer>
 
-// 三才配置解析
-const sanCaiDescMap = {
-    "木木木":"性情温厚平静，人缘极佳，事业家庭皆顺，一生安稳有福。",
-    "木木火":"顺境发展，贵人相伴，积极性强，名利可得。",
-    "木木土":"踏实稳重，稳中求进，基础牢固，晚年安康。",
-    "木火木":"得长辈提携，运势上扬，才华得以施展。",
-    "木火火":"热情开朗，运势旺盛，做事顺遂，财运亨通。",
-    "木火土":"身心健全，贵人运旺，稳步走向成功。",
-    "土木木":"平稳发展，待人诚恳，一生少有大灾大难。",
-    "土土土":"忠厚老实，守成之格，家庭和睦，衣食无忧。"
-};
+    <script>
+        // 汉字康熙字典笔画数据库（常用字）
+        const strokeDatabase = {
+            // 一画
+            "一": 1, "乙": 1,
+            // 二画
+            "二": 2, "十": 2, "丁": 2, "七": 2, "卜": 2, "人": 2, "入": 2, "八": 2, "九": 2, "几": 2, "了": 2, "力": 2, "乃": 2, "又": 2,
+            // 三画
+            "三": 3, "干": 3, "亏": 3, "士": 3, "工": 3, "土": 3, "才": 3, "寸": 3, "下": 3, "大": 3, "丈": 3, "与": 3, "万": 3, "上": 3, "小": 3, "口": 3, "巾": 3, "山": 3, "千": 3, "乞": 3, "川": 3, "亿": 3, "个": 3, "勺": 3, "久": 3, "凡": 3, "及": 3, "夕": 3, "丸": 3, "么": 3, "广": 3, "亡": 3, "门": 3, "义": 3, "之": 3, "尸": 3, "弓": 3, "己": 3, "已": 3, "子": 3, "卫": 3, "也": 3, "女": 3, "飞": 3, "刃": 3, "习": 3, "叉": 3, "马": 3, "乡": 3,
+            // 四画
+            "王": 4, "井": 4, "开": 4, "夫": 4, "天": 4, "太": 4, "犬": 4, "尤": 4, "云": 4, "专": 4, "丐": 4, "廿": 4, "五": 4, "市": 4, "布": 4, "平": 4, "灭": 4, "东": 4, "卡": 4, "北": 4, "占": 4, "业": 4, "旧": 4, "帅": 4, "归": 4, "且": 4, "旦": 4, "目": 4, "叶": 4, "甲": 4, "申": 4, "叮": 4, "电": 4, "号": 4, "田": 4, "由": 4, "史": 4, "只": 4, "央": 4, "兄": 4, "叼": 4, "叫": 4, "另": 4, "叨": 4, "叹": 4, "四": 4, "生": 4, "失": 4, "禾": 4, "丘": 4, "付": 4, "仗": 4, "代": 4, "仙": 4, "们": 4, "仪": 4, "白": 4, "仔": 4, "他": 4, "斥": 4, "瓜": 4, "乎": 4, "丛": 4, "令": 4, "用": 4, "甩": 4, "印": 4, "乐": 4, "句": 4, "匆": 4, "册": 4, "犯": 4, "外": 4, "处": 4, "冬": 4, "鸟": 4, "务": 4, "包": 4, "饥": 4, "主": 4, "市": 4, "立": 4, "闪": 4, "兰": 4, "半": 4, "汁": 4, "汇": 4, "头": 4, "汉": 4, "宁": 4, "穴": 4, "它": 4, "讨": 4, "写": 4, "让": 4, "礼": 4, "训": 4, "必": 4, "议": 4, "讯": 4, "记": 4, "永": 4, "司": 4, "民": 4, "出": 4, "奶": 4, "奴": 4, "加": 4, "召": 4, "皮": 4, "边": 4, "发": 4, "孕": 4, "圣": 4, "对": 4, "台": 4, "矛": 4, "纠": 4, "母": 4,
+            // 五画
+            "玉": 5, "示": 5, "末": 5, "未": 5, "击": 5, "正": 5, "功": 5, "世": 5, "本": 5, "术": 5, "丙": 5, "左": 5, "右": 5, "布": 5, "平": 5, "灭": 5, "东": 5, "卡": 5, "北": 5, "占": 5, "业": 5, "旧": 5, "帅": 5, "归": 5, "且": 5, "旦": 5, "目": 5, "叶": 5, "甲": 5, "申": 5, "叮": 5, "电": 5, "号": 5, "田": 5, "由": 5, "史": 5, "只": 5, "央": 5, "兄": 5, "叼": 5, "叫": 5, "另": 5, "叨": 5, "叹": 5, "四": 5, "生": 5, "失": 5, "禾": 5, "丘": 5, "付": 5, "仗": 5, "代": 5, "仙": 5, "们": 5, "仪": 5, "白": 5, "仔": 5, "他": 5, "斥": 5, "瓜": 5, "乎": 5, "丛": 5, "令": 5, "用": 5, "甩": 5, "印": 5, "乐": 5, "句": 5, "匆": 5, "册": 5, "犯": 5, "外": 5, "处": 5, "冬": 5, "鸟": 5, "务": 5, "包": 5, "饥": 5, "主": 5, "市": 5, "立": 5, "闪": 5, "兰": 5, "半": 5, "汁": 5, "汇": 5, "头": 5, "汉": 5, "宁": 5, "穴": 5, "它": 5, "讨": 5, "写": 5, "让": 5, "礼": 5, "训": 5, "必": 5, "议": 5, "讯": 5, "记": 5, "永": 5, "司": 5, "民": 5, "出": 5, "奶": 5, "奴": 5, "加": 5, "召": 5, "皮": 5, "边": 5, "发": 5, "孕": 5, "圣": 5, "对": 5, "台": 5, "矛": 5, "纠": 5, "母": 5,
+            // 六画
+            "宇": 6, "守": 6, "宅": 6, "字": 6, "安": 6, "寺": 6, "寻": 6, "导": 6, "尖": 6, "尘": 6, "光": 6, "当": 6, "早": 6, "吐": 6, "吉": 6, "吕": 6, "吊": 6, "吃": 6, "吸": 6, "吗": 6, "吆": 6, "因": 6, "团": 6, "回": 6, "岂": 6, "屺": 6, "则": 6, "刚": 6, "网": 6, "肉": 6, "年": 6, "朱": 6, "先": 6, "丢": 6, "舌": 6, "竹": 6, "迁": 6, "乔": 6, "伟": 6, "传": 6, "乒": 6, "乓": 6, "休": 6, "伍": 6, "伏": 6, "优": 6, "伐": 6, "延": 6, "仲": 6, "任": 6, "伤": 6, "伥": 6, "价": 6, "伦": 6, "份": 6, "华": 6, "仰": 6, "仿": 6, "伙": 6, "伪": 6, "自": 6, "伊": 6, "血": 6, "向": 6, "似": 6, "后": 6, "行": 6, "舟": 6, "全": 6, "会": 6, "杀": 6, "合": 6, "兆": 6, "企": 6, "众": 6, "爷": 6, "伞": 6, "创": 6, "肌": 6, "肋": 6, "杂": 6, "危": 6, "旬": 6, "旨": 6, "旭": 6, "负": 6, "各": 6, "名": 6, "多": 6, "争": 6, "色": 6, "壮": 6, "冲": 6, "冰": 6, "庄": 6, "庆": 6, "亦": 6, "刘": 6, "齐": 6, "交": 6, "次": 6, "衣": 6, "产": 6, "决": 6, "充": 6, "妄": 6, "闭": 6, "问": 6, "羊": 6, "并": 6, "关": 6, "米": 6, "灯": 6, "州": 6, "汗": 6, "污": 6, "江": 6, "池": 6, "汤": 6, "忙": 6, "兴": 6, "宇": 6, "守": 6, "宅": 6, "字": 6, "安": 6, "讲": 6, "军": 6, "许": 6, "论": 6, "农": 6, "讽": 6, "设": 6, "访": 6, "寻": 6, "那": 6, "迅": 6, "尽": 6, "导": 6, "异": 6, "孙": 6, "阵": 6, "阳": 6, "收": 6, "阶": 6, "阴": 6, "防": 6, "奸": 6, "如": 6, "妇": 6, "好": 6, "她": 6, "妈": 6, "戏": 6, "羽": 6, "观": 6, "欢": 6, "买": 6, "红": 6, "纤": 6, "级": 6, "约": 6, "纪": 6, "驰": 6, "巡": 6,
+            // 七画
+            "李": 7, "张": 11, "王": 4, "刘": 6, "陈": 16, "杨": 13, "黄": 12, "赵": 14, "吴": 7, "周": 8, "徐": 10, "孙": 10, "马": 10, "朱": 6, "胡": 11, "林": 8, "郭": 15, "何": 7, "高": 10, "罗": 20, "郑": 19, "梁": 11, "谢": 17, "宋": 7, "唐": 10, "许": 11, "韩": 17, "冯": 12, "邓": 19, "曹": 11, "彭": 12, "曾": 12, "萧": 18, "田": 5, "董": 15, "潘": 16, "袁": 10, "蔡": 17, "蒋": 17, "余": 7, "于": 3, "杜": 7, "叶": 15, "程": 12, "苏": 22, "魏": 18, "吕": 7, "丁": 2, "任": 6, "沈": 8, "姚": 9, "卢": 16, "姜": 9, "崔": 11, "钟": 17, "谭": 19, "陆": 16, "汪": 8, "范": 15, "金": 8, "石": 5, "廖": 14, "贾": 13, "夏": 10, "韦": 9, "付": 5, "方": 4, "白": 5, "邹": 17, "孟": 8, "熊": 14, "秦": 10, "邱": 12, "江": 7, "尹": 4, "薛": 19, "闫": 11, "段": 9, "雷": 13, "侯": 9, "龙": 16, "史": 5, "陶": 16, "黎": 15, "贺": 12, "顾": 21, "毛": 4, "郝": 14, "龚": 22, "邵": 12, "万": 15, "钱": 16, "严": 20, "覃": 12, "武": 8, "戴": 18, "莫": 13, "孔": 4, "向": 6, "汤": 13,
+            // 常用名字
+            "明": 8, "华": 14, "伟": 11, "强": 11, "军": 9, "磊": 15, "洋": 10, "勇": 9, "艳": 24, "杰": 12, "涛": 18, "明": 8, "超": 12, "秀": 7, "霞": 17, "平": 5, "刚": 10, "桂": 10, "敏": 11, "静": 16, "丽": 19, "辉": 15, "芳": 10, "燕": 16, "玲": 10, "婷": 12, "琳": 13, "红": 9, "宇": 6, "浩": 11, "凯": 12, "健": 11, "俊": 9, "帆": 6, "博": 12, "欣": 8, "怡": 9, "佳": 8, "思": 9, "雨": 8, "彤": 7, "萱": 15, "琪": 13, "瑶": 15, "涵": 12, "梓": 11, "子": 3, "晨": 11, "轩": 10, "文": 4, "博": 12, "睿": 14, "航": 10, "泽": 17, "宇": 6, "浩": 11, "博": 12, "铭": 14, "然": 12, "涵": 12, "宇": 6, "辰": 7, "逸": 15, "轩": 10, "洋": 10, "恒": 10, "瑞": 14, "峰": 10, "诚": 14, "彬": 11, "宇": 6, "哲": 10, "俊": 9, "博": 12, "涛": 18, "明": 8, "杰": 12, "磊": 15, "鹏": 19, "超": 12, "永": 5, "健": 11, "帆": 6, "昊": 8, "凡": 3, "悦": 11, "熙": 13, "嘉": 14, "懿": 22, "煜": 13, "烨": 16, "玮": 14, "祺": 13, "佑": 7, "天": 4, "佑": 7, "德": 15, "龙": 16, "虎": 8, "凤": 14, "麒": 19, "麟": 23,
+        };
 
-// 获取单字康熙笔画
-function getStroke(str){
-    let total = 0;
-    for(let s of str){
-        if(kangxiMap[s]) total += kangxiMap[s];
-        else total += 8; // 未知字默认8画
-    }
-    return total;
-}
+        // 81数理吉凶表
+        const fortune81 = {
+            1: { "level": "大吉", "name": "太极之数", "desc": "太极之数，万物开泰，生发无穷，利禄亨通。" },
+            2: { "level": "大凶", "name": "两仪之数", "desc": "两仪之数，混沌未开，进退保守，志望难达。" },
+            3: { "level": "大吉", "name": "三才之数", "desc": "三才之数，天地人和，大事大业，繁荣昌隆。" },
+            4: { "level": "凶", "name": "四象之数", "desc": "四象之数，待于生发，万事慎重，不具营谋。" },
+            5: { "level": "大吉", "name": "五行之数", "desc": "五行俱权，循环相生，圆通畅达，福祉无穷。" },
+            6: { "level": "吉", "name": "六爻之数", "desc": "六爻之数，发展变化，天赋美德，吉祥安泰。" },
+            7: { "level": "吉", "name": "七政之数", "desc": "七政之数，精悍严谨，天赋之力，吉星照耀。" },
+            8: { "level": "吉", "name": "八卦之数", "desc": "八卦之数，乾坎艮震，巽离坤兑，无穷无尽。" },
+            9: { "level": "凶", "name": "大成之数", "desc": "大成之数，蕴涵凶险，或成或败，难以把握。" },
+            10: { "level": "大凶", "name": "终结之数", "desc": "终结之数，雪暗飘零，偶或有成，回顾茫然。" },
+            11: { "level": "大吉", "name": "旱苗逢雨", "desc": "万物更新，调顺发达，恢弘泽世，繁荣富贵。" },
+            12: { "level": "凶", "name": "掘井无泉", "desc": "无理之数，发展薄弱，虽生不足，难酬志向。" },
+            13: { "level": "大吉", "name": "春日牡丹", "desc": "才艺多能，智谋奇略，忍柔当事，鸣奏大功。" },
+            14: { "level": "凶", "name": "破兆", "desc": "家庭缘薄，孤独遭难，谋事不达，悲惨不测。" },
+            15: { "level": "大吉", "name": "福寿", "desc": "福寿圆满，富贵荣誉，涵养雅量，德高望重。" },
+            16: { "level": "大吉", "name": "厚重", "desc": "厚重载德，安富尊荣，财官双美，功成名就。" },
+            17: { "level": "半吉", "name": "刚强", "desc": "权威刚强，突破万难，如能容忍，必获成功。" },
+            18: { "level": "吉", "name": "铁镜重磨", "desc": "权威显达，博得名利，且养柔德，功成名就。" },
+            19: { "level": "凶", "name": "多难", "desc": "风云蔽日，辛苦重来，虽有智谋，万事挫折。" },
+            20: { "level": "凶", "name": "非业破运", "desc": "非业破运，灾难重重，进退维谷，万事难成。" },
+            21: { "level": "大吉", "name": "明月中天", "desc": "光风霁月，万物确立，官运亨通，大搏名利。女性不宜此数。" },
+            22: { "level": "凶", "name": "秋草逢霜", "desc": "秋草逢霜，困难疾弱，虽出豪杰，人生波折。" },
+            23: { "level": "大吉", "name": "壮丽", "desc": "旭日东升，壮丽壮观，权威旺盛，功名荣达。女性不宜此数。" },
+            24: { "level": "大吉", "name": "掘藏得金", "desc": "家门余庆，金钱丰盈，白手成家，财源广进。" },
+            25: { "level": "吉", "name": "荣俊", "desc": "资性英敏，才能奇特，克服傲慢，尚可成功。" },
+            26: { "level": "凶", "name": "变怪", "desc": "变怪奇异，英雄豪杰，波澜重叠，而奏大功。" },
+            27: { "level": "半吉", "name": "增长", "desc": "欲望无止，自我强烈，多受毁谤，尚可成功。" },
+            28: { "level": "凶", "name": "阔水浮萍", "desc": "遭难之数，豪杰气概，四海漂泊，终世浮躁。女性不宜此数。" },
+            29: { "level": "半吉", "name": "不平", "desc": "智谋优秀，财力归集，名闻海内，成就大业。" },
+            30: { "level": "半吉", "name": "非运", "desc": "沉浮不定，凶吉难变，若明若暗，大成大败。" },
+            31: { "level": "大吉", "name": "春日花开", "desc": "智勇得志，博得名利，统领众人，繁荣富贵。" },
+            32: { "level": "大吉", "name": "宝马金鞍", "desc": "侥幸多望，贵人得助，财帛如裕，繁荣至上。" },
+            33: { "level": "大吉", "name": "旭日升天", "desc": "旭日升天，鸾凤相会，名闻天下，隆昌至极。女性不宜此数。" },
+            34: { "level": "大凶", "name": "破家", "desc": "破家之身，见识短小，辛苦遭逢，灾祸至极。" },
+            35: { "level": "吉", "name": "高楼望月", "desc": "温和平静，智达通畅，文昌技艺，奏功洋洋。" },
+            36: { "level": "凶", "name": "波澜重叠", "desc": "波澜重叠，沉浮万状，侠肝义胆，舍己成仁。" },
+            37: { "level": "大吉", "name": "猛虎出林", "desc": "权威显达，热诚忠信，宜着雅量，终身荣富。" },
+            38: { "level": "半吉", "name": "磨铁成针", "desc": "意志薄弱，刻意经营，才识不凡，技艺有成。" },
+            39: { "level": "半吉", "name": "富贵荣华", "desc": "富贵荣华，财帛丰盈，暗藏险象，德泽四方。" },
+            40: { "level": "凶", "name": "退安", "desc": "智谋胆力，冒险投机，沉浮不定，退保平安。" },
+            41: { "level": "大吉", "name": "有德", "desc": "纯阳独秀，德高望重，和顺畅达，博得名利。此数为最大好运数。" },
+            42: { "level": "凶", "name": "寒蝉在柳", "desc": "博识多能，精通世情，如能专心，尚可成功。" },
+            43: { "level": "凶", "name": "散财破产", "desc": "散财破产，诸事不遂，虽有智谋，财来财去。" },
+            44: { "level": "凶", "name": "烦闷", "desc": "破家亡身，暗藏惨淡，事不如意，乱世怪杰。" },
+            45: { "level": "吉", "name": "顺风", "desc": "新生泰和，顺风扬帆，智谋经纬，富贵繁荣。" },
+            46: { "level": "凶", "name": "浪里淘金", "desc": "载宝沉舟，浪里淘金，大难尝尽，大功有成。" },
+            47: { "level": "大吉", "name": "点石成金", "desc": "花开之象，万事如意，祯祥吉庆，天赋幸福。" },
+            48: { "level": "大吉", "name": "古松立鹤", "desc": "智谋兼备，德量荣达，威望成师，洋洋大观。" },
+            49: { "level": "凶", "name": "转变", "desc": "吉临则吉，凶来则凶，转凶为吉，配好三才。" },
+            50: { "level": "半吉", "name": "小舟入海", "desc": "一成一败，吉凶参半，先得庇荫，后遭凄惨。" },
+            51: { "level": "半吉", "name": "沉浮", "desc": "盛衰交加，波澜重叠，如能慎始，必获成功。" },
+            52: { "level": "大吉", "name": "达眼", "desc": "卓识达眼，先见之明，智谋超群，名利双收。" },
+            53: { "level": "凶", "name": "曲卷难星", "desc": "外祥内患，外祸内安，先富后贫，先吉后凶。" },
+            54: { "level": "大凶", "name": "石上栽花", "desc": "石上栽花，难得有活，忧闷烦来，辛惨不绝。" },
+            55: { "level": "半吉", "name": "善恶", "desc": "善善得恶，恶恶得善，吉到极限，反生凶险。" },
+            56: { "level": "凶", "name": "浪里行舟", "desc": "历尽艰辛，四周障碍，万事龃龌，做事难成。" },
+            57: { "level": "吉", "name": "日照春松", "desc": "寒雪青松，夜莺吟春，必遭一过，繁荣白事。" },
+            58: { "level": "半吉", "name": "晚行遇月", "desc": "沉浮多端，先苦后甜，宽宏扬名，富贵繁荣。" },
+            59: { "level": "凶", "name": "寒蝉悲风", "desc": "寒蝉悲风，意志衰退，缺乏忍耐，苦难不休。" },
+            60: { "level": "凶", "name": "无谋", "desc": "无谋之人，漂泊不定，晦暝暗黑，动摇不安。" },
+            61: { "level": "半吉", "name": "牡丹芙蓉", "desc": "牡丹芙蓉，花开富贵，名利双收，定享天赋。" },
+            62: { "level": "凶", "name": "衰败", "desc": "衰败之象，内外不和，志望难达，灾祸频来。" },
+            63: { "level": "大吉", "name": "舟归平海", "desc": "富贵荣华，身心安泰，雨露惠泽，万事亨通。" },
+            64: { "level": "大凶", "name": "非命", "desc": "骨肉分离，孤独悲愁，难得心安，做事不成。" },
+            65: { "level": "大吉", "name": "巨流归海", "desc": "天长地久，家运隆昌，福寿绵长，事事成就。" },
+            66: { "level": "大凶", "name": "岩头步马", "desc": "进退维谷，艰难不堪，等待时机，一跃而起。" },
+            67: { "level": "大吉", "name": "顺风通达", "desc": "天赋幸运，四通八达，家道繁昌，富贵东来。" },
+            68: { "level": "大吉", "name": "顺风吹帆", "desc": "智虑周密，集众信达，发明能智，拓展昂进。" },
+            69: { "level": "大凶", "name": "非业", "desc": "非业非力，精神迫滞，灾害交至，遍偿痛苦。" },
+            70: { "level": "凶", "name": "残菊逢霜", "desc": "残菊逢霜，寂寞无碍，惨淡忧愁，晚景凄凉。" },
+            71: { "level": "半吉", "name": "石上金花", "desc": "石上金花，内心劳苦，贯彻始终，定可昌隆。" },
+            72: { "level": "凶", "name": "劳苦", "desc": "劳苦伴身，一生难安，进寸退尺，难以着手。" },
+            73: { "level": "吉", "name": "无勇", "desc": "盛衰交加，徒有高志，天王福祉，终世平安。" },
+            74: { "level": "凶", "name": "残菊经霜", "desc": "残菊经霜，秋叶寂寞，无能无智，辛苦繁多。" },
+            75: { "level": "半吉", "name": "退守", "desc": "退守保吉，发迹甚迟，虽有吉象，无谋难成。" },
+            76: { "level": "半吉", "name": "离散", "desc": "倾覆离散，骨肉分离，内外不和，虽劳无功。" },
+            77: { "level": "半吉", "name": "半吉", "desc": "家庭有悦，半吉半凶，能获援护，陷落不幸。" },
+            78: { "level": "凶", "name": "晚苦", "desc": "祸福参半，先天智能，中年发达，晚景困苦。" },
+            79: { "level": "凶", "name": "云头望月", "desc": "云头望月，身疲力尽，穷迫不伸，精神不定。" },
+            80: { "level": "凶", "name": "遁吉", "desc": "辛苦不绝，早入隐遁，安心立命，化凶转吉。" },
+            81: { "level": "大吉", "name": "万物回春", "desc": "最极之数，还本归元，吉祥重叠，富贵尊荣。" }
+        };
 
-// 主计算函数
-function calcName(){
-    let surname = document.getElementById("surname").value.trim();
-    let name = document.getElementById("name").value.trim();
-    if(!surname){
-        alert("请输入姓氏");
-        return;
-    }
-    let surStroke = getStroke(surname);
-    let nameStroke = getStroke(name);
-    let allStroke = surStroke + nameStroke;
+        // 三才配置吉凶表
+        const threeTalents = {
+            "木木木": { "level": "大吉", "desc": "性情温厚平静，一般与同事和朋友的关系好，并具有努力奋斗不屈不挠的精神。" },
+            "木木火": { "level": "吉", "desc": "成功顺调，无障碍而向上发展，基础境遇也得安泰，终生享受幸福繁荣长寿的吉配。" },
+            "木木土": { "level": "吉", "desc": "成功顺调，无障碍而向上发展，基础安泰，能得幸福长寿而平安自在。" },
+            "木木金": { "level": "凶", "desc": "虽有成功运，多受环境或他人所迫害，有变动转移，难得平安，受部下的损害劳烦。" },
+            "木木水": { "level": "半吉", "desc": "一时可以成功，但会逐渐崩破而归于失败，基础易生突变，遭遇病难和灾祸。" },
+            "木火木": { "level": "吉", "desc": "得上下惠助，顺调成功发展，基础强固，境域安泰，子孙繁荣，心身健康而获得幸福及长寿的配置。" },
+            "木火火": { "level": "吉", "desc": "得顺调成功发展，但有缺乏耐久力的缺点，或依靠性太强，招失败，有陷入失意病弱之兆。" },
+            "木火土": { "level": "大吉", "desc": "受上司的引进，得成功顺调发展，基础强固，身心平安，能得长寿，幸福理想。" },
+            "木火金": { "level": "凶", "desc": "虽有一时的顺调发展，但不安定的因素多，易生急变急祸，有病难。" },
+            "木火水": { "level": "凶", "desc": "虽有一时的成功，但因基础不稳，易生意外之灾，家庭不幸等。" },
+            "木土木": { "level": "凶", "desc": "命运被压抑，不可能成功，境遇不安，易生变动，又有呼吸器官及皮肤之疾患，成为孤独之命。" },
+            "木土火": { "level": "半吉", "desc": "乏成功运，有不平不满的念头，易患呼吸器官及肠胃疾病，但数理良好者，有进展成功之可能。" },
+            "木土土": { "level": "凶", "desc": "成功运被压抑，不能有所伸张，生不平不满之念，招致家庭不和或不幸，有呼吸器官、眼睛疾患。" },
+            "木土金": { "level": "凶", "desc": "成功运被压抑，消极，境遇难安，易生不平之念，易患胃、脑部疾病。" },
+            "木土水": { "level": "大凶", "desc": "成功运被压抑，不能有所伸张，尤其容易遭遇急变、没落及招来不测之灾，易生腹部疾病。" },
+            "木金木": { "level": "凶", "desc": "成功运被压抑，易生心身过劳及病难，有患肺病、发狂或遭难急死之虑。" },
+            "木金火": { "level": "大凶", "desc": "成功运不佳，基础不稳，易生急变急祸，有病难、急死、家庭不幸等。" },
+            "木金土": { "level": "凶", "desc": "成功运虽不佳，但只要肯努力，也可获得相当的发展，惟易心身过劳，而招致不幸之祸难，但其境遇安定。" },
+            "木金金": { "level": "凶", "desc": "成功运不佳，顽固过刚，易生不和及争论，陷于非难，遭难，孤单甚至损害大脑。" },
+            "木金水": { "level": "凶", "desc": "成功运不佳，常有烦恼和不安，尤其易起急变失落的悲运，易患脑溢血或其他疾病。" },
+            "木水木": { "level": "吉", "desc": "境遇虽安定，数理难免凶灾，易患肝脏或者肾脏疾病。" },
+            "木水火": { "level": "凶", "desc": "一时虽可以发展，但基础不稳，易生急变急祸，有病难。" },
+            "木水土": { "level": "凶", "desc": "可以一时成功，但会逐渐崩溃，归于失败，易生肠胃病。" },
+            "木水金": { "level": "吉", "desc": "基础稳固，成功运佳，财利名誉俱得并大发展之势，健康、长寿、幸福之兆。" },
+            "木水水": { "level": "半吉", "desc": "虽可成于一时，但易生破乱，酿成灾祸，或有病难或家庭不幸，但也有富豪长寿的可能。" },
+        };
 
-    // ========== 原有六格计算 ==========
-    // 天格：单姓+1，复姓直接总和
-    let tianGe = surStroke + 1;
-    // 人格：姓末字 + 名首字
-    let renGe = getStroke(surname.slice(-1)) + getStroke(name.slice(0,1));
-    // 地格：双名总和，单名+1
-    let diGe = name.length>=2 ? nameStroke : nameStroke + 1;
-    // 中格：姓名总笔画一半取整（门派专用规则）
-    let zhongGe = Math.floor(allStroke / 2);
-    // 外格：总格-人格
-    let waiGe = allStroke - renGe;
-    // 总格
-    let zongGe = allStroke;
+        // 获取汉字笔画数（康熙字典）
+        function getStrokeCount(char) {
+            if (strokeDatabase[char]) {
+                return strokeDatabase[char];
+            }
+            
+            // 特殊部首处理
+            const specialRadicals = {
+                "氵": 4, "忄": 4, "扌": 4, "犭": 4,
+                "礻": 5, "王": 5, "艹": 6, "衤": 6,
+                "月": 6, "辶": 7, "阝": 7, "阝": 8
+            };
+            
+            // 简单估算（实际使用时可补充完整字库）
+            return char.length;
+        }
 
-    // ========== 新增四格 → 凑齐十格（行业通用十格规则） ==========
-    // 副天格：天格+2
-    let fuTianGe = tianGe + 2;
-    // 副人格：人格+3
-    let fuRenGe = renGe + 3;
-    // 副地格：地格+2
-    let fuDiGe = diGe + 2;
-    // 副外格：外格+1
-    let fuWaiGe = waiGe + 1;
+        // 获取数字对应的五行
+        function getElement(num) {
+            const lastDigit = num % 10;
+            switch (lastDigit) {
+                case 1: case 2: return "木";
+                case 3: case 4: return "火";
+                case 5: case 6: return "土";
+                case 7: case 8: return "金";
+                case 9: case 0: return "水";
+                default: return "未知";
+            }
+        }
 
-    // 三才五行简化展示
-    let sanCai = "木火土";
-    let sanDesc = sanCaiDescMap[sanCai] || "三才配置平和，运势中等。";
+        // 获取数字对应的阴阳
+        function getYinYang(num) {
+            const lastDigit = num % 10;
+            return lastDigit % 2 === 1 ? "阳" : "阴";
+        }
 
-    // 综合评分（简易计分）
-    let score = 80;
-    if(tianGe>20) score -=5;
-    if(renGe<10) score -=8;
-    if(diGe>25) score -=6;
+        // 计算十格数理（目标网站标准算法）
+        function calculateTenGrids(surname, givenName) {
+            const surnameChars = surname.split('');
+            const givenNameChars = givenName.split('');
+            const sStrokes = surnameChars.map(c => getStrokeCount(c));
+            const gStrokes = givenNameChars.map(c => getStrokeCount(c));
+            
+            // 天格：单姓+1，复姓总和
+            const tianGe = surnameChars.length === 1 ? sStrokes[0] + 1 : sStrokes.reduce((a,b) => a+b);
+            
+            // 人格：姓最后一字 + 名第一字
+            const renGe = sStrokes[sStrokes.length-1] + gStrokes[0];
+            
+            // 地格：单名+1，双名总和
+            const diGe = givenNameChars.length === 1 ? gStrokes[0] + 1 : gStrokes.reduce((a,b) => a+b);
+            
+            // 总格：姓+名总笔画
+            const zongGe = sStrokes.reduce((a,b) => a+b) + gStrokes.reduce((a,b) => a+b);
+            
+            // 外格：单姓单名=2，单姓双名=名末字+1，复姓双名=姓首字+名末字
+            let waiGe;
+            if (surnameChars.length === 1 && givenNameChars.length === 1) waiGe = 2;
+            else if (surnameChars.length === 1) waiGe = gStrokes[gStrokes.length-1] + 1;
+            else if (givenNameChars.length === 1) waiGe = sStrokes[0] + 1;
+            else waiGe = sStrokes[0] + gStrokes[gStrokes.length-1];
+            
+            // 中格：人格+地格（目标网站核心新增格）
+            const zhongGe = renGe + diGe;
+            
+            // 前格：天格+人格
+            const qianGe = tianGe + renGe;
+            
+            // 后格：地格+总格
+            const houGe = diGe + zongGe;
+            
+            // 左格：天格+地格
+            const zuoGe = tianGe + diGe;
+            
+            // 右格：人格+总格
+            const youGe = renGe + zongGe;
+            
+            return {
+                tianGe: { num: tianGe, element: getElement(tianGe), yinYang: getYinYang(tianGe), fortune: fortune81[tianGe % 81 || 81] },
+                renGe: { num: renGe, element: getElement(renGe), yinYang: getYinYang(renGe), fortune: fortune81[renGe % 81 || 81] },
+                diGe: { num: diGe, element: getElement(diGe), yinYang: getYinYang(diGe), fortune: fortune81[diGe % 81 || 81] },
+                zongGe: { num: zongGe, element: getElement(zongGe), yinYang: getYinYang(zongGe), fortune: fortune81[zongGe % 81 || 81] },
+                waiGe: { num: waiGe, element: getElement(waiGe), yinYang: getYinYang(waiGe), fortune: fortune81[waiGe % 81 || 81] },
+                zhongGe: { num: zhongGe, element: getElement(zhongGe), yinYang: getYinYang(zhongGe), fortune: fortune81[zhongGe % 81 || 81] },
+                qianGe: { num: qianGe, element: getElement(qianGe), yinYang: getYinYang(qianGe), fortune: fortune81[qianGe % 81 || 81] },
+                houGe: { num: houGe, element: getElement(houGe), yinYang: getYinYang(houGe), fortune: fortune81[houGe % 81 || 81] },
+                zuoGe: { num: zuoGe, element: getElement(zuoGe), yinYang: getYinYang(zuoGe), fortune: fortune81[zuoGe % 81 || 81] },
+                youGe: { num: youGe, element: getElement(youGe), yinYang: getYinYang(youGe), fortune: fortune81[youGe % 81 || 81] },
+            };
+        }
 
-    // ========== 赋值展示 ==========
-    document.getElementById("showName").innerText = surname + name;
-    document.getElementById("showScore").innerText = score;
-    document.getElementById("showSanCai").innerText = sanCai;
-    document.getElementById("showSanCaiDesc").innerText = sanDesc;
+        // 计算三才配置
+        function calculateThreeTalents(tianGe, renGe, diGe) {
+            const key = getElement(tianGe) + getElement(renGe) + getElement(diGe);
+            return {
+                config: key,
+                fortune: threeTalents[key] || { "level": "未知", "desc": "暂无此三才配置的详细解析" }
+            };
+        }
 
-    // 原六格
-    document.getElementById("tianVal").innerText = tianGe;
-    document.getElementById("tianDesc").innerText = numDesc[tianGe] || "数理普通，先天运势平稳";
-    document.getElementById("renVal").innerText = renGe;
-    document.getElementById("renDesc").innerText = numDesc[renGe] || "性格中庸，人生运势平稳";
-    document.getElementById("diVal").innerText = diGe;
-    document.getElementById("diDesc").innerText = numDesc[diGe] || "基础运势一般，需后天努力";
-    document.getElementById("zhongVal").innerText = zhongGe;
-    document.getElementById("zhongDesc").innerText = numDesc[zhongGe] || "中运平和，中年运势起伏不大";
-    document.getElementById("waiVal").innerText = waiGe;
-    document.getElementById("waiDesc").innerText = numDesc[waiGe] || "社交运势中等，待人处事稳重";
-    document.getElementById("zongVal").innerText = zongGe;
-    document.getElementById("zongDesc").innerText = numDesc[zongGe] || "一生整体运势平稳，晚景尚可";
+        // 计算姓名合婚
+        function calculateCoupleMatch(maleSurname, maleGivenName, femaleSurname, femaleGivenName) {
+            const male = calculateTenGrids(maleSurname, maleGivenName);
+            const female = calculateTenGrids(femaleSurname, femaleGivenName);
+            
+            // 五行生克关系
+            const shengKe = {
+                "木": { "生": "火", "克": "土" },
+                "火": { "生": "土", "克": "金" },
+                "土": { "生": "金", "克": "水" },
+                "金": { "生": "水", "克": "木" },
+                "水": { "生": "木", "克": "火" }
+            };
+            
+            // 性格匹配度（人格五行）
+            let personalityMatch = 0;
+            if (male.renGe.element === female.renGe.element) personalityMatch = 70;
+            else if (shengKe[male.renGe.element].生 === female.renGe.element) personalityMatch = 85;
+            else if (shengKe[female.renGe.element].生 === male.renGe.element) personalityMatch = 75;
+            else if (shengKe[male.renGe.element].克 === female.renGe.element) personalityMatch = 40;
+            else if (shengKe[female.renGe.element].克 === male.renGe.element) personalityMatch = 30;
+            
+            // 笔画匹配度（总格差）
+            const diff = Math.abs(male.zongGe.num - female.zongGe.num);
+            const strokeMatch = diff <= 2 ? 90 : diff <= 5 ? 75 : diff <= 8 ? 60 : 40;
+            
+            // 综合得分
+            const totalScore = Math.round(personalityMatch * 0.6 + strokeMatch * 0.4);
+            const matchLevel = totalScore >= 85 ? "天作之合" : totalScore >= 70 ? "佳偶天成" : 
+                              totalScore >= 60 ? "情投意合" : totalScore >= 50 ? "需要磨合" : "不太合适";
+            
+            return { male, female, personalityMatch, strokeMatch, totalScore, matchLevel };
+        }
 
-    // 新增四格（副格）
-    document.getElementById("fuTianVal").innerText = fuTianGe;
-    document.getElementById("fuTianDesc").innerText = numDesc[fuTianGe] || "辅助先天运，家族助力一般";
-    document.getElementById("fuRenVal").innerText = fuRenGe;
-    document.getElementById("fuRenDesc").innerText = numDesc[fuRenGe] || "辅助性格运，隐性特质明显";
-    document.getElementById("fuDiVal").innerText = fuDiGe;
-    document.getElementById("fuDiDesc").innerText = numDesc[fuDiGe] || "辅助基础运，晚辈缘分之势";
-    document.getElementById("fuWaiVal").innerText = fuWaiGe;
-    document.getElementById("fuWaiDesc").innerText = numDesc[fuWaiGe] || "辅助社交运，外缘运势变化";
+        // 生成单人测算结果HTML（完全复刻目标页面样式）
+        function generateSingleResultHTML(name, tenGrids, threeTalents, gender) {
+            // 计算整体运势等级（目标网站显示"中"字）
+            const grids = Object.values(tenGrids);
+            const goodCount = grids.filter(g => g.fortune.level.includes('吉')).length;
+            const overallLevel = goodCount >= 8 ? '上' : goodCount >= 5 ? '中' : '下';
+            
+            // 生成"听吾一句"内容（与目标网站一致）
+            const tingWuYiJu = `命里长河起伏不定，随波逐流只会成为提线木偶，受苦受难甚至祸及身边心爱之人。命格虽定，但所谓时来运转。预知你的命中进程，巧用技法化解，趋吉避祸，方能有怡然人生。`;
+            
+            return `
+                <div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
+                    <p class="text-yellow-800 font-bold">茅山乾坤门显法堂 - 内部弟子使用，请勿外传，违者必究</p>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-primary mb-4">基本信息</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-light p-4 rounded-lg text-center">
+                            <p class="text-gray-600">姓名</p>
+                            <p class="text-xl font-bold">${name}</p>
+                        </div>
+                        <div class="bg-light p-4 rounded-lg text-center">
+                            <p class="text-gray-600">性别</p>
+                            <p class="text-xl font-bold">${gender === 'male' ? '男' : '女'}</p>
+                        </div>
+                        <div class="bg-light p-4 rounded-lg text-center">
+                            <p class="text-gray-600">总笔画</p>
+                            <p class="text-xl font-bold">${tenGrids.zongGe.num}</p>
+                        </div>
+                        <div class="bg-light p-4 rounded-lg text-center">
+                            <p class="text-gray-600">整体运势</p>
+                            <p class="text-4xl font-bold ${overallLevel === '上' ? 'text-green-600' : overallLevel === '中' ? 'text-yellow-600' : 'text-red-600'}">${overallLevel}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-primary mb-4">十格数理分析</h3>
+                    <p class="text-gray-600 mb-4">十格姓名看命运，主要看天格数、人格数、地格数、中格数、外格数、总格数及五行的相生相克。你的姓名通过康熙字典笔画计算的十格如下：</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-primary text-white">
+                                    <th class="p-3 text-left">十格</th>
+                                    <th class="p-3 text-center">数理</th>
+                                    <th class="p-3 text-center">五行</th>
+                                    <th class="p-3 text-center">阴阳</th>
+                                    <th class="p-3 text-center">吉凶</th>
+                                    <th class="p-3 text-left">解析</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="p-3 font-semibold">天格<br><span class="text-sm text-gray-500">祖运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.tianGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.tianGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.tianGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.tianGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.tianGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.tianGe.fortune.desc}</td>
+                                </tr>
+                                <tr class="border-b bg-light/30">
+                                    <td class="p-3 font-semibold">人格<br><span class="text-sm text-gray-500">主运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.renGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.renGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.renGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.renGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.renGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.renGe.fortune.desc}</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-3 font-semibold">地格<br><span class="text-sm text-gray-500">前运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.diGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.diGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.diGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.diGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.diGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.diGe.fortune.desc}</td>
+                                </tr>
+                                <tr class="border-b bg-light/30">
+                                    <td class="p-3 font-semibold">中格<br><span class="text-sm text-gray-500">中运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.zhongGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.zhongGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.zhongGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.zhongGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.zhongGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.zhongGe.fortune.desc}</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-3 font-semibold">外格<br><span class="text-sm text-gray-500">副运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.waiGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.waiGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.waiGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.waiGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.waiGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.waiGe.fortune.desc}</td>
+                                </tr>
+                                <tr class="border-b bg-light/30">
+                                    <td class="p-3 font-semibold">总格<br><span class="text-sm text-gray-500">后运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.zongGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.zongGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.zongGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.zongGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.zongGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.zongGe.fortune.desc}</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-3 font-semibold">前格<br><span class="text-sm text-gray-500">早年运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.qianGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.qianGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.qianGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.qianGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.qianGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.qianGe.fortune.desc}</td>
+                                </tr>
+                                <tr class="border-b bg-light/30">
+                                    <td class="p-3 font-semibold">后格<br><span class="text-sm text-gray-500">晚年运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.houGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.houGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.houGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.houGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.houGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.houGe.fortune.desc}</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-3 font-semibold">左格<br><span class="text-sm text-gray-500">基础运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.zuoGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.zuoGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.zuoGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.zuoGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.zuoGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.zuoGe.fortune.desc}</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">右格<br><span class="text-sm text-gray-500">成功运</span></td>
+                                    <td class="p-3 text-center">${tenGrids.youGe.num}</td>
+                                    <td class="p-3 text-center">${tenGrids.youGe.element}</td>
+                                    <td class="p-3 text-center">${tenGrids.youGe.yinYang}</td>
+                                    <td class="p-3 text-center ${tenGrids.youGe.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'}">${tenGrids.youGe.fortune.level}</td>
+                                    <td class="p-3">${tenGrids.youGe.fortune.desc}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-primary mb-4">三才配置分析</h3>
+                    <div class="bg-light p-6 rounded-lg">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-center">
+                                <p class="text-gray-600">天格</p>
+                                <p class="text-2xl font-bold">${getElement(tenGrids.tianGe.num)}</p>
+                            </div>
+                            <div class="text-2xl text-gray-400">→</div>
+                            <div class="text-center">
+                                <p class="text-gray-600">人格</p>
+                                <p class="text-2xl font-bold">${getElement(tenGrids.renGe.num)}</p>
+                            </div>
+                            <div class="text-2xl text-gray-400">→</div>
+                            <div class="text-center">
+                                <p class="text-gray-600">地格</p>
+                                <p class="text-2xl font-bold">${getElement(tenGrids.diGe.num)}</p>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xl font-bold mb-2">${threeTalents.config}</p>
+                            <p class="text-lg ${threeTalents.fortune.level.includes('吉') ? 'text-green-600' : 'text-red-600'} mb-2">${threeTalents.fortune.level}</p>
+                            <p>${threeTalents.fortune.desc}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-primary mb-4">听吾一句</h3>
+                    <div class="bg-light p-6 rounded-lg border-l-4 border-primary">
+                        <p class="text-lg leading-relaxed">${tingWuYiJu}</p>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <div class="bg-primary/10 p-6 rounded-lg text-center">
+                        <h3 class="text-xl font-bold text-primary mb-4">专人服务</h3>
+                        <p class="text-gray-700 mb-4">如需更详细的命理分析、运势预测或化解方案，请联系本堂专人服务。</p>
+                        <button class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+                            联系专人
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="shareBtn" class="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-lg transition-colors mr-4">
+                        <i class="fa fa-share-alt mr-2"></i>分享结果
+                    </button>
+                </div>
+            `;
+        }
 
-    document.getElementById("resultBox").style.display = "block";
-}
-</script>
+        // 生成合婚结果HTML
+        function generateCoupleResultHTML(maleName, femaleName, matchResult) {
+            return `
+                <div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
+                    <p class="text-yellow-800 font-bold">茅山乾坤门显法堂 - 内部弟子使用，请勿外传，违者必究</p>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-primary mb-4">合婚基本信息</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-6 rounded-lg text-center">
+                            <h4 class="text-lg font-bold text-blue-600 mb-2">男方</h4>
+                            <p class="text-2xl font-bold">${maleName}</p>
+                            <p class="text-gray-600 mt-2">总格: ${matchResult.male.zongGe.num}画 (${matchResult.male.zongGe.element})</p>
+                        </div>
+                        <div class="bg-pink-50 p-6 rounded-lg text-center">
+                            <h4 class="text-lg font-bold text-pink-600 mb-2">女方</h4>
+                            <p class="text-2xl font-bold">${femaleName}</p>
+                            <p class="text-gray-600 mt-2">总格: ${matchResult.female.zongGe.num}画 (${matchResult.female.zongGe.element})</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-primary mb-4">综合匹配度</h3>
+                    <div class="bg-light p-6 rounded-lg text-center">
+                        <div class="text-6xl font-bold ${matchResult.totalScore >= 70 ? 'text-green-600' : matchResult.totalScore >= 50 ? 'text-yellow-600' : 'text-red-600'} mb-4">
+                            ${matchResult.totalScore}分
+                        </div>
+                        <p class="text-2xl font-bold mb-4">${matchResult.matchLevel}</p>
+                        <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
+                            <div class="h-4 rounded-full ${matchResult.totalScore >= 70 ? 'bg-green-500' : matchResult.totalScore >= 50 ? 'bg-yellow-500' : 'bg-red-500'}" style="width: ${matchResult.totalScore}%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-primary mb-4">详细匹配分析</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-light p-6 rounded-lg">
+                            <h4 class="text-lg font-bold mb-4">性格匹配度</h4>
+                            <div class="flex items-center justify-between mb-2">
+                                <span>男方人格五行: ${matchResult.male.renGe.element}</span>
+                                <span>女方人格五行: ${matchResult.female.renGe.element}</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
+                                <div class="h-3 rounded-full bg-blue-500" style="width: ${matchResult.personalityMatch}%"></div>
+                            </div>
+                            <p class="text-right text-gray-600">${matchResult.personalityMatch}%</p>
+                        </div>
+                        <div class="bg-light p-6 rounded-lg">
+                            <h4 class="text-lg font-bold mb-4">笔画匹配度</h4>
+                            <div class="flex items-center justify-between mb-2">
+                                <span>总格笔画差: ${Math.abs(matchResult.male.zongGe.num - matchResult.female.zongGe.num)}画</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
+                                <div class="h-3 rounded-full bg-pink-500" style="width: ${matchResult.strokeMatch}%"></div>
+                            </div>
+                            <p class="text-right text-gray-600">${matchResult.strokeMatch}%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <div class="bg-primary/10 p-6 rounded-lg text-center">
+                        <h3 class="text-xl font-bold text-primary mb-4">专人服务</h3>
+                        <p class="text-gray-700 mb-4">如需更详细的合婚分析、姻缘预测或化解方案，请联系本堂专人服务。</p>
+                        <button class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+                            联系专人
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="shareBtn" class="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-lg transition-colors mr-4">
+                        <i class="fa fa-share-alt mr-2"></i>分享结果
+                    </button>
+                </div>
+            `;
+        }
+
+        // 页面交互逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            // 标签页切换
+            const singleTab = document.getElementById('singleTab');
+            const coupleTab = document.getElementById('coupleTab');
+            const singleForm = document.getElementById('singleForm');
+            const coupleForm = document.getElementById('coupleForm');
+            
+            singleTab.addEventListener('click', function() {
+                singleTab.classList.add('text-primary', 'border-primary');
+                singleTab.classList.remove('text-gray-600');
+                coupleTab.classList.remove('text-primary', 'border-primary');
+                coupleTab.classList.add('text-gray-600');
+                singleForm.classList.remove('hidden');
+                coupleForm.classList.add('hidden');
+                document.getElementById('resultArea').classList.add('hidden');
+            });
+            
+            coupleTab.addEventListener('click', function() {
+                coupleTab.classList.add('text-primary', 'border-primary');
+                coupleTab.classList.remove('text-gray-600');
+                singleTab.classList.remove('text-primary', 'border-primary');
+                singleTab.classList.add('text-gray-600');
+                coupleForm.classList.remove('hidden');
+                singleForm.classList.add('hidden');
+                document.getElementById('resultArea').classList.add('hidden');
+            });
+            
+            // 单人测算
+            document.getElementById('calculateSingleBtn').addEventListener('click', function() {
+                const surname = document.getElementById('surname').value.trim();
+                const givenName = document.getElementById('givenName').value.trim();
+                const gender = document.querySelector('input[name="gender"]:checked').value;
+                
+                if (!surname || !givenName) {
+                    alert('请填写完整的姓名信息');
+                    return;
+                }
+                
+                const tenGrids = calculateTenGrids(surname, givenName);
+                const threeTalentsResult = calculateThreeTalents(tenGrids.tianGe.num, tenGrids.renGe.num, tenGrids.diGe.num);
+                
+                const resultHTML = generateSingleResultHTML(surname + givenName, tenGrids, threeTalentsResult, gender);
+                document.getElementById('resultContent').innerHTML = resultHTML;
+                document.getElementById('resultArea').classList.remove('hidden');
+                
+                document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
+                
+                document.getElementById('shareBtn').addEventListener('click', function() {
+                    document.getElementById('shareModal').classList.remove('hidden');
+                });
+            });
+            
+            // 合夫测算
+            document.getElementById('calculateCoupleBtn').addEventListener('click', function() {
+                const maleSurname = document.getElementById('maleSurname').value.trim();
+                const maleGivenName = document.getElementById('maleGivenName').value.trim();
+                const femaleSurname = document.getElementById('femaleSurname').value.trim();
+                const femaleGivenName = document.getElementById('femaleGivenName').value.trim();
+                
+                if (!maleSurname || !maleGivenName || !femaleSurname || !femaleGivenName) {
+                    alert('请填写完整的双方姓名信息');
+                    return;
+                }
+                
+                const matchResult = calculateCoupleMatch(maleSurname, maleGivenName, femaleSurname, femaleGivenName);
+                const resultHTML = generateCoupleResultHTML(maleSurname + maleGivenName, femaleSurname + femaleGivenName, matchResult);
+                
+                document.getElementById('resultContent').innerHTML = resultHTML;
+                document.getElementById('resultArea').classList.remove('hidden');
+                document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
+                
+                document.getElementById('shareBtn').addEventListener('click', function() {
+                    document.getElementById('shareModal').classList.remove('hidden');
+                });
+            });
+            
+            // 重新测算
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                document.getElementById('resultArea').classList.add('hidden');
+                document.getElementById('surname').value = '';
+                document.getElementById('givenName').value = '';
+                document.getElementById('maleSurname').value = '';
+                document.getElementById('maleGivenName').value = '';
+                document.getElementById('femaleSurname').value = '';
+                document.getElementById('femaleGivenName').value = '';
+            });
+            
+            // 关闭弹窗
+            document.getElementById('closeShareModal').addEventListener('click', function() {
+                document.getElementById('shareModal').classList.add('hidden');
+            });
+            
+            document.getElementById('closeLoginModal').addEventListener('click', function() {
+                document.getElementById('loginModal').classList.add('hidden');
+            });
+            
+            // 登录按钮
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                document.getElementById('loginModal').classList.remove('hidden');
+            });
+        });
+    </script>
 </body>
 </html>

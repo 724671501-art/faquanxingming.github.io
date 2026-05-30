@@ -460,15 +460,12 @@
             return { male, female, personalityMatch, strokeMatch, totalScore, matchLevel };
         }
 
-        // 生成单人测算结果HTML（完全复刻目标页面样式）
+        // 生成单人测算结果HTML
         function generateSingleResultHTML(name, tenGrids, threeTalents, gender) {
-            // 计算整体运势等级（目标网站显示"中"字）
+            // 计算整体运势等级
             const grids = Object.values(tenGrids);
             const goodCount = grids.filter(g => g.fortune.level.includes('吉')).length;
             const overallLevel = goodCount >= 8 ? '上' : goodCount >= 5 ? '中' : '下';
-            
-            // 生成"听吾一句"内容（与目标网站一致）
-            const tingWuYiJu = `命里长河起伏不定，随波逐流只会成为提线木偶，受苦受难甚至祸及身边心爱之人。命格虽定，但所谓时来运转。预知你的命中进程，巧用技法化解，趋吉避祸，方能有怡然人生。`;
             
             return `
                 <div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
@@ -626,19 +623,10 @@
                 </div>
                 
                 <div class="mb-8">
-                    <h3 class="text-xl font-bold text-primary mb-4">听吾一句</h3>
-                    <div class="bg-light p-6 rounded-lg border-l-4 border-primary">
-                        <p class="text-lg leading-relaxed">${tingWuYiJu}</p>
-                    </div>
-                </div>
-                
-                <div class="mb-8">
                     <div class="bg-primary/10 p-6 rounded-lg text-center">
                         <h3 class="text-xl font-bold text-primary mb-4">专人服务</h3>
-                        <p class="text-gray-700 mb-4">如需更详细的命理分析、运势预测或化解方案，请联系本堂专人服务。</p>
-                        <button class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-lg transition-colors">
-                            联系专人
-                        </button>
+                        <p class="text-gray-700 mb-4">如需更详细的命理分析、运势预测或化解方案，请联系法权老师。</p>
+                        <p class="text-lg font-bold text-primary">法权老师联系方式：微信:w121068488</p>
                     </div>
                 </div>
                 
@@ -716,10 +704,8 @@
                 <div class="mb-8">
                     <div class="bg-primary/10 p-6 rounded-lg text-center">
                         <h3 class="text-xl font-bold text-primary mb-4">专人服务</h3>
-                        <p class="text-gray-700 mb-4">如需更详细的合婚分析、姻缘预测或化解方案，请联系本堂专人服务。</p>
-                        <button class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-lg transition-colors">
-                            联系专人
-                        </button>
+                        <p class="text-gray-700 mb-4">如需更详细的合婚分析、姻缘预测或化解方案，请联系法权老师。</p>
+                        <p class="text-lg font-bold text-primary">法权老师联系方式：微信:w121068488</p>
                     </div>
                 </div>
                 
@@ -744,95 +730,4 @@
                 singleTab.classList.remove('text-gray-600');
                 coupleTab.classList.remove('text-primary', 'border-primary');
                 coupleTab.classList.add('text-gray-600');
-                singleForm.classList.remove('hidden');
-                coupleForm.classList.add('hidden');
-                document.getElementById('resultArea').classList.add('hidden');
-            });
-            
-            coupleTab.addEventListener('click', function() {
-                coupleTab.classList.add('text-primary', 'border-primary');
-                coupleTab.classList.remove('text-gray-600');
-                singleTab.classList.remove('text-primary', 'border-primary');
-                singleTab.classList.add('text-gray-600');
-                coupleForm.classList.remove('hidden');
-                singleForm.classList.add('hidden');
-                document.getElementById('resultArea').classList.add('hidden');
-            });
-            
-            // 单人测算
-            document.getElementById('calculateSingleBtn').addEventListener('click', function() {
-                const surname = document.getElementById('surname').value.trim();
-                const givenName = document.getElementById('givenName').value.trim();
-                const gender = document.querySelector('input[name="gender"]:checked').value;
-                
-                if (!surname || !givenName) {
-                    alert('请填写完整的姓名信息');
-                    return;
-                }
-                
-                const tenGrids = calculateTenGrids(surname, givenName);
-                const threeTalentsResult = calculateThreeTalents(tenGrids.tianGe.num, tenGrids.renGe.num, tenGrids.diGe.num);
-                
-                const resultHTML = generateSingleResultHTML(surname + givenName, tenGrids, threeTalentsResult, gender);
-                document.getElementById('resultContent').innerHTML = resultHTML;
-                document.getElementById('resultArea').classList.remove('hidden');
-                
-                document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
-                
-                document.getElementById('shareBtn').addEventListener('click', function() {
-                    document.getElementById('shareModal').classList.remove('hidden');
-                });
-            });
-            
-            // 合夫测算
-            document.getElementById('calculateCoupleBtn').addEventListener('click', function() {
-                const maleSurname = document.getElementById('maleSurname').value.trim();
-                const maleGivenName = document.getElementById('maleGivenName').value.trim();
-                const femaleSurname = document.getElementById('femaleSurname').value.trim();
-                const femaleGivenName = document.getElementById('femaleGivenName').value.trim();
-                
-                if (!maleSurname || !maleGivenName || !femaleSurname || !femaleGivenName) {
-                    alert('请填写完整的双方姓名信息');
-                    return;
-                }
-                
-                const matchResult = calculateCoupleMatch(maleSurname, maleGivenName, femaleSurname, femaleGivenName);
-                const resultHTML = generateCoupleResultHTML(maleSurname + maleGivenName, femaleSurname + femaleGivenName, matchResult);
-                
-                document.getElementById('resultContent').innerHTML = resultHTML;
-                document.getElementById('resultArea').classList.remove('hidden');
-                document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
-                
-                document.getElementById('shareBtn').addEventListener('click', function() {
-                    document.getElementById('shareModal').classList.remove('hidden');
-                });
-            });
-            
-            // 重新测算
-            document.getElementById('resetBtn').addEventListener('click', function() {
-                document.getElementById('resultArea').classList.add('hidden');
-                document.getElementById('surname').value = '';
-                document.getElementById('givenName').value = '';
-                document.getElementById('maleSurname').value = '';
-                document.getElementById('maleGivenName').value = '';
-                document.getElementById('femaleSurname').value = '';
-                document.getElementById('femaleGivenName').value = '';
-            });
-            
-            // 关闭弹窗
-            document.getElementById('closeShareModal').addEventListener('click', function() {
-                document.getElementById('shareModal').classList.add('hidden');
-            });
-            
-            document.getElementById('closeLoginModal').addEventListener('click', function() {
-                document.getElementById('loginModal').classList.add('hidden');
-            });
-            
-            // 登录按钮
-            document.getElementById('loginBtn').addEventListener('click', function() {
-                document.getElementById('loginModal').classList.remove('hidden');
-            });
-        });
-    </script>
-</body>
-</html>
+                singleForm.classList.remove('

@@ -1,1 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六格姓名测算（在线查笔画版）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        body {
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 25px;
+            font-size: 26px;
+        }
+        .input-box {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #444;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #2c3e50;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            cursor: pointer;
+            margin: 10px 0 25px;
+        }
+        button:hover {
+            background: #34495e;
+        }
+        .tips {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .loading {
+            color: #e67700;
+            font-size: 15px;
+            margin: 10px 0;
+        }
+        .error {
+            color: #dc3545;
+            font-size: 15px;
+            margin: 10px 0;
+        }
+        /* 顶部结构图 */
+        .structure-card {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .structure-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        .side-col {
+            flex: 1;
+        }
+        .name-col {
+            flex: 2;
+            text-align: center;
+        }
+        .name-wrap {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .name-char {
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .num-col {
+            flex: 1;
+            text-align: right;
+        }
+        .grid-item {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+        .grid-item .name {
+            font-weight: bold;
+        }
+        .grid-item .wy {
+            color: #8b2323;
+        }
+        .total-line {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #8b2323;
+        }
+        /* 解读卡片样式 */
+        .grid-card {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            background: #fff;
+        }
+        .card-left {
+            background: #c82323;
+            color: #fff;
+            padding: 12px 10px;
+            text-align: center;
+            min-width: 60px;
+        }
+        .card-left .grid-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .card-left .grid-num {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .card-right {
+            flex: 1;
+            padding: 10px 15px;
+            background: #fff3e0;
+        }
+        .card-right .title {
+            font-size: 18px;
+            color: #8b2323;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .tag {
+            background: #28a745;
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .note {
+            margin-top: 6px;
+            font-size: 15px;
+            color: #8b2323;
+        }
+        .card-body {
+            padding: 15px;
+            background: #fff;
+        }
+        .section-item {
+            margin-bottom: 10px;
+        }
+        .section-title {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .base { background: #ffc107; color: #333; }
+        .family { background: #cce5ff; color: #004085; }
+        .health { background: #d4edda; color: #155724; }
+        .overall { background: #f8f9fa; color: #333; border:1px solid #ddd;}
+        #resultArea {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>六格姓名测算（在线查笔画版）</h1>
+        <div class="tips">💡 提示：本版本需**联网**使用，自动查询汉字康熙笔画，无缺字限制</div>
+        <div class="input-box">
+            <label>姓氏（单姓/复姓，最多两字）</label>
+            <input type="text" id="surname" placeholder="例：王、上官、欧阳">
+        </div>
+        <div class="input-box">
+            <label>名字（单名/双名，最多两字）</label>
+            <input type="text" id="givenName" placeholder="例：倩、小二、天宇">
+        </div>
+        <div id="msgBox"></div>
+        <button onclick="calcName()">开始测算</button>
 
+        <div id="resultArea">
+            <div class="structure-card">
+                <div class="structure-inner">
+                    <div class="side-col">
+                        <div class="grid-item">
+                            <span class="name">外格</span>
+                            <span id="waiGeStr"></span>
+                        </div>
+                        <div class="grid-item">
+                            <span class="name">中格</span>
+                            <span id="bianGeStr"></span>
+                        </div>
+                    </div>
+                    <div class="name-col">
+                        <div class="name-wrap" id="nameWrap"></div>
+                    </div>
+                    <div class="num-col">
+                        <div class="grid-item">
+                            <span class="num" id="tianGeNum"></span>
+                            <span class="name">天格</span>
+                            <span class="wy" id="tianGeWY"></span>
+                        </div>
+                        <div class="grid-item">
+                            <span class="num" id="renGeNum"></span>
+                            <span class="name">人格</span>
+                            <span class="wy" id="renGeWY"></span>
+                        </div>
+                        <div class="grid-item">
+                            <span class="num" id="diGeNum"></span>
+                            <span class="name">地格</span>
+                            <span class="wy" id="diGeWY"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="total-line">
+                    总格 <span id="zongGeStr"></span>
+                </div>
+            </div>
+            <div id="cardsArea"></div>
+        </div>
+    </div>
+
+    <script>
+        // 1~50 完整81数理解析（保留原有解析库）
+        const num81Detail = {
+            1: {title:"太极开泰：天地开泰的太极数",tag:"大吉",note:"注：主创始、开端、贵人运",base:"聪明、多学、成功、富贵、名誉、幸福、财帛、进田。",family:"竹木成林、父母有荫、家庭圆满、子女多孝。",health:"健全、可望长寿，三才不善者不遇。",overall:"此为万事万物的基本数。为最大吉祥的表示，分外大成功，健康、富贵、名誉、幸福，可以享福终世。因其过好，常人难承当此数。"},
+            2: {title:"两仪混沌：混沌未定的分离破灭数",tag:"凶",note:"注：主动摇、分离、外缘不稳",base:"劫财、破灭、灾危、破家、红艳、变迁、美貌。",family:"亲情疏远，夫妻应相互理解，免别离之苦。",health:"凶变病弱，短命亦有之，易患皮肤病、外伤。",overall:"混沌未定之象，为最大凶恶的暗示。意志不坚，无独立之气力，进退失自由，内外生波澜，困苦不安。摇动、病患、遭难，甚至残废。若伴有其他好数者可免其凶。"},
+            3: {title:"进取如意：进取如意的增进繁荣数",tag:"大吉",note:"注：主发展、上进、社交运",base:"天官、文昌、技艺、进财、学士、田产。",family:"家庭圆满，兄弟和睦，多子多福。",health:"可望健康长寿，平安无灾。",overall:"阴阳抱合，万物确定形成之象，有吉祥、成功发达之兆。智达明敏，艺精工巧有首领之资，自然之福。名利双收，能成事业，荣进有望，福祉无穷。"},
+            4: {title:"破败凶变：万事休止的凶变数",tag:"大凶",note:"注：主破坏、停滞、挫折",base:"美貌、香艳、破家、灾危、劫财、损家业。",family:"六亲缘薄、兄弟如同画饼，热心相助者少。",health:"衰弱、外伤、皮肤病、夭折病死、发狂病。",overall:"属破坏的凶变数，不足不全的灭亡之数。进退不自由，独立乏能力。大多辛苦困难，或与凶运配合致发狂病死、夭折、放浪破灭，终成废人。但孝子、节妇、怪杰亦有出自此数者。"},
+            5: {title:"种竹成林：富贵长寿的福禄集合数",tag:"大吉",note:"注：代表父母、长辈、领导；源于祖先，传承",base:"学者、祖业、文昌、福星、官星、财钱。",family:"上下和睦，相互合作，可望圆满，子女多荫。",health:"福禄如海，寿比南山，可望健康。",overall:"阴阳交感，和合、完璧之象，隐藏大成功运。精神敏锐，身体健全，福禄长寿，富贵繁荣，无所不至。或为中兴之祖，或在他乡成家，或复兴绝家。即或不如此，也会博得功名荣誉，圆满无碍，福祉祯祥无比。在人格与变格时，忠厚老实，脚踏实地，口才不佳，重承诺;财运特佳，金钱有余，离祖发达。女性有荣夫、益子之运。"},
+            6: {title:"安稳吉庆：吉人天相的安稳数",tag:"吉",note:"注：主稳重、守成、家庭运",base:"天官、贵命、家杰、进田、学士、豪侠、基产。",family:"家庭和睦，相互合作，圆满之象，子女贤良。",health:"可望健康，三才不善者亦有病患。",overall:"天德地祥具备，福庆甚丰，家势盛大，万宝朝宗之运。满极则损，盈极则亏。若其他要素配合不周者，恐为乐极生悲之象。"},
+            7: {title:"刚毅果断：勇往迈进的精悍数",tag:"吉",note:"注：主权威、决断、执行力",base:"独立、官禄、进取、技术、刚硬。",family:"缺乏同心力，内外不合，善涵养修身者可得圆满。",health:"日月光明，心身健全，可望长寿。",overall:"独立、单行、极感之象，过刚而缺乏同化力之意。若能涵养雅量，扩大气度，自然幸福上进。女性有此数者，难免有男性之刚性，宜注意温和。"},
+            8: {title:"坚刚发展：勤勉发展的刚毅数",tag:"吉",note:"注：主踏实、努力、事业运",base:"艺能、美术、学者、官禄、天官、师表、蓄产。",family:"和睦圆满，女性略有刚强，宜守女德。",health:"心身健全，可望长寿。",overall:"意志刚健，勤勉发展，富于进取的气概。性直，易招诽谤攻击，致中途挫折。谨慎行事，终得富贵荣华。"},
+            9: {title:"破舟进海：吉尽凶始的穷乏数",tag:"大凶",note:"注：主转折、破败、起伏大",base:"破舟、灾危、红艳、劫财、破财、虚空。",family:"亲情不睦，夫妻失和，子女别离。",health:"病难、刑罚、短命、外伤、狂疾。",overall:"浮沉不定之象，利去功空，陷落穷迫、逆运、短命、悲痛、或者幼小离亲而困苦。或病弱、不遇、遭难、废疾、贫困、灾难、孤独，甚至刑罚。主运有此数者为大凶。"},
+            10: {title:"万事终局：万事虚空的破灭数",tag:"大凶",note:"注：主终结、损耗、终局之象",base:"空虚、破灭、灾危、刑罚、劫财、损寿。",family:"亲情疏远，骨肉分离，夫妻不和。",health:"杀伤、刑罚、病弱、短命、灾病。",overall:"万业终局充满损耗数，有无理伸张之象，薄弱无力，进退失自由，内外生波澜，困苦不安。凶煞一到，接连而来，万事不成，一生困苦。"},
+            11: {title:"旱苗逢雨：挽回家运的春阳成育数",tag:"大吉",note:"注：代表子女、晚辈、下属、职工",base:"财星、天佑、暗禄、文昌、技艺、田宅。",family:"养蜂结蜜，事事和顺，处处温和。",health:"河川永在，可望健康长寿。",overall:"阴阳复新，享天赋幸运，万事顺利，有得富贵繁荣，再兴家的暗示。能挽回家运平静、和顺的最大吉数。"},
+            12: {title:"意志薄弱：事事难成的挫折数",tag:"凶",note:"注：代表性格、核心主运",base:"官星、文昌、时禄、破厄、劫财。",family:"六亲疏远，兄弟骨肉分离，夫妻反目。",health:"常有暗疾，或遭难，易患神经衰弱。",overall:"意志薄弱，易受煽动，缺乏忍耐力，做事有头无尾。表面温和，内心暴躁，易受挫折。若其他格配合不佳，易遭失败，晚景凄凉。"},
+            13: {title:"春日牡丹：智能超群的成功数",tag:"大吉",note:"注：主才华、智慧、名声",base:"天官、文昌、技艺、进财、学士、田产。",family:"祖宗余荫，家庭圆满，子女贤孝。",health:"健康长寿，三才不善者亦安康。",overall:"才艺多能，智谋奇略，忍柔当事，鸣奏大功。头脑聪敏，富有才华，善把握机会，事业顺利，名利双收，富贵吉祥。"},
+            14: {title:"破兆：浮沉不定的破兆数",tag:"凶",note:"注：代表事业、社交、外缘",base:"暗禄、美貌、艺术、红艳、劫财。",family:"骨肉疏远，离祖迁居，兄弟姊妹少缘，多不和。",health:"男女均属好风流，易患皮肤病、外伤。",overall:"多破兆，家属缘薄，六亲无靠，骨肉分离，丧亲亡子、孤独、不如意、烦闷、危难、遭厄、灾祸迭至。为人慷慨，施恩招怨，劳而无功，辛苦凄惨。若其他运数配合不宜者，有伤天寿。然此数之人颖悟非凡，若“三才”配置善良者也会有极少数的怪杰、伟人成就大业。"},
+            15: {title:"福寿圆满：福寿圆满的温和数",tag:"大吉",note:"注：主福寿、圆满、人缘",base:"天官、贵人、福星、官禄、进田、畜产。",family:"家庭圆满，子孙昌盛，夫妻和睦。",health:"福寿安康，可望长寿。",overall:"福寿圆满，温和贤淑，获上下之尊敬，财富丰足，家运昌隆，子孙贤孝，一生安稳。"},
+            16: {title:"厚重载德：德高望重的贵人数",tag:"大吉",note:"注：主名望、地位、领导力",base:"天官、贵命、豪杰、进田、学士、豪侠。",family:"家庭圆满，子女贤良，夫妻和睦。",health:"健康长寿，三才不善者亦安康。",overall:"厚重载德，安富尊荣，财官双美，功成名就。为人温和，待人诚恳，深得人心，贵人运强，事业顺利，富贵荣华。"},
+            17: {title:"权威刚强：突破万难的刚柔兼备数",tag:"半吉",note:"注：主权威、突破、韧性",base:"天官、将星、威武、艺术、文昌。",family:"可望圆满，女性易生嫉妒，宜守温和。",health:"身心健康，可望长寿。",overall:"权威刚强，突破万难，如能涵养雅量，刚柔相济，必获成功。若过于刚强，易招灾祸，宜谨慎。"},
+            18: {title:"铁镜重磨：权威显达的内外有数数",tag:"半吉",note:"注：主重整、复兴、再出发",base:"将星、文昌、太极、畜产、技艺。",family:"有祖宗荫庇之福，家庭和睦。",health:"心身健全，可望长寿。",overall:"铁镜重磨，权威显达，智谋兼备，勤勉务实。早年起伏，中年后逐步崛起，可获名利双收。为人正直，做事稳健，能担当重任。"},
+            19: {title:"风云多变：风云变幻的浮沉数",tag:"大凶",note:"注：主波动、起伏、是非",base:"智略、进财、劫财、破败、灾危。",family:"六亲无缘，夫妻离散，多有变故。",health:"体弱多病，外伤、意外较多。",overall:"风云蔽月，辛苦重来，虽有智谋，万事挫折。一生运势起伏极大，成功时转瞬衰败，运势不稳，多劳少得。"},
+            20: {title:"非业破运：物将坏的破灭数",tag:"大凶",note:"注：主衰败、空想、拖累",base:"官星、部将、美术、智能、红艳、凶危。",family:"亲情不立，兄弟相隐，离祖败家。",health:"病弱、刑罚、短命、意外之灾。",overall:"非业破运，破灭莫测，进退两难。一生多空想，缺乏行动力，诸事不顺，家运凋零，一生困苦。"},
+            21: {title:"光风霁月：万物确立的权威数",tag:"大吉",note:"注：代表事业、领导、一生主运",base:"首领、君臣、文昌、暗禄、财库、进宅、学士。",family:"家庭圆满，子孙满堂，女性孤寡。",health:"健康长寿，可望安康。",overall:"光风霁月之象，万物形成自立之势。独立权威，能为首领之运。为人尊仰，享受富贵荣华。路径属迈进发展，中途难免相当苦心步步而进，宛如登梯。立业兴家，大博名利，乃贵重的吉数。"},
+            22: {title:"秋草逢霜：薄弱乏力的挫折数",tag:"凶",note:"注：主弱势、孤单、逆境",base:"远洋、天乙、君臣、将星、劫煞、破财。",family:"六亲无力，骨肉分离，夫妻不和。",health:"体弱多病，易有暗疾。",overall:"秋草逢霜，薄弱乏力，百事不如意。一生劳碌，挫折不断，孤立无援，运势低迷。"},
+            23: {title:"壮丽荣达：旭日东升的发育茂盛数",tag:"大吉",note:"注：主旺盛、进取、事业大成",base:"首领、君臣、福星、禄位、进宅、学士。",family:"男性吉昌，女性孤寡，家庭多变动。",health:"身心健康，长寿安康。",overall:"旭日东升，壮丽壮观，权威旺盛，功名荣达。为人热情开朗，进取心极强，事业能扶摇直上，成就一番大业。"},
+            24: {title:"掘藏得金：家门余庆的金钱丰盈数",tag:"大吉",note:"主财富、勤俭、后福",base:"天官、福星、文昌、企业、财库、君臣、工商。",family:"家门余庆，子孙贤孝，夫妻和睦。",health:"健康安稳，长寿有福。",overall:"家门余庆，金钱丰盈，白手成家，财源广进。为人勤俭踏实，早年辛苦，中年后财运亨通，福泽绵长。"},
+            25: {title:"资性英敏：刚毅果断的资性英敏数",tag:"半吉",note:"主才智、个性、人缘",base:"君臣、首领、福星、文昌、企业、时禄、技艺。",family:"平和安稳，略有固执，多能和睦。",health:"身心健全，平安少病。",overall:"资性英敏，刚毅果断，才华出众。但性情偏激，容易意气用事，若能修身养性，可得圆满发展。"},
+            26: {title:"变怪奇异：变怪奇异的豪侠数",tag:"凶",note:"主多变、起伏、侠义",base:"豪杰、郡臣、官禄、侠义、红艳、财库。",family:"亲情淡薄，夫妻多波折。",health:"外伤、肺病、疑难杂症较多。",overall:"变怪之谜，英雄豪杰，波澜重叠，而奏大功。运势大起大落，多为起伏不定之命，成则风云人物，败则一败涂地。"},
+            27: {title:"增长多变：欲望无止的宜静待数",tag:"凶",note:"主贪心、反复、是非",base:"天官、将军、师长、学士、凶厄、破财。",family:"六亲不和，夫妻争执不断。",health:"身心劳累，易患神经衰弱。",overall:"欲望无止，多受毁谤，宜守静勿贪。心性浮躁，欲望过多，做事反复无常，容易招惹是非与灾祸。"},
+            28: {title:"凶遭变故：豪气生离的行藏不安数",tag:"大凶",note:"主离别、灾祸、动荡",base:"天乙、将星、学士、凶厄、破财、劫煞。",family:"骨肉分离，夫妻生离死别，六亲疏远。",health:"意外、伤残、重病、短命。",overall:"豪气生离，行藏不定，凶祸叠至。一生多离别、意外、灾祸，运势极不安稳，命运坎坷。"},
+            29: {title:"智谋兼备：急舟顺展的智谋数",tag:"半吉",note:"主智谋、魄力、机遇",base:"天官、太极、君臣、天厨、将星、财帛。",family:"圆满和睦，女性性情偏刚。",health:"身心安康，长寿可期。",overall:"智谋兼备，欲望无止境，吉凶相伴。头脑灵活，胆识过人，易得机遇成就事业，但野心过大易招风险。"},
+            30: {title:"浮沉不定：绝处逢生的运途分歧数",tag:"半凶",note:"主抉择、反复、转机",base:"官星、将相、文昌、豪杰、凶厄、破财。",family:"亲情疏远，家庭时有矛盾。",health:"强弱交替，小病不断。",overall:"浮沉不定，凶吉难分，绝处逢生。运势反复，时好时坏，一念之差可转凶为吉，宜守正行善。"},
+            31: {title:"智勇得志：智勇得志的博得名利数",tag:"大吉",note:"主仁德、智慧、名望",base:"太极、君臣、将星、学士、文星、田宅。",family:"家庭圆满，子孙昌盛，夫妻恩爱。",health:"身心康健，长寿有福。",overall:"智勇得志，博得名利，统领众人，繁荣富贵。性格仁厚，智慧过人，人缘极佳，事业稳步发展，一生吉祥。"},
+            32: {title:"宝马金鞍：侥幸多望的意外惠泽数",tag:"大吉",note:"主贵人、机遇、偏财",base:"天德、月德、君臣、将星、文星、禄位。",family:"家门兴旺，子女贤良，夫妻和美。",health:"平安健康，少有大病。",overall:"侥幸多望，贵人得助，财帛如裕，繁荣至上。一生易得贵人相助，机遇不断，财运丰厚，福运绵长。"},
+            33: {title:"家门隆昌：家门隆昌的才德开展数",tag:"大吉",note:"主鼎盛、荣华、权威",base:"天官、臣将、部长、文昌、学士、田宅。",family:"男性大吉，女性孤寡，家势鼎盛。",health:"身心强健，长寿安康。",overall:"家门隆昌，繁荣富贵，才德兼备。运势鼎盛，权势、财富皆可得，为极端吉运之数，女性用之多孤寡。"},
+            34: {title:"家破身亡：破家亡身的见识浅少数",tag:"大凶",note:"主破败、灾祸、血光",base:"臣将、君臣、文昌、学士、破财、凶厄。",family:"家破人亡，六亲离散，夫妻缘薄。",health:"重病、伤残、意外、短命。",overall:"破家亡身，见识浅薄，灾祸重重。为大凶之数，一生灾难不断，家运破败，诸事难顺。"},
+            35: {title:"温和平静：温和平静的优雅发展数",tag:"吉",note:"主文雅、安稳、才艺",base:"将相、学士、文昌、艺术、财库、田宅。",family:"家庭和睦，温良安稳。",health:"身心健康，平安长寿。",overall:"温良贤静，智达通畅，技艺博雅，稳健发展。性格温和，多才多艺，一生安稳平顺，无大波折。"},
+            36: {title:"波澜重叠：风浪不息的侠义薄运数",tag:"凶",note:"主风浪、奔波、侠义",base:"将星、学士、文昌、文相、破厄、凶煞。",family:"六亲无助，家庭多奔波劳碌。",health:"劳累成疾，外伤较多。",overall:"波澜重叠，沉浮万状，侠肝义胆，舍己成仁。一生奔波劳碌，风浪不断，虽有侠义之心，却难得安稳。"},
+            37: {title:"权威显达：权威显达的热诚忠信数",tag:"吉",note:"主信义、威望、人缘",base:"天官、将星、官禄、文昌、艺术、权威。",family:"家庭和睦，子女贤孝。",health:"体魄强健，长寿安康。",overall:"权威显达，热诚忠信，宜着雅量。为人诚信正直，威望颇高，人缘兴旺，事业平稳有成。"},
+            38: {title:"磨铁成针：意志薄弱的刻意经营数",tag:"半吉",note:"主技艺、磨砺、慢成",base:"艺能、美术、学者、破厄、劫财。",family:"亲情平淡，安稳度日。",health:"体质偏弱，需注重调养。",overall:"磨铁成针，刻意经营，才识有限。适合钻研技艺、专长，大器晚成，循序渐进可获安稳生活。"},
+            39: {title:"富贵荣华：富贵荣华的变化无穷数",tag:"半吉",note:"主富贵、多变、运势两极",base:"臣将、文昌、艺术、智能、财库、进宅。",family:"荣华富贵，女性孤寡，家庭多变动。",health:"安康长寿，劳逸不均易生病。",overall:"富贵荣华，变化无穷，威震四方。运势两极分化，顺则大富大贵，逆则灾祸连连，需谨慎守成。"},
+            40: {title:"谨慎保安：谨慎保安的退安数",tag:"凶",note:"主退守、保守、风险",base:"将星、学士、文昌、凶厄、破财、劫煞。",family:"亲情淡薄，宜守不宜争。",health:"体弱多病，意外时有发生。",overall:"谨慎保安，浮沉不定，知难而退方得平安。运势不稳，风险较多，激进易招失败，保守退守可保平安。"},
+            41: {title:"德高望重：德高望重的事事如意数",tag:"大吉",note:"主福德、圆满、善报",base:"天官、太极、君臣、将星、文星、田宅。",family:"家庭圆满，子孙兴旺，福泽深厚。",health:"身心健康，福寿绵长。",overall:"德高望重，事事如意，财源广进，繁荣至上。为最吉之数，仁德兼备，一生福运满满，万事顺遂。"},
+            42: {title:"寒蝉在柳：寒蝉在柳的寒心失意数",tag:"凶",note:"主空想、失意、困顿",base:"艺能、美术、学者、凶厄、劫财。",family:"六亲疏远，家庭冷清。",health:"气血不足，精神抑郁。",overall:"寒蝉在柳，十艺不成，穷困失意。想法多而行动力弱，才华难展，一生多困顿失意。"},
+            43: {title:"散财破产：散财破产的雨夜花落数",tag:"凶",note:"主破财、虚华、损耗",base:"将相、文星、艺术、财库、破财。",family:"家庭不和，钱财难聚。",health:"心神不宁，体虚乏力。",overall:"散财破产，诸事不遂，虽有智谋，财来财去。外表浮华，内里空虚，守财艰难，一生多财务损耗。"},
+            44: {title:"烦闷愁郁：愁眉难展的烦闷失意数",tag:"大凶",note:"主压抑、灾祸、坎坷",base:"文昌、学士、凶厄、破灭、劫财。",family:"六亲不和，家运衰败。",health:"重病缠身，短命、意外多见。",overall:"烦闷愁郁，惨淡悲苦，多遇凶灾。为大凶之数，一生压抑坎坷，灾祸不断，诸事难成。"},
+            45: {title:"顺风扬帆：新生泰和的万事如意数",tag:"大吉",note:"主顺利、转运、兴旺",base:"君臣、将星、文昌、学士、田宅。",family:"家庭和睦，运势兴旺。",health:"平安健康，长寿无忧。",overall:"顺风扬帆，万事顺意，泰然发展。中年后运势崛起，一路顺遂，事业家庭皆能兴旺。"},
+            46: {title:"载宝沉舟：浪里淘金的大难变怪数",tag:"凶",note:"主磨难、大起大落",base:"臣将、学士、文昌、凶厄、破财。",family:"亲情淡薄，多有别离。",health:"意外、重病、伤残较多。",overall:"载宝沉舟，浪里淘金，磨难重重。运势大起大落，历经艰难险阻，能坚持者可有小成，否则一败涂地。"},
+            47: {title:"点石成金：开花结果的权威进取数",tag:"吉",note:"主收获、机遇、成就",base:"君臣、将星、文昌、学士、艺能、财库。",family:"家和人顺，子孙贤良。",health:"体魄康健，长寿安宁。",overall:"点石成金，花开富贵，进取有成。易得良机，付出皆有回报，晚年安稳享福。"},
+            48: {title:"德智兼备：德智兼备的参谋数",tag:"吉",note:"主智慧、谋略、辅佐",base:"将相、文星、艺术、智能、财库。",family:"家庭安稳，和气生财。",health:"身心康泰，少有疾患。",overall:"德智兼备，谋略过人，适合辅佐、策划、专业领域发展。头脑聪慧，凭借才智可得名利。"},
+            49: {title:"吉凶难分：吉凶难分的不断辛苦数",tag:"半凶",note:"主反复、抉择、劳心",base:"臣将、文昌、智能、凶厄、破灭。",family:"家庭时有矛盾，聚散无常。",health:"劳累伤身，心神不安。",overall:"吉凶难分，浮沉不定，劳心劳力。运势反复无常，选择决定祸福，一生操心不断。"},
+            50: {title:"小舟入海：吉凶参半的得失浮沉数",tag:"半凶",note:"主得失、浮沉、晚运",base:"将星、文昌、财库、凶厄、破财。",family:"亲缘淡薄，晚年宜守静。",health:"中年多病痛，晚年尚可。",overall:"小舟入海，吉凶参半，得失相伴。前半生起伏不定，得失无常，晚年安稳守成则可平安度日。"}
+        };
+
+        const msgBox = document.getElementById('msgBox');
+        // 缓存已查询汉字笔画，避免重复请求
+        const strokeCache = new Map();
+
+        // 单个汉字在线查询康熙笔画
+        async function getKangXiStroke(char) {
+            // 非汉字直接返回0
+            if (!/^[\u4e00-\u9fa5]$/.test(char)) return 0;
+            // 读取缓存
+            if (strokeCache.has(char)) return strokeCache.get(char);
+            try {
+                // 调用公开笔画接口
+                const res = await fetch(`https://api.haohao89.com/zi?name=${encodeURIComponent(char)}`);
+                const data = await res.json();
+                const stroke = Number(data.kangxi) || 0;
+                strokeCache.set(char, stroke);
+                return stroke;
+            } catch (e) {
+                msgBox.innerHTML = `<div class="error">网络请求失败，无法查询【${char}】笔画</div>`;
+                return 0;
+            }
+        }
+
+        // 批量获取整串文字笔画
+        async function getStrStroke(str) {
+            let total = 0;
+            for (const ch of str) {
+                total += await getKangXiStroke(ch);
+            }
+            return total;
+        }
+
+        // 五行阴阳计算
+        function getWY(num){
+            let n = num % 10;
+            if(n === 0) n = 10;
+            let wu = "", yy = "";
+            if(n === 1){wu="木";yy="阳";}
+            else if(n === 2){wu="木";yy="阴";}
+            else if(n === 3){wu="火";yy="阳";}
+            else if(n === 4){wu="火";yy="阴";}
+            else if(n === 5){wu="土";yy="阳";}
+            else if(n === 6){wu="土";yy="阴";}
+            else if(n === 7){wu="金";yy="阳";}
+            else if(n === 8){wu="金";yy="阴";}
+            else if(n === 9){wu="水";yy="阳";}
+            else {wu="水";yy="阴";}
+            return {wu, yy, str:`${num}（${yy}${wu}）`};
+        }
+
+        // 81数理取模
+        function get81Num(x){
+            let r = x % 80;
+            return r === 0 ? 80 : r;
+        }
+
+        // 生成卡片HTML
+        function buildCardHtml(gridName, num) {
+            let detail = num81Detail[get81Num(num)];
+            if (!detail) {
+                return `<div class="grid-card">
+                    <div class="card-header">
+                        <div class="card-left">
+                            <div class="grid-name">${gridName}</div>
+                            <div class="grid-num">${num}</div>
+                        </div>
+                        <div class="card-right">
+                            <div class="title">暂无数据</div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            return `
+            <div class="grid-card">
+                <div class="card-header">
+                    <div class="card-left">
+                        <div class="grid-name">${gridName}</div>
+                        <div class="grid-num">${num}</div>
+                    </div>
+                    <div class="card-right">
+                        <div class="title">
+                            ${detail.title}
+                            <span class="tag">${detail.tag}</span>
+                        </div>
+                        <div class="note">${detail.note}</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="section-item">
+                        <span class="section-title base">基业</span>
+                        ${detail.base}
+                    </div>
+                    <div class="section-item">
+                        <span class="section-title family">家庭</span>
+                        ${detail.family}
+                    </div>
+                    <div class="section-item">
+                        <span class="section-title health">健康</span>
+                        ${detail.health}
+                    </div>
+                    <div class="section-item">
+                        <span class="section-title overall">整体</span>
+                        ${detail.overall}
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        // 主测算逻辑
+        async function calcName() {
+            const surname = document.getElementById("surname").value.trim();
+            const givenName = document.getElementById("givenName").value.trim();
+            const resultArea = document.getElementById("resultArea");
+            const cardsArea = document.getElementById("cardsArea");
+            const nameWrap = document.getElementById("nameWrap");
+
+            msgBox.innerHTML = '';
+            resultArea.style.display = "none";
+
+            if (!surname || !givenName) {
+                msgBox.innerHTML = `<div class="error">请填写完整的姓氏和名字！</div>`;
+                return;
+            }
+
+            // 限制最多4个汉字
+            let fullName = (surname + givenName).slice(0,4);
+            let nameHtml = "";
+            for(let ch of fullName){
+                nameHtml += `<span class="name-char">${ch}</span>`;
+            }
+            nameWrap.innerHTML = nameHtml;
+
+            msgBox.innerHTML = `<div class="loading">正在联网查询汉字笔画，请稍候...</div>`;
+
+            const sArr = surname.split("");
+            const gArr = givenName.split("");
+            const isFuXing = sArr.length === 2;
+            const isSingleName = gArr.length === 1;
+
+            // 异步获取每个字笔画
+            const s1 = await getKangXiStroke(sArr[0]);
+            const s2 = isFuXing ? await getKangXiStroke(sArr[1]) : 0;
+            const g1 = await getKangXiStroke(gArr[0]);
+            const g2 = isSingleName ? 1 : await getKangXiStroke(gArr[1]);
+
+            // 六格计算
+            const tianGe = isFuXing ? (s1 + s2) : (s1 + 1);
+            const renGe = isFuXing ? (s2 + g1) : (s1 + g1);
+            const diGe = isSingleName ? (g1 + 1) : (g1 + g2);
+
+            let zongGe = 0;
+            if (!isFuXing && isSingleName) zongGe = s1 + g1;
+            else if (!isFuXing && !isSingleName) zongGe = s1 + g1 + g2;
+            else if (isFuXing && isSingleName) zongGe = s1 + s2 + g1;
+            else zongGe = s1 + s2 + g1 + g2;
+
+            const waiGe = isSingleName ? 2 : (g2 + 1);
+            let bianGe = 0;
+            if (!isFuXing && isSingleName) bianGe = s1 + g1;
+            else if (!isFuXing && !isSingleName) bianGe = s1 + g2;
+            else if (isFuXing && isSingleName) bianGe = s2 + g1;
+            else bianGe = s2 + g2;
+
+            // 页面赋值
+            document.getElementById("tianGeNum").innerText = tianGe;
+            document.getElementById("renGeNum").innerText = renGe;
+            document.getElementById("diGeNum").innerText = diGe;
+
+            document.getElementById("tianGeWY").innerText = `(${getWY(tianGe).yy}${getWY(tianGe).wu})`;
+            document.getElementById("renGeWY").innerText = `(${getWY(renGe).yy}${getWY(renGe).wu})`;
+            document.getElementById("diGeWY").innerText = `(${getWY(diGe).yy}${getWY(diGe).wu})`;
+
+            document.getElementById("waiGeStr").innerText = `${waiGe}（${getWY(waiGe).yy}${getWY(waiGe).wu}）`;
+            document.getElementById("bianGeStr").innerText = `${bianGe}（${getWY(bianGe).yy}${getWY(bianGe).wu}）`;
+            document.getElementById("zongGeStr").innerText = `${zongGe}（${getWY(zongGe).yy}${getWY(zongGe).wu}）`;
+
+            // 渲染解析卡片
+            let html = "";
+            html += buildCardHtml("天格", tianGe);
+            html += buildCardHtml("人格", renGe);
+            html += buildCardHtml("地格", diGe);
+            html += buildCardHtml("总格", zongGe);
+            html += buildCardHtml("外格", waiGe);
+            html += buildCardHtml("中变格", bianGe);
+            cardsArea.innerHTML = html;
+
+            msgBox.innerHTML = `<div class="loading">✅ 测算完成</div>`;
+            resultArea.style.display = "block";
+        }
+    </script>
+</body>
+</html>

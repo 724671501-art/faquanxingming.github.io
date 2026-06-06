@@ -3,111 +3,493 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>法权测名｜测算系统</title>
+    <title>茅山乾坤门显法堂小六壬专用预测</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:"微软雅黑","宋体";}
-        body{background:#f8f3e8;padding:22px;max-width:920px;margin:0 auto;}
-        .wrap{background:#fff;border:2px solid #c81623;border-radius:10px;padding:28px;box-shadow:0 0 14px #ebd0d0;}
-        h2{text-align:center;color:#c81623;margin-bottom:22px;letter-spacing:3px;font-size:22px;}
-        .input-box{margin-bottom:22px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
-        label{font-size:15px;color:#333;}
-        input{padding:9px 13px;border:1px solid #ccc;border-radius:5px;font-size:16px;width:170px;}
-        button{padding:10px 24px;background:#c81623;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:15px;transition:0.2s;}
-        button:hover{background:#a10f1b;}
-        #result{margin-top:28px;line-height:1.9;font-size:15px;}
-        .item{padding:12px;border-bottom:1px dashed #dddddd;margin-bottom:8px;}
-        .red{color:#c81623;font-weight:bold;}
-        .green{color:#008833;font-weight:bold;}
-        .gray{color:#666;}
-        .tip-box{background:#fef3f3;padding:10px;margin:15px 0;border-left:5px solid #c81623;font-size:14px;line-height:1.7;}
+        body{background:linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);min-height:100vh;padding:20px;color:#fff;}
+        .wrap{max-width:800px;margin:0 auto;background:rgba(255,255,255,0.05);border-radius:20px;padding:30px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);}
+        h1{text-align:center;font-size:28px;margin-bottom:30px;color:#ffd700;text-shadow:0 0 20px rgba(255,215,0,0.5);letter-spacing:5px;}
+        .tab-bar{display:flex;justify-content:center;gap:10px;margin-bottom:25px;flex-wrap:wrap;}
+        .tab-btn{padding:12px 24px;border:none;border-radius:25px;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;transition:0.3s;font-size:15px;}
+        .tab-btn.active{background:#ffd700;color:#1a1a2e;font-weight:bold;box-shadow:0 0 20px rgba(255,215,0,0.4);}
+        .tab-btn:hover{background:rgba(255,215,0,0.3);}
+        .input-box{background:rgba(255,255,255,0.05);border-radius:15px;padding:25px;margin-bottom:20px;}
+        .form-row{display:flex;gap:15px;flex-wrap:wrap;align-items:center;margin-bottom:15px;}
+        .form-row:last-child{margin-bottom:0;}
+        label{font-size:15px;color:#ccc;width:80px;}
+        select, input{padding:10px 15px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;background:rgba(255,255,255,0.1);color:#fff;font-size:15px;}
+        select option{background:#1a1a2e;color:#fff;}
+        .btn-divine{display:block;width:100%;padding:15px;border:none;border-radius:10px;background:linear-gradient(135deg, #ffd700, #ff8c00);color:#1a1a2e;font-size:18px;font-weight:bold;cursor:pointer;transition:0.3s;margin-top:20px;}
+        .btn-divine:hover{transform:scale(1.02);box-shadow:0 0 30px rgba(255,215,0,0.5);}
+        .result-box{background:rgba(255,255,255,0.05);border-radius:15px;padding:25px;margin-top:25px;}
+        .result-header{display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.1);}
+        .god-icon{font-size:60px;animation:pulse 2s infinite;}
+        @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+        .god-name{font-size:32px;font-weight:bold;color:#ffd700;}
+        .god-luck{padding:5px 15px;border-radius:20px;font-size:14px;font-weight:bold;}
+        .luck-ji{background:#00ff88;color:#1a1a2e;}
+        .luck-xiong{background:#ff4444;color:#fff;}
+        .luck-ping{background:#ffaa00;color:#1a1a2e;}
+        .calc-process{background:rgba(255,255,255,0.05);border-radius:10px;padding:15px;margin-bottom:20px;font-size:14px;color:#ccc;}
+        .poem-box{background:rgba(255,255,255,0.05);border-radius:10px;padding:15px;margin-bottom:15px;border-left:4px solid #ffd700;}
+        .poem-title{color:#ffd700;font-weight:bold;margin-bottom:8px;}
+        .poem-text{color:#ccc;font-size:14px;line-height:1.8;}
+        .detail-box{background:rgba(255,255,255,0.05);border-radius:10px;padding:15px;color:#ccc;font-size:14px;line-height:1.8;}
+        .detail-title{color:#ffd700;font-weight:bold;margin-bottom:8px;}
+        .six-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px;}
+        .grid-item{padding:15px;text-align:center;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);transition:0.3s;}
+        .grid-item:hover{background:rgba(255,255,255,0.1);}
+        .grid-item.active{background:rgba(255,215,0,0.2);border-color:#ffd700;box-shadow:0 0 15px rgba(255,215,0,0.3);}
+        .grid-icon{font-size:28px;margin-bottom:8px;}
+        .grid-name{font-size:14px;font-weight:bold;}
+        .grid-luck{font-size:12px;margin-top:5px;padding:3px 8px;border-radius:10px;}
+        .tab-content{display:none;}
+        .tab-content.active{display:block;}
+        .tip-box{background:rgba(255,215,0,0.1);border-left:4px solid #ffd700;padding:12px;margin-bottom:20px;color:#ffd700;font-size:14px;}
+        .history-box{background:rgba(255,255,255,0.05);border-radius:10px;padding:15px;margin-top:20px;}
+        .history-title{color:#ffd700;font-weight:bold;margin-bottom:10px;}
+        .history-item{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:14px;color:#ccc;}
+        .history-item:last-child{border-bottom:none;}
+        .history-god{color:#ffd700;font-weight:bold;}
     </style>
 </head>
 <body>
 <div class="wrap">
-    <h2>法权测名｜测算系统</h2>
-    <div class="input-box">
-        <label>姓氏：</label>
-        <input type="text" id="xing" placeholder="如：王、李、张">
-        <label>名字：</label>
-        <input type="text" id="ming" placeholder="单名/双名：伟 / 俊杰">
-        <button onclick="calcName()">一键测算解析</button>
+    <h1>🔮 茅山乾坤门显法堂小六壬专用预测</h1>
+    <div style="text-align:center;color:#ff4444;font-size:12px;margin-bottom:20px;font-weight:bold;">
+        ⚠️ 茅山乾坤门显法堂弟子专用 请勿外传 ⚠️
     </div>
-    <div class="tip-box">
-        茅山乾坤门显法堂弟子内部使用，请勿外传，违者必究。
+    
+    <!-- 选项卡 -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="showTab('time')">时间占卜</button>
+        <button class="tab-btn" onclick="showTab('number')">数字占卜</button>
+        <button class="tab-btn" onclick="showTab('random')">随机占卜</button>
     </div>
+    
+    <!-- 时间占卜 -->
+    <div class="tab-content active" id="time">
+        <div class="tip-box">
+            ⚠️ 提示：使用农历时间进行占卜，若不清楚农历可使用随机占卜
+        </div>
+        <div class="input-box">
+            <div class="form-row">
+                <label>农历月份：</label>
+                <select id="month">
+                    <option value="1">正月</option>
+                    <option value="2">二月</option>
+                    <option value="3">三月</option>
+                    <option value="4">四月</option>
+                    <option value="5">五月</option>
+                    <option value="6">六月</option>
+                    <option value="7">七月</option>
+                    <option value="8">八月</option>
+                    <option value="9">九月</option>
+                    <option value="10">十月</option>
+                    <option value="11">冬月</option>
+                    <option value="12">腊月</option>
+                </select>
+                <label>农历日期：</label>
+                <select id="day">
+                    <option value="1">初一</option>
+                    <option value="2">初二</option>
+                    <option value="3">初三</option>
+                    <option value="4">初四</option>
+                    <option value="5">初五</option>
+                    <option value="6">初六</option>
+                    <option value="7">初七</option>
+                    <option value="8">初八</option>
+                    <option value="9">初九</option>
+                    <option value="10">初十</option>
+                    <option value="11">十一</option>
+                    <option value="12">十二</option>
+                    <option value="13">十三</option>
+                    <option value="14">十四</option>
+                    <option value="15">十五</option>
+                    <option value="16">十六</option>
+                    <option value="17">十七</option>
+                    <option value="18">十八</option>
+                    <option value="19">十九</option>
+                    <option value="20">二十</option>
+                    <option value="21">廿一</option>
+                    <option value="22">廿二</option>
+                    <option value="23">廿三</option>
+                    <option value="24">廿四</option>
+                    <option value="25">廿五</option>
+                    <option value="26">廿六</option>
+                    <option value="27">廿七</option>
+                    <option value="28">廿八</option>
+                    <option value="29">廿九</option>
+                    <option value="30">三十</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label>时辰：</label>
+                <select id="hour">
+                    <option value="1">子时 (23:00-01:00)</option>
+                    <option value="2">丑时 (01:00-03:00)</option>
+                    <option value="3">寅时 (03:00-05:00)</option>
+                    <option value="4">卯时 (05:00-07:00)</option>
+                    <option value="5">辰时 (07:00-09:00)</option>
+                    <option value="6">巳时 (09:00-11:00)</option>
+                    <option value="7">午时 (11:00-13:00)</option>
+                    <option value="8">未时 (13:00-15:00)</option>
+                    <option value="9">申时 (15:00-17:00)</option>
+                    <option value="10">酉时 (17:00-19:00)</option>
+                    <option value="11">戌时 (19:00-21:00)</option>
+                    <option value="12">亥时 (21:00-23:00)</option>
+                </select>
+                <button onclick="useCurrentTime()" style="padding:10px 20px;border-radius:8px;border:none;background:rgba(255,215,0,0.2);color:#ffd700;cursor:pointer;">使用当前时间</button>
+            </div>
+            <div class="form-row" style="border-top:1px solid rgba(255,255,255,0.1);margin-top:15px;padding-top:15px;">
+                <label>测算类型：</label>
+                <select id="questionType">
+                    <option value="">全部</option>
+                    <option value="财运">财运</option>
+                    <option value="事业">事业</option>
+                    <option value="感情">感情</option>
+                    <option value="健康">健康</option>
+                    <option value="学业">学业</option>
+                    <option value="出行">出行</option>
+                    <option value="寻人">寻人</option>
+                    <option value="失物">失物</option>
+                    <option value="官非">官非</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn-divine" onclick="divineByTime()">开始占卜</button>
+    </div>
+    
+    <!-- 数字占卜 -->
+    <div class="tab-content" id="number">
+        <div class="tip-box">
+            ⚠️ 提示：输入1-99之间的任意数字进行占卜
+        </div>
+        <div class="input-box">
+            <div class="form-row">
+                <label>数字：</label>
+                <input type="number" id="numInput" placeholder="请输入1-99之间的数字" min="1" max="99">
+            </div>
+            <div class="form-row" style="border-top:1px solid rgba(255,255,255,0.1);margin-top:15px;padding-top:15px;">
+                <label>测算类型：</label>
+                <select id="questionType">
+                    <option value="">全部</option>
+                    <option value="财运">财运</option>
+                    <option value="事业">事业</option>
+                    <option value="感情">感情</option>
+                    <option value="健康">健康</option>
+                    <option value="学业">学业</option>
+                    <option value="出行">出行</option>
+                    <option value="寻人">寻人</option>
+                    <option value="失物">失物</option>
+                    <option value="官非">官非</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn-divine" onclick="divineByNumber()">开始占卜</button>
+    </div>
+    
+    <!-- 随机占卜 -->
+    <div class="tab-content" id="random">
+        <div class="tip-box">
+            ⚠️ 提示：随机占卜会根据当前时间自动生成卦象
+        </div>
+        <div class="input-box">
+            <div class="form-row">
+                <label>测算类型：</label>
+                <select id="questionType">
+                    <option value="">全部</option>
+                    <option value="财运">财运</option>
+                    <option value="事业">事业</option>
+                    <option value="感情">感情</option>
+                    <option value="健康">健康</option>
+                    <option value="学业">学业</option>
+                    <option value="出行">出行</option>
+                    <option value="寻人">寻人</option>
+                    <option value="失物">失物</option>
+                    <option value="官非">官非</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn-divine" onclick="divineRandom()">开始占卜</button>
+    </div>
+    
+    <!-- 结果显示 -->
     <div id="result"></div>
 </div>
 
 <script>
-const API_BASE = 'http://106.53.161.13/api';
+// 六神配置
+const sixGods = [
+    { name: '空亡', icon: '☠️', luck: '大凶', luckClass: 'luck-xiong',
+      poem: '空亡事不祥，阴人多乖张。求财无利益，行人有灾殃。失物寻不见，官事有刑伤。病人逢暗鬼，解禳保安康。',
+      detail: '空亡乃虚空之神，主虚耗、破财、灾厄、失物、官非。此卦为六神中最凶之卦，诸事不利，宜守不宜进。凡事需格外谨慎小心，谨防小人陷害，避免与人争执，减少不必要的外出和投资。',
+      summary: '空亡卦象，百事不利，守旧为宜',
+      suggestions: ['不宜投资冒险', '避免与人争执', '减少外出活动', '注意财物安全', '谨防小人暗算'],
+      interpretations: {
+        财运: '【财运】财运极差，投资必亏，守财为主。近期不宜进行任何投资活动，谨防诈骗和破财，建议保守理财，量入为出。',
+        事业: '【事业】事业受阻，机会渺茫，阻力重重。当前工作进展困难，难以取得突破，建议韬光养晦，等待时机。',
+        感情: '【感情】感情空虚，缘分未到。单身者难遇良缘，恋爱中者感情淡薄，已婚者易生隔阂，需用心经营。',
+        健康: '【健康】健康有隐忧，需注意检查。身体可能出现不明原因的不适，建议及时体检，注意休息调养。',
+        学业: '【学业】学业不顺，考试失利。学习状态不佳，记忆力下降，需调整心态，加倍努力。',
+        出行: '【出行】出行不宜，路途有阻。建议改期或取消行程，如必须出行需格外小心安全。',
+        寻人: '【寻人】寻人无果，踪迹难寻。对方可能有意躲避或失联，建议通过多方渠道查找，耐心等待。',
+        失物: '【失物】失物难寻，恐已丢失。物品可能已被他人拾获或损坏，找回可能性较低。',
+        官非: '【官非】易惹官非，口舌缠身。需谨言慎行，避免与人发生纠纷，谨防他人设局陷害。'
+      }},
+    { name: '大安', icon: '✅', luck: '大吉', luckClass: 'luck-ji',
+      poem: '大安事事昌，求谋在东方。失物去不远，宅舍保平安。行人身未动，病者主无妨。将军回田野，仔细好推详。',
+      detail: '大安为安定之神，主平安、顺利、吉庆、贵人相助。此卦为六神中最吉之卦，百事顺遂，适合出行、谋事、求财。得天时地利人和，凡事可积极进取，必有收获。',
+      summary: '大安卦象，百事顺遂，贵人相助',
+      suggestions: ['宜积极进取', '把握良机', '东方求财利', '出行平安', '与人合作'],
+      interpretations: {
+        财运: '【财运】财运稳定，正财可得。工作收入稳定，有加薪机会，适合稳健投资，东方方向有利。',
+        事业: '【事业】事业平顺，稳步发展。工作进展顺利，有贵人相助，职位有望提升，适合拓展业务。',
+        感情: '【感情】感情稳定，良缘可期。单身者易遇心仪对象，恋爱中者感情升温，已婚者家庭和睦。',
+        健康: '【健康】身体健康，平安无恙。身心状态良好，心情舒畅，偶有小恙也能很快康复。',
+        学业: '【学业】学业进步，考试顺利。学习效率高，记忆力好，考试成绩优良，有望取得好名次。',
+        出行: '【出行】出行平安，一路顺风。旅途顺利，平安往返，适合探亲访友或商务出行。',
+        寻人: '【寻人】寻人可得，近在咫尺。对方就在附近或很快出现，稍加寻找即可相见。',
+        失物: '【失物】失物可寻，就在附近。物品未远离，细心查找必能找回，重点在居家或常去之处。',
+        官非: '【官非】无官非之忧，口舌消散。人际关系和谐，不易与人发生争执，平安无事。'
+      }},
+    { name: '留连', icon: '⏳', luck: '平', luckClass: 'luck-ping',
+      poem: '留连事难成，求谋日未明。官事只宜缓，去者未回程。失物南方见，急讨方称心。更须防口舌，人口且平平。',
+      detail: '留连为阻滞之神，主拖延、纠缠、迟滞、是非。此卦平平，吉凶参半，宜耐心等待，不宜急躁。凡事三思而后行，不可急于求成，否则易生变故。',
+      summary: '留连卦象，进退两难，耐心等待',
+      suggestions: ['不宜急躁行事', '耐心等待时机', '防口舌是非', '南方寻物', '缓办大事'],
+      interpretations: {
+        财运: '【财运】财运迟缓，财来财去。收入不稳定，钱财易聚易散，适合保守理财，不宜冒险投资。',
+        事业: '【事业】事业拖延，进展缓慢。工作遇到瓶颈，需耐心突破，不可急于求成，否则易生变故。',
+        感情: '【感情】感情纠缠，犹豫不决。关系陷入僵局，难以做出决定，建议冷静思考，明确方向。',
+        健康: '【健康】健康平平，小恙缠身。身体处于亚健康状态，常有疲劳感，需注意休息调理。',
+        学业: '【学业】学业停滞，进步缓慢。学习进入平台期，需调整方法，加倍努力才能突破。',
+        出行: '【出行】出行延误，路途耽搁。交通可能受阻，行程推迟，建议提前做好准备。',
+        寻人: '【寻人】寻人延迟，对方犹豫。对方可能有所顾虑，需耐心等待或主动沟通。',
+        失物: '【失物】失物可寻，但需时间。物品在南方方向，需耐心寻找，不宜急于求成。',
+        官非: '【官非】官非拖延，事情难决。纠纷难以解决，建议通过调解协商，避免激化矛盾。'
+      }},
+    { name: '速喜', icon: '🎉', luck: '吉', luckClass: 'luck-ji',
+      poem: '速喜喜来临，求财向南行。失物申午未，逢人路上寻。官事有福德，病者无祸侵。田宅六畜吉，行人有佳音。',
+      detail: '速喜为喜庆之神，主喜事、财利、佳音、顺利。此卦大吉，宜积极行动，抓住机会，必有收获。适合求财、求婚、考试、出行等吉事。',
+      summary: '速喜卦象，喜事临门，财源广进',
+      suggestions: ['宜积极行动', '南方求财', '把握良机', '主动出击', '与人合作'],
+      interpretations: {
+        财运: '【财运】财运亨通，偏财得利。意外之财可期，投资有回报，南方方向求财最利，把握机会。',
+        事业: '【事业】事业顺利，机遇来临。工作有突破性进展，有贵人相助，把握良机可获成功。',
+        感情: '【感情】感情如意，喜事临门。单身者桃花运旺，恋爱中者感情升温，有望订婚或结婚。',
+        健康: '【健康】健康良好，病者痊愈。身体状态佳，心情愉悦，患病者很快康复，精神焕发。',
+        学业: '【学业】学业进步，考试高分。学习效率高，考试发挥出色，有望金榜题名。',
+        出行: '【出行】出行顺利，有贵人助。旅途愉快，可能遇到贵人相助，收获意外惊喜。',
+        寻人: '【寻人】寻人速见，路途相遇。很快就能找到对方，可能在路上或公共场所相遇。',
+        失物: '【失物】失物速寻，路上可得。物品在申午未时（15:00-19:00）易寻，可能在路上被人捡到。',
+        官非: '【官事】官事顺利，贵人相助。纠纷得到圆满解决，有贵人出面调解，很快平息。'
+      }},
+    { name: '赤口', icon: '⚠️', luck: '凶', luckClass: 'luck-xiong',
+      poem: '赤口主口舌，官非切要防。失物急去寻，行人有惊慌。六畜多作怪，病者出西方。更须防诅咒，诚恐染瘟黄。',
+      detail: '赤口为口舌之神，主口舌是非、官非、灾祸、疾病。此卦大凶，宜谨慎行事，少说多做，谨防口舌之争和意外灾祸。',
+      summary: '赤口卦象，口舌是非，灾祸临身',
+      suggestions: ['谨言慎行', '少说多做', '西方求医', '防意外', '避免争执'],
+      interpretations: {
+        财运: '【财运】财运有损，防被骗财。易遭损失，谨防诈骗和投资陷阱，近期不宜理财投资。',
+        事业: '【事业】事业有阻，口舌是非。工作中易与人发生争执，小人作祟，需低调行事，避免锋芒毕露。',
+        感情: '【感情】感情不和，争吵频繁。易因小事发生争执，需忍让包容，避免言语伤害对方。',
+        健康: '【健康】健康有疾，病者加重。身体出现不适，患病者病情可能反复，建议西方方向求医。',
+        学业: '【学业】学业受阻，考试失利。学习状态不佳，考试可能失常，需调整心态，加倍努力。',
+        出行: '【出行】出行有险，路途惊慌。旅途可能遇到意外情况，需格外小心，注意安全。',
+        寻人: '【寻人】寻人有阻，对方不安。对方可能处于危险或不安状态，需尽快寻找。',
+        失物: '【失物】失物急寻，恐被损坏。物品可能已受损或被转移，需立即行动寻找。',
+        官非: '【官非】易惹官非，口舌官司。易与人发生纠纷甚至法律诉讼，需谨言慎行，避免与人结怨。'
+      }},
+    { name: '小吉', icon: '🌟', luck: '吉', luckClass: 'luck-ji',
+      poem: '小吉最吉昌，路上好商量。阴人来报喜，失物在坤方。行人立便至，交易甚是强。凡事皆和合，病者保安康。',
+      detail: '小吉为吉庆之神，主吉祥、喜庆、财利、和合。此卦吉，百事皆宜，尤其适合合作、交易、访友。得天时相助，人际关系和谐，做事事半功倍。',
+      summary: '小吉卦象，吉祥如意，和合美满',
+      suggestions: ['宜合作交易', '西南寻物', '与人商量', '出行访友', '把握机会'],
+      interpretations: {
+        财运: '【财运】财运不错，合作得利。通过合作可获丰厚回报，交易顺利，适合与人合伙求财。',
+        事业: '【事业】事业顺利，合作愉快。团队协作良好，易得同事帮助，工作进展顺利。',
+        感情: '【感情】感情和合，良缘将至。人际关系良好，容易结识新朋友，单身者有望脱单。',
+        健康: '【健康】健康平安，病者康复。身体状态良好，心情舒畅，患病者很快痊愈。',
+        学业: '【学业】学业顺利，学习进步。学习氛围良好，同学相助，成绩稳步提升。',
+        出行: '【出行】出行顺利，路上遇友。旅途愉快，可能遇到老朋友或结识新朋友。',
+        寻人: '【寻人】寻人可得，对方将至。对方很快就会出现或主动联系，耐心等待即可。',
+        失物: '【失物】失物可寻，在坤方。物品在西南方向，容易找回，可询问女性长辈或朋友。',
+        官非: '【官非】官事和解，纠纷平息。矛盾得到化解，双方达成和解，平安无事。'
+      }}
+];
 
-function getJiXingHtml(jixing) {
-    if(jixing === '吉') return "<span class='green'>【吉】</span>";
-    if(jixing === '凶') return "<span class='red'>【凶】</span>";
-    return "<span class='gray'>【平】</span>";
+// 时辰名称
+const hourNames = ['子时', '丑时', '寅时', '卯时', '辰时', '巳时', '午时', '未时', '申时', '酉时', '戌时', '亥时'];
+
+// 显示选项卡
+function showTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
 }
 
-async function calcName() {
-    let xingStr = document.getElementById("xing").value.trim();
-    let mingStr = document.getElementById("ming").value.trim();
+// 使用当前时间
+function useCurrentTime() {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const hour = Math.floor(now.getHours() / 2) + 1;
+    document.getElementById('month').value = month;
+    document.getElementById('day').value = Math.min(day, 30);
+    document.getElementById('hour').value = hour;
+}
+
+// 计算六神索引
+function getGodIndex(sum) {
+    return sum % 6;
+}
+
+// 显示结果
+function showResult(god, calcInfo, question = '', questionType = '') {
+    let html = `<div class="result-box">`;
     
-    if(!xingStr || !mingStr) {
-        alert("请填写姓氏与名字！");
+    // 头部
+    html += `<div class="result-header">
+        <div class="god-icon">${god.icon}</div>
+        <div>
+            <div class="god-name">${god.name}</div>
+            <div class="god-luck ${god.luckClass}">${god.luck}</div>
+        </div>
+    </div>`;
+    
+    // 卦象总结
+    html += `<div style="background:rgba(255,100,100,0.1);border-radius:10px;padding:15px;margin-bottom:15px;border-left:4px solid #ff6464;">
+        <div style="color:#ff6464;font-weight:bold;margin-bottom:5px;">📊 卦象总结</div>
+        <div style="color:#fff;font-size:16px;font-weight:bold;">${god.summary}</div>
+    </div>`;
+    
+    // 计算过程
+    html += `<div class="calc-process">
+        <strong>计算过程：</strong>${calcInfo}
+    </div>`;
+    
+    // 诗歌
+    html += `<div class="poem-box">
+        <div class="poem-title">📜 占卜诗曰</div>
+        <div class="poem-text">${god.poem}</div>
+    </div>`;
+    
+    // 针对性解析（如果选择了类型）
+    if(questionType && god.interpretations && god.interpretations[questionType]) {
+        html += `<div style="background:rgba(255,215,0,0.1);border-radius:10px;padding:15px;margin-bottom:15px;border-left:4px solid #ffd700;">
+            <div style="color:#ffd700;font-weight:bold;margin-bottom:5px;">🎯 ${questionType}解析</div>
+            <div style="color:#fff;font-size:15px;">${god.interpretations[questionType]}</div>
+        </div>`;
+    } else if(questionType === '') {
+        // 如果未选择类型，显示所有类型的简要解析
+        html += `<div style="background:rgba(0,170,255,0.1);border-radius:10px;padding:15px;margin-bottom:15px;border-left:4px solid #00aaff;">
+            <div style="color:#00aaff;font-weight:bold;margin-bottom:10px;">📋 各方面解析</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">`;
+        Object.keys(god.interpretations).forEach(key => {
+            const interpretation = god.interpretations[key];
+            const shortText = interpretation.length > 30 ? interpretation.substring(0, 30) + '...' : interpretation;
+            html += `<div style="background:rgba(255,255,255,0.05);padding:8px;border-radius:6px;font-size:12px;color:#ccc;">
+                <span style="color:#00aaff;">${key}：</span>${shortText}
+            </div>`;
+        });
+        html += `</div></div>`;
+    }
+    
+    // 详解
+    html += `<div class="detail-box">
+        <div class="detail-title">💡 卦象详解</div>
+        ${god.detail}
+    </div>`;
+    
+    // 建议
+    html += `<div style="background:rgba(100,255,100,0.1);border-radius:10px;padding:15px;margin-bottom:15px;border-left:4px solid #64ff64;">
+        <div style="color:#64ff64;font-weight:bold;margin-bottom:10px;">💬 行动建议</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">`;
+    god.suggestions.forEach(suggestion => {
+        html += `<span style="background:rgba(100,255,100,0.2);color:#64ff64;padding:5px 12px;border-radius:20px;font-size:12px;">${suggestion}</span>`;
+    });
+    html += `</div></div>`;
+    
+    // 六神状态
+    html += `<div class="six-grid">`;
+    const currentIndex = sixGods.indexOf(god);
+    sixGods.forEach((g, i) => {
+        html += `<div class="grid-item ${i === currentIndex ? 'active' : ''}">
+            <div class="grid-icon">${g.icon}</div>
+            <div class="grid-name">${g.name}</div>
+            <div class="grid-luck ${g.luckClass}">${g.luck}</div>
+        </div>`;
+    });
+    html += `</div>`;
+    
+    html += `</div>`;
+    
+    document.getElementById('result').innerHTML = html;
+}
+
+// 时间占卜
+function divineByTime() {
+    const month = parseInt(document.getElementById('month').value);
+    const day = parseInt(document.getElementById('day').value);
+    const hour = parseInt(document.getElementById('hour').value);
+    
+    // 获取测算类型
+    const questionType = document.getElementById('questionType').value;
+    
+    const sum = month + day + hour;
+    const index = getGodIndex(sum);
+    const god = sixGods[index];
+    
+    const hourName = hourNames[(hour-1+12)%12];
+    const calcInfo = `${month}月 + ${day}日 + ${hourName}(${hour}) = ${sum} → ${sum} ÷ 6 余 ${sum%6} → ${god.name}`;
+    
+    showResult(god, calcInfo, '', questionType);
+}
+
+// 数字占卜
+function divineByNumber() {
+    const num = parseInt(document.getElementById('numInput').value);
+    
+    if(isNaN(num) || num < 1 || num > 99) {
+        alert('请输入1-99之间的数字！');
         return;
     }
-
-    let resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = "<div class='item'>正在测算中...</div>";
-
-    try {
-        const response = await fetch(`${API_BASE}/calculate-name`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                surname: xingStr,
-                given_name: mingStr
-            })
-        });
-
-        const data = await response.json();
-
-        if(!data.success) {
-            resultDiv.innerHTML = `<div class='item'><span class='red'>【错误】${data.error}</span></div>`;
-            return;
-        }
-
-        const result = data.data;
-        let resHtml = "";
-
-        resHtml += `<div class="item"><span class='red'>【基础信息】</span><br>姓名：${result.name}｜姓氏康熙笔画：${result.surname_stroke}｜名字：${result.given_name}${result.is_single_name?"（单名）":"（双名）"}</div>`;
-
-        resHtml += `<div class="item">
-        <span class='red'>【六格数理详解】</span><br>
-        天格${result.liu_ge.天格.value}：${result.liu_ge.天格.wuxing} ${getJiXingHtml(result.liu_ge.天格.jixing)} → ${result.liu_ge.天格.description}<br>
-        人格${result.liu_ge.人格.value}：${result.liu_ge.人格.wuxing} ${getJiXingHtml(result.liu_ge.人格.jixing)} → ${result.liu_ge.人格.description}<br>
-        地格${result.liu_ge.地格.value}：${result.liu_ge.地格.wuxing} ${getJiXingHtml(result.liu_ge.地格.jixing)} → ${result.liu_ge.地格.description}<br>
-        中变格${result.liu_ge.变格.value}：${result.liu_ge.变格.wuxing} ${getJiXingHtml(result.liu_ge.变格.jixing)} → ${result.liu_ge.变格.description}<br>
-        外格${result.liu_ge.外格.value}：${result.liu_ge.外格.wuxing} ${getJiXingHtml(result.liu_ge.外格.jixing)} → ${result.liu_ge.外格.description}<br>
-        总格${result.liu_ge.总格.value}：${result.liu_ge.总格.wuxing} ${getJiXingHtml(result.liu_ge.总格.jixing)} → ${result.liu_ge.总格.description}
-        </div>`;
-
-        resHtml += `<div class="item">
-        <span class='red'>【三才配置：${result.san_cai.key}】</span><br>
-        天【${result.san_cai.tian_wuxing}】→人【${result.san_cai.ren_wuxing}】→地【${result.san_cai.di_wuxing}】<br>
-        配置注解：${result.san_cai.note || '暂无详解'}
-        </div>`;
-
-        resHtml += `<div class="item"><span class='red'>【综合姓名总评】</span><br>${result.evaluation.total_eval}<br>有效吉格数量：${result.evaluation.good_count}/${result.evaluation.total_count}</div>`;
-
-        resultDiv.innerHTML = resHtml;
-
-    } catch (error) {
-        resultDiv.innerHTML = `<div class='item'><span class='red'>【错误】网络请求失败，请检查后端服务是否正常运行</span></div>`;
-        console.error('Error:', error);
-    }
+    
+    // 获取测算类型
+    const questionType = document.getElementById('questionType').value;
+    
+    const index = getGodIndex(num);
+    const god = sixGods[index];
+    
+    const calcInfo = `${num} ÷ 6 余 ${num%6} → ${god.name}`;
+    
+    showResult(god, calcInfo, '', questionType);
 }
+
+// 随机占卜
+function divineRandom() {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const hour = Math.floor(now.getHours() / 2) + 1;
+    
+    // 获取测算类型
+    const questionType = document.getElementById('questionType').value;
+    
+    const sum = month + day + hour;
+    const index = getGodIndex(sum);
+    const god = sixGods[index];
+    
+    const hourName = hourNames[(hour-1+12)%12];
+    const calcInfo = `当前时间：${month}月${day}日${hourName} → ${month}+${day}+${hour}=${sum} → ${sum}÷6余${sum%6} → ${god.name}`;
+    
+    showResult(god, calcInfo, '', questionType);
+}
+
+// 页面加载时自动使用当前时间
+document.addEventListener('DOMContentLoaded', useCurrentTime);
 </script>
 </body>
 </html>

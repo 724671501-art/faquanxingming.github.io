@@ -39,229 +39,74 @@
 </div>
 
 <script>
-//【1.康熙繁体笔画字典，持续自由加字（折算后最终笔画）】
-const strokeDict = {
-    //大姓
-    "王":4,"李":7,"张":11,"刘":15,"陈":16,"杨":13,"黄":12,"赵":14,"周":8,"吴":7,"徐":10,"孙":10,
-    //氵4画
-    "清":12,"江":7,"浩":11,"涵":12,"泽":17,
-    //扌4画
-    "扬":7,"振":11,"护":8,"拓":9,
-    //艹6画
-    "芳":10,"蓉":16,"茵":12,"荣":14,
-    //辶7画
-    "达":10,"迈":19,"过":16,"远":17,
-    //肉月6画
-    "脉":12,"服":8,"肪":10,
-    //普通常用名
-    "明":8,"伟":11,"辉":15,"华":14,"静":16,"俊":9,"杰":12,"宇":6,"轩":10
-};
+const API_BASE = 'http://localhost:5000/api';
 
-//【2.吉凶数理】
-const luckyArr = [1,3,5,6,7,8,11,13,15,16,17,18,21,23,24,25,29,31,32,33,35,37,39,41,45,47,48,52,61,63,65,67,68,81];
-const badArr = [2,4,9,10,12,14,19,20,22,26,28,34,42,43,44,46,54,56,59,60,62,64,66,69,70,71,72,74,76,79,80];
-
-//【3.尾数转五行阴阳】
-function getWuxing(num){
-    let last = num%10;
-    const wxMap = {
-        1:"阳木",2:"阴木",3:"阳火",4:"阴火",5:"阳土",6:"阴土",7:"阳金",8:"阴金",9:"阳水",0:"阴水"
-    }
-    return wxMap[last];
-}
-
-//【4.吉凶标记】
-function getJiXing(num){
-    if(luckyArr.includes(num)) return "<span class='green'>【吉】</span>";
-    if(badArr.includes(num)) return "<span class='red'>【凶】</span>";
+function getJiXingHtml(jixing) {
+    if(jixing === '吉') return "<span class='green'>【吉】</span>";
+    if(jixing === '凶') return "<span class='red'>【凶】</span>";
     return "<span class='gray'>【平】</span>";
 }
 
-//【5.全125种三才大全】
-const sanCaiDict = {
-"木木木":"大吉：三木一气，祖上庇佑深厚，心性仁厚，贵人连绵，事业稳步攀升，身心健康长寿",
-"木木火":"大吉：木生火顺生，长辈助力旺，人缘极佳，早年得志，财运持续上涨",
-"木木土":"中吉：木克土略有耗损，早年辛苦打拼，中年后守财安稳，家运平顺",
-"木木金":"大凶：金克木，先天根基受损，体质偏弱，是非口舌多、破财频繁",
-"木木水":"中吉：水生木，智慧聪颖，思维灵活，学业出众，但思虑过重易失眠",
-"木火木":"大吉：木生火、火暖木，气场和顺，事业机遇多，易得异性贵人帮扶",
-"木火火":"大吉：连环生火，魄力足、进取心强，适合创业，中年名利双收",
-"木火土":"大吉：木→火→土连环顺生，一生运势层层递进，福禄双全、家宅兴旺",
-"木火金":"大凶：火克金，内里矛盾多，情绪暴躁，肝肾易患病，事业半路受阻",
-"木火水":"大凶：水火相冲，运势起伏极大，意外破财、健康隐患多",
-"木土木":"凶：土木相克，内心压抑，家庭矛盾不断，财运进少出多",
-"木土火":"中吉：木生火、火生土，先难后易，中年转运，踏实安稳小富之家",
-"木土土":"中吉：木耗土，早年奔波劳碌，晚年安稳守成，安稳度日",
-"木土金":"大凶：木克土、土生金连环耗泄，身心劳累、伤病多发",
-"木土水":"凶：土克水，财运滞留难聚财，脾胃不佳、家庭波折",
-"木金木":"大凶：金克木，一生劳碌劳心，人缘差，意外伤病风险高",
-"木金火":"凶：金火相克，心性急躁，纠纷破财，心脑血管需保养",
-"木金土":"中平：金耗木、土生金，先苦后平，无大富大灾，平淡一生",
-"木金金":"大凶：众金克木，先天体弱，波折连绵、官非是非缠身",
-"木金水":"凶：金生水泄木，耗费过多，钱财难存、心神不宁",
-"木水木":"大吉：水生木源源不断，天资聪慧，贵人遍地，学业事业双丰收",
-"木水火":"大凶：水火交战，运势大起大落，突发破财、健康不稳",
-"木水土":"凶：土克水耗木，阻滞重重，做事多半途而废",
-"木水金":"中平：金生水、水生木，稳中带耗，平稳过日子难发大财",
-"木水水":"中吉：旺水生木，头脑灵活、创意多，靠脑力谋生可得小成",
-"火火木":"大吉：火生木，热情仗义，机遇源源不断，早年立业发达",
-"火火火":"大吉：旺火格局，魄力出众，经商掌权佳，名利易得",
-"火火土":"大吉：连环火生土，财运厚实，不动产旺，晚年福禄优渥",
-"火火金":"大凶：烈火炼金，损耗过重，心肺虚弱、破财耗身",
-"火金水":"大凶：水火对冲，起落无常，意外灾祸隐患大",
-"火土木":"中吉：火生土、土耗木，前期辛苦，中年逐步安稳得利",
-"火土火":"大吉：火生土、土助火，根基稳固，事业越做越大",
-"火土土":"大吉：厚土承火，心性稳重，积蓄丰厚，家庭和睦安康",
-"火土金":"大吉：火生土土生金，顺生格局，白手起家，中晚年富贵",
-"火土水":"凶：土克水，财来财去留不住，肾脏泌尿易患病",
-"火金木":"大凶：火克金、金克木，连环相克，灾病、破财接连不断",
-"火金火":"凶：火金相战，脾气火爆，人际破裂，破财损耗",
-"火金土":"中吉：火生土土生金，损耗有度，稳步求财、安稳度日",
-"火金金":"凶：火炼重金，劳心费力，付出多回报少",
-"火金水":"大凶：火克金、金生水泄，运势破败，多病多灾",
-"火水木":"大凶：水火相克，起伏动荡，诸事难顺，伤病多发",
-"火水火":"大凶：水火交战，凶煞格局，意外、破财高发",
-"火水土":"凶：土克水、火耗土，内耗严重，财运阻滞",
-"火水金":"中平：火克金、金生水，平平淡淡，无大灾亦无大富贵",
-"火水水":"大凶：旺火被众水克制，先天体弱，一生多波折",
-"土土木":"凶：厚土克木，压抑憋屈，发展受限，肝胆养护注意",
-"土土火":"大吉：土得火生，家底厚实，稳步发展，福禄绵长",
-"土土土":"中吉：三土厚重，为人忠厚踏实，安稳守财、衣食无忧",
-"土土金":"大吉：土生金源源不断，财运稳健，储蓄丰厚",
-"土土水":"中吉：厚土蓄水，理财能力强，慢慢聚财，小富安稳",
-"土火木":"大吉：火生土、土养木，五行和顺，贵人相助步步高升",
-"土火火":"大吉：旺火暖土，气场兴旺，创业求财极易成功",
-"土火土":"大吉：火生厚土，根基牢固，家业兴旺绵长",
-"土火金":"大吉：火生土土生金，顺生上等格，中年富贵荣华",
-"土火水":"凶：土克水，钱财难聚，肾脏、妇科男科多隐患",
-"土金木":"凶：土生金金克木，暗耗格局，内部矛盾不断",
-"土金火":"中平：火炼金土，付出大于收获，平淡安稳",
-"土金土":"大吉：土生金金藏土，守财能力极强，不动产丰厚",
-"土金金":"大吉：厚土生双金，财运连绵，经商置业大利",
-"土金水":"中吉：土生金金生水，财源绵长，循序渐进慢慢发财",
-"土水木":"大凶：土克水、水生木连环相克，诸事阻碍重重",
-"土水火":"大凶：土克水水火相冲，凶格多灾，意外破财",
-"土水土":"中吉：土克水但土厚蓄水，守成尚可，难发巨富",
-"土水金":"大吉：土生金金生水，财源源源不绝，智慧生财",
-"土水水":"中平：土制众水，能控财运，小财不断无暴富",
-"金金木":"大凶：重金克木，身心劳碌，伤病破财相伴一生",
-"金金火":"凶：金火相克，心性急躁，心血管、肺部易患病",
-"金金土":"大吉：土生金旺，家底扎实，理财聚财能力出众",
-"金金金":"中吉：三金旺身，意志坚定，靠专业手艺得财安稳",
-"金金水":"中吉：金旺生水，智慧出众，脑力求财，收入稳定",
-"金木木":"大凶：金克双木，先天体质偏弱，是非缠身",
-"金木火":"凶：金火互克，情绪不稳，家庭争执不断",
-"金木土":"中平：土生金金克木，先劳后稳，普通小康",
-"金木金":"大凶：众金伐木，波折极多、意外损伤风险高",
-"金木水":"中吉：金生水水生木，通关化解，逐步转运得利",
-"金火木":"凶：火克金金克木，层层相克，阻碍繁多",
-"金火火":"凶：烈火熔金，损耗钱财，操劳无多余积蓄",
-"金火土":"中吉：火生土土生金，耗而有源，稳中求财",
-"金火金":"凶：火克金，损耗持续，投资容易亏损",
-"金火水":"中平：火金水制衡，一生平淡，无大灾大福",
-"金水木":"大吉：金生水水生木，五行顺生，智慧过人、贵人云集",
-"金水火":"大凶：水火相冲，起落剧烈，突发灾祸破财",
-"金水土":"中吉：土生金金生水，财库稳固，细水长流聚财",
-"金水金":"中吉：金生水、水养金，财源稳定，公职技术相宜",
-"金水水":"中吉：旺水泄金，头脑灵活，靠智谋获利",
-"水水木":"大吉：双水生木，天资绝顶，学业事业一路顺风",
-"水水火":"大凶：水火交战，凶格波动大，伤病破财频发",
-"水水土":"中平：土克众水，理财谨慎，能存钱难暴富",
-"水水金":"中吉：金生水旺，创意丰富，商贸、互联网行业得利",
-"水水水":"中平：三水过旺，心思细腻敏感，漂泊多变动",
-"水木木":"大吉：旺水生木，心性善良，长辈提携，早年成名",
-"水木火":"大吉：水生木木生火，连环相生，运势节节走高",
-"水木土":"中吉：水生木木耗土，小有损耗，整体安稳小康",
-"水木金":"中平：金生水水生木，通关格局，平淡顺遂无大起大落",
-"水木水":"中吉：水木相生，思维活跃，创意行业容易出彩",
-"水火木":"大凶：水火相克再耗木，诸事阻滞，健康堪忧",
-"水火火":"大凶：水火相冲，凶煞配置，意外、官非概率偏高",
-"水火土":"凶：土克水、火耗土，内耗严重，求财费力",
-"水火金":"中平：水火制衡，一生起伏，平平常常过日子",
-"水火水":"大凶：水火交战，运势破败，常年小病缠身",
-"水土木":"凶：土克水水生木，先天受阻，发展多碰壁",
-"水土火":"中平：土克水火耗土，劳碌一生，小有结余",
-"水土土":"中吉：厚土止水，守财可靠，置业安家优选",
-"水土金":"大吉：土生金金生水，财源绵长，稳步积累财富",
-"水土水":"中平：土制旺水，财运平稳，小财不断"
-};
-
-//【6.主测算逻辑】
-function calcName(){
+async function calcName() {
     let xingStr = document.getElementById("xing").value.trim();
     let mingStr = document.getElementById("ming").value.trim();
-    if(!xingStr || !mingStr){alert("请填写姓氏与名字！");return;}
-    let resHtml = "";
-    let X = strokeDict[xingStr]||0;
-    let nameArr = mingStr.split("");
-    let Y,Z=0;
-    if(nameArr.length===1){
-        Y = strokeDict[nameArr[0]]||0;
-    }else{
-        Y = strokeDict[nameArr[0]]||0;
-        Z = strokeDict[nameArr[1]]||0;
-    }
-    if(X===0||Y===0){
-        resHtml += `<div class='item'><span class='red'>【提示】当前字暂无康熙笔画数据，可在代码strokeDict里补充汉字笔画</span></div>`;
-        document.getElementById("result").innerHTML=resHtml;
+    
+    if(!xingStr || !mingStr) {
+        alert("请填写姓氏与名字！");
         return;
     }
 
-    //六格运算
-    let tianGe,renGe,diGe,bianGe,waiGe,zongGe;
-    if(nameArr.length===1){
-        tianGe = X+1;
-        renGe = X+Y;
-        diGe = Y+1;
-        bianGe = X+Y;
-        waiGe = 2;
-        zongGe = X+Y;
-    }else{
-        tianGe = X+1;
-        renGe = X+Y;
-        diGe = Y+Z;
-        bianGe = X+Z;
-        waiGe = Z+1;
-        zongGe = X+Y+Z;
+    let resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "<div class='item'>正在测算中...</div>";
+
+    try {
+        const response = await fetch(`${API_BASE}/calculate-name`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                surname: xingStr,
+                given_name: mingStr
+            })
+        });
+
+        const data = await response.json();
+
+        if(!data.success) {
+            resultDiv.innerHTML = `<div class='item'><span class='red'>【错误】${data.error}</span></div>`;
+            return;
+        }
+
+        const result = data.data;
+        let resHtml = "";
+
+        resHtml += `<div class="item"><span class='red'>【基础信息】</span><br>姓名：${result.name}｜姓氏康熙笔画：${result.surname_stroke}｜名字：${result.given_name}${result.is_single_name?"（单名）":"（双名）"}</div>`;
+
+        resHtml += `<div class="item">
+        <span class='red'>【六格数理详解】</span><br>
+        天格${result.liu_ge.天格.value}：${result.liu_ge.天格.wuxing} ${getJiXingHtml(result.liu_ge.天格.jixing)} → ${result.liu_ge.天格.description}<br>
+        人格${result.liu_ge.人格.value}：${result.liu_ge.人格.wuxing} ${getJiXingHtml(result.liu_ge.人格.jixing)} → ${result.liu_ge.人格.description}<br>
+        地格${result.liu_ge.地格.value}：${result.liu_ge.地格.wuxing} ${getJiXingHtml(result.liu_ge.地格.jixing)} → ${result.liu_ge.地格.description}<br>
+        中变格${result.liu_ge.变格.value}：${result.liu_ge.变格.wuxing} ${getJiXingHtml(result.liu_ge.变格.jixing)} → ${result.liu_ge.变格.description}<br>
+        外格${result.liu_ge.外格.value}：${result.liu_ge.外格.wuxing} ${getJiXingHtml(result.liu_ge.外格.jixing)} → ${result.liu_ge.外格.description}<br>
+        总格${result.liu_ge.总格.value}：${result.liu_ge.总格.wuxing} ${getJiXingHtml(result.liu_ge.总格.jixing)} → ${result.liu_ge.总格.description}
+        </div>`;
+
+        resHtml += `<div class="item">
+        <span class='red'>【三才配置：${result.san_cai.key}】</span><br>
+        天【${result.san_cai.tian_wuxing}】→人【${result.san_cai.ren_wuxing}】→地【${result.san_cai.di_wuxing}】<br>
+        配置注解：${result.san_cai.note || '暂无详解'}
+        </div>`;
+
+        resHtml += `<div class="item"><span class='red'>【综合姓名总评】</span><br>${result.evaluation.total_eval}<br>有效吉格数量：${result.evaluation.good_count}/${result.evaluation.total_count}</div>`;
+
+        resultDiv.innerHTML = resHtml;
+
+    } catch (error) {
+        resultDiv.innerHTML = `<div class='item'><span class='red'>【错误】网络请求失败，请检查后端服务是否正常运行</span></div>`;
+        console.error('Error:', error);
     }
-
-    //三才组合
-    let tianWxShort = getWuxing(tianGe).slice(1);
-    let renWxShort = getWuxing(renGe).slice(1);
-    let diWxShort = getWuxing(diGe).slice(1);
-    let sanCaiKey = tianWxShort+renWxShort+diWxShort;
-    let sanCaiNote = sanCaiDict[sanCaiKey];
-
-    //输出排版
-    resHtml += `<div class="item"><span class='red'>【基础信息】</span><br>姓名：${xingStr}${mingStr}｜姓氏康熙笔画：${X}｜名字：${mingStr}${nameArr.length==1?"（单名）":"（双名）"}</div>`;
-
-    resHtml += `<div class="item">
-    <span class='red'>【六格数理详解】</span><br>
-    天格${tianGe}：${getWuxing(tianGe)} ${getJiXing(tianGe)} → 祖辈、早年先天运势<br>
-    人格${renGe}：${getWuxing(renGe)} ${getJiXing(renGe)} → 主运、性格、中年核心运势<br>
-    地格${diGe}：${getWuxing(diGe)} ${getJiXing(diGe)} → 家庭、子女、前运环境<br>
-    中变格${bianGe}：${getWuxing(bianGe)} ${getJiXing(bianGe)} → 潜藏变数、暗藏隐性运势<br>
-    外格${waiGe}：${getWuxing(waiGe)} ${getJiXing(waiGe)} → 人际、外缘、贵人运<br>
-    总格${zongGe}：${getWuxing(zongGe)} ${getJiXing(zongGe)} → 一生晚运、整体终局
-    </div>`;
-
-    resHtml += `<div class="item">
-    <span class='red'>【三才配置：${sanCaiKey}】</span><br>
-    天【${getWuxing(tianGe)}】→人【${getWuxing(renGe)}】→地【${getWuxing(diGe)}】<br>
-    配置注解：${sanCaiNote}
-    </div>`;
-
-    //综合评级
-    let checkArr = [tianGe,renGe,diGe,waiGe,zongGe];
-    let goodNum = checkArr.filter(v=>luckyArr.includes(v)).length;
-    let totalEval = "";
-    if(goodNum>=4 && sanCaiNote.indexOf("大吉")>-1) totalEval="✅上等吉名：五格多吉+三才顺生，名字格局上乘，助运旺财";
-    else if(goodNum>=3) totalEval="◎中上吉名：大半格局吉利，人生整体平顺，小瑕无碍大局";
-    else if(goodNum>=2) totalEval="△普通平名：吉凶参半，人生起伏不定，靠后天修养弥补不足";
-    else totalEval="❌下等凶名：凶数居多，三才不利，建议更换名字优化运势";
-
-    resHtml += `<div class="item"><span class='red'>【综合姓名总评】</span><br>${totalEval}<br>有效吉格数量：${goodNum}/5</div>`;
-    document.getElementById("result").innerHTML = resHtml;
 }
 </script>
 </body>
